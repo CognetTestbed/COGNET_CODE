@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="2dp"
+    tools:context=".DeviceSwitch" >
+
+    <TextView
+        android:id="@+id/hostsIp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Ip"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/hostsMac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/hostsIp"
+        android:layout_marginTop="2dp"
+        android:text="Mac"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/enableHost"
+        android:layout_width="80dp"
+        android:layout_height="18dp"
+        android:layout_alignBottom="@+id/hostsMac"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="#FFFFFF"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Enable"
+        android:textColor="#0099CC" />
+
+    <Button
+        android:id="@+id/disableHost"
+        android:layout_width="80dp"
+        android:layout_height="18dp"
+        android:layout_alignBottom="@+id/enableHost"
+        android:layout_alignTop="@+id/enableHost"
+        android:layout_toLeftOf="@+id/enableHost"
+        android:background="#FFFFFF"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Disable"
+        android:textColor="#0099CC" />
+
+</RelativeLayout>

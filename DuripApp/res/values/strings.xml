@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DURIP Testbed</string>
+    <string name="action_settings">Settings</string>
+    <string name="command">Command</string>
+    <string name="staticcommand">ping www.google.com</string>
+    <string name="result">Result</string>
+    <string name="results">d</string>
+    <string name="Status">Status</string>
+    <string name="empty"></string>
+    <string name="start">START</string>
+    <string name="sleep">Sleep</string>
+    <string name="user">User</string>
+    <string name="ping">"ip or host"</string>
+    <string name="iperf">"IperfClient"</string>
+    <string name="durip_essid">"ESSID"</string>
+    <string name="milcom">"COGNET_DEI"</string>
+    <string name="olsrdsettings">"OLSRD Settings"</string>
+    <string name="hosts">"Hosts"</string>
+    <string name="title_activity_graph">GraphActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_data_flow">Graph</string>
+    <string name="title_activity_sensor_plot">Sensor</string>
+    <string name="flow">Complete</string>
+    <string name="sample">NetGraphs</string>
+    <string name="sensor">Sensors</string>
+    <string name="flow3">Graph1</string>
+    <string name="plotNr">Graph %1d</string>
+    <string name="RadioButton1">No output</string>
+    <string name="RadioButton2">Only Video</string>
+    <string name="RadioButton3">Only Log File</string>
+    <string name="RadioButton4">Both</string>
+    <string name="IP">IP</string>
+    <string name="defaultUrl">192.168.1.120</string>
+    <string name="t">t</string>
+    <string name="defaultT">200</string>
+    <string name="i">i</string>
+    <string name="defaultI">5</string>
+    <string name="port">Port</string>
+    <string name="defaultPort">4000</string>
+    <string name="defaultSleep">1000</string>
+    <string name="defaultPhy">phy1</string>
+    <string name="defaultDevice">wlan1</string>
+    <string name="verbosity">verbose</string>
+    <string name="verbose">1</string>
+    <string name="notverbose">0</string>
+    <string name="accelx">accX</string>
+    <string name="accelz">accZ</string>
+    <string name="z_m_s_2">Z m/s^2</string>
+    <string name="y_m_s_2">Y m/s^2</string>
+    <string name="x_m_s_2">X m/s^2</string>
+    <string name="l_acceleration">L. ACCELERATION</string>
+    <string name="gravity">GRAVITY</string>
+    <string name="radiantx">radX</string>
+    <string name="radianty">radY</string>
+    <string name="radiantz">radZ</string>
+    <string name="accely">accY</string>
+    <string name="rotation">ROTATION</string>
+    <string name="launcher_text">Launcher</string>
+    <string name="datas">datas</string>
+    <string name="title_activity_mac">MACActivity</string>
+    <string name="title_activity_tcp">TCPActivity</string>
+    <string name="tcp_graph_text">TCP Graph</string>
+    <string name="mac_graph_text">MAC Graph</string>
+    <string name="action_iperf">IPERF</string>
+	<string name="start_experiment">Start Experiment</string>
+	<string name="experiment_manager">Experiment Manager</string>
+    <string-array name="mac_addresses">
+        <item>ALL</item>
+        <item>00:1d:7d:49:2e:4e</item>
+        <item>00:1d:7d:49:2e:XX</item>
+    </string-array>
+
+    <string name="close">CLOSE</string>
+    <string name="setup">SETUP</string>
+    <string name="_192_168_2_x">192.168.1.x</string>
+    <string name="_192_168_2_">192.168.1.</string>
+    <string name="durip_port">Durip Port</string>
+    <string name="_4000">4000</string>
+    <string name="title_activity_device_switch">DeviceSwitch</string>
+    <string name="dummy_button">Flush Iptables</string>
+    <string name="stealth_button">Stealth mode</string>
+    <string name="flush_button">Flush Iptables</string>
+    <string name="dummy_content">DURIP NODES</string>
+    <string name="title_activity_olsrd_settings">OlsrdSettings</string>
+    <string name="title_activity_experiment_master">ExperimentMasterActivity</string>
+
+</resources>

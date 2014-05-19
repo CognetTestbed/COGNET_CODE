@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="it.durip_app"
+    android:versionCode="8"
+    android:versionName="2.0.1" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature android:name="android.hardware.sensor" />
+
+    <application
+        android:allowBackup="true"
+        android:debuggable="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="it.durip_app.MainActivity"
+            android:configChanges="keyboardHidden|orientation"
+            
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="it.durip_app.GraphActivity"
+            android:label="@string/title_activity_graph"
+            android:parentActivityName="it.durip_app.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.durip_app.MainActivity" />
+        </activity>
+        <activity
+            android:name="it.durip_app.DataFlow"
+            android:label="@string/title_activity_data_flow"
+            android:parentActivityName="it.durip_app.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.durip_app.MainActivity" />
+        </activity>
+        <activity
+            android:name="it.durip_app.SensorPlot"
+            android:label="@string/title_activity_sensor_plot"
+            android:parentActivityName="it.durip_app.MainActivity"
+            android:screenOrientation="landscape" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.durip_app.MainActivity" />
+        </activity>
+        <activity
+            android:name="it.durip_app.MACActivity"
+            android:label="@string/title_activity_mac"
+            android:parentActivityName="it.durip_app.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.durip_app.MainActivity" />
+        </activity>
+        <activity
+            android:name="it.durip_app.TCPActivity"
+            android:label="@string/title_activity_tcp"
+            android:parentActivityName="it.durip_app.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.durip_app.MainActivity" />
+        </activity>
+
+        <service
+            android:name="it.durip_app.Iperf"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name="it.durip_app.Olsr"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name="it.durip_app.Sensors"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name="it.durip_app.IperfServer"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name="it.durip_app.ServerSocketCmd"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <activity
+            android:name="it.durip_app.DeviceSwitch"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_device_switch"
+            android:parentActivityName="it.durip_app.MainActivity"
+            android:theme="@style/FullscreenTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.durip_app.MainActivity" />
+        </activity>
+        <activity
+            android:name="it.durip_app.OlsrdSettings"
+            android:label="@string/title_activity_olsrd_settings"
+            android:parentActivityName="it.durip_app.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.durip_app.MainActivity" />
+        </activity>
+
+        <service
+            android:name="it.durip_app.OlsrTelnet"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <activity
+            android:name="it.durip_app.ExperimentMasterActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_experiment_master"
+            android:parentActivityName="it.durip_app.MainActivity"
+            android:theme="@style/FullscreenTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.durip_app.MainActivity" />
+        </activity>
+    </application>
+
+</manifest>

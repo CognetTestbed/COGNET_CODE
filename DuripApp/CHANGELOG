@@ -1,0 +1,76 @@
+1.0.1 : 1
+BASIC PING FUNCTIONALITIES
+
+1.0.2 : 1
+BASIC GRAPH/DYNAMIC GRAPH
+
+1.0.3 : 1
+Plotting of sample datas in dynamic graphs
+plotting of durip data on dynamic graph
+
+1.0.4 : 1
+added Video streaming demos, partially working
+
+
+1.0.5 : 2
+Frames introduced
+Graph splitted into n different graphs with same data source (1 thread)
+Capability to read ONLY TCP parameters and show into 3 graph
+removed video streaming dummy areas
+predisposition for MAC
+
+1.0.6 : 3
+added sensor data
+all sensor double plotted
+
+1.0.7 : 3
+all sensor plotted with labels to indicate their area of interests (to be refined)
+
+1.0.8 :3
+save to file
+NEED to kill manually the app! to avoid file bombs
+
+1.0.9 : 4
+crash! need complete restyle
+
+1.1.0 : 5
+App restyled.
+graph splitted in MAC, Sensors, TCP, ping is working to test connectivity
+MAC Graph: you can choose between 4 different informations --> TODO make the dropdown work, dropdown data has to be loaded from directory listing
+TCP Graph: 3 graphs --> TODO event as textboxes as 4th page
+sensorsalready working: save on 3 files all data, graph all the sensors
+
+1.1.1 : 6
+App working with splitted graphs:
+TODO make the dropdown work, dropdown data has to be loaded from directory listing
+TODO event as textboxes as 5th page
+TODO iperf on command!ì: button on slider header just to launch an iperf
+
+1.1.2 : 6
+Done MAC selection on startup
+Next step: iperf
+
+1.1.3 : 6
+iperf asynchyronous
+Next step: sensors store data with service, not activity
+Next Step: OLSR 
+
+1.1.4
+olsr with jni
+
+1.2
+jni do most of work with ext4rnal libraries
+
+1.2.1
+mac read durip: need to be finished but must read from a socket all datas insted of process
+
+1.2.2
+Iperf start/stop
+IperfServer start/stop
+Sensors start/stop
+Olsrd start/stop
+Status message with iwconfig wlan1
+
+1.2.3 : 7
+Graphical fixes
+
