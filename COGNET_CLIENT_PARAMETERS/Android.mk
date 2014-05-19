@@ -1,4 +1,4 @@
-#Cognetive Network programm 
+#Cognitive Network programm 
 #Copyright (C) 2014  Matteo Danieletto matteo.danieletto@dei.unipd.it
 #University of Padova, Italy +34 049 827 7778
 #This program is free software: you can redistribute it and/or modify
@@ -40,9 +40,9 @@ include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 
-LOCAL_SRC_FILES:=serverREADDURIP.c 
+LOCAL_SRC_FILES:=serverCognet.c 
 LOCAL_SRC_FILES+=macObservation.c libTHREADS_MAC/printMACvalue.c libTHREADS_MAC/commonFunction.c \
-		libTHREADS_MAC/duripThreadControlRead.c libTHREADS_MAC/macChangeParams.c\
+		libTHREADS_MAC/CognetThreadControlRead.c libTHREADS_MAC/macChangeParams.c\
 		 libTHREADS_MAC/tcpObservation.c libTHREADS_MAC/macThreadComm.c libTHREADS_MAC/get_station.c
 
 LOCAL_C_INCLUDES:=$(MY_LOCAL_PATH_NL)/include/ \

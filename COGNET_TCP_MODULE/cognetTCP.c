@@ -1,5 +1,5 @@
 /*
-Cognetive Network programm TCP CONGESTION WINDOW PROGRAM TO RETRIEVE AND MODIFIY 
+Cognitive Network programm TCP CONGESTION WINDOW PROGRAM TO RETRIEVE AND MODIFIY 
 SOME TCP PARAMETERS
 Copyright (C) 2014  Matteo Danieletto matteo.danieletto@dei.unipd.it
 University of Padova, Italy +34 049 827 7778
@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 /*
  * DURIP project
  * durip.c
