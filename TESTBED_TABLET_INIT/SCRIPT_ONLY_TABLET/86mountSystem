@@ -1,0 +1,11 @@
+#!/system/bin/sh
+mount -o remount,rw -t yaffs2 /dev/block/mtdblock4 /system
+insmod  /system/lib/modules/cfg80211.ko  
+insmod  /system/lib/modules/mac80211.ko  
+insmod /system/lib/modules/bcmdhd.ko
+
+
+setprop service.adb.tcp.port 5555
+stop adbd
+start adbd
+
