@@ -1,0 +1,10 @@
+prefix=/home/danielet/DURIP_PROJECT/libnl-1.1.4/OUTPUT-NL-64bit
+exec_prefix=/home/danielet/DURIP_PROJECT/libnl-1.1.4/OUTPUT-NL-64bit
+libdir=${exec_prefix}/lib
+includedir=/home/danielet/DURIP_PROJECT/libnl-1.1.4/OUTPUT-NL-64bit/include
+
+Name: libnl
+Description: Convenience library for netlink sockets
+Version: 1.1.4
+Libs: -L${libdir} -lnl
+Cflags:
