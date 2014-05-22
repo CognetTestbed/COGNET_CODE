@@ -26,6 +26,8 @@ adb push launcher.sh /sdcard/COGNET_TESTBED/SCRIPT/
 #adb shell chmod 755 /system/bin/launcher.sh
 adb shell chmod 755 /sdcard/COGNET_TESTBED/SCRIPT/launcher.sh
 
+adb push scriptOLSRD_OUTPUT.sh /sdcard/COGNET_TESTBED/SCRIPT/
+adb shell chmod 755 /sdcard/COGNET_TESTBED/SCRIPT/scriptOLSRD_OUTPUT.sh
 cd ../DURIP_MODULE_TABLET_ALL/
 sh $(pwd)/compileModule.sh nexus
 cd -
