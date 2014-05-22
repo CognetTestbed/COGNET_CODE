@@ -347,7 +347,7 @@ ipc_print_neigh(struct autobuf *abuf, bool list_2hop)
   struct neighbor_2_list_entry *list_2;
   int thop_cnt;
 
-  abuf_puts(abuf, "Table: Neighbors\nIP address\tSYM\tMPR\tMPRS\tWill.");
+  abuf_puts(abuf, "!#Table: Neighbors\nIP address\tSYM\tMPR\tMPRS\tWill.");
   if (list_2hop) abuf_puts(abuf,"\n\t2hop interface adrress\n");
   else abuf_puts(abuf, "\t2 Hop Neighbors\n");
 
@@ -378,9 +378,9 @@ ipc_print_link(struct autobuf *abuf)
   struct link_entry *my_link = NULL;
 
 #ifdef ACTIVATE_VTIME_TXTINFO
-  abuf_puts(abuf, "Table: Links\nLocal IP\tRemote IP\tVTime\tLQ\tNLQ\tCost\n");
+  abuf_puts(abuf, "!#Table: Links\nLocal IP\tRemote IP\tVTime\tLQ\tNLQ\tCost\n");
 #else /* ACTIVATE_VTIME_TXTINFO */
-  abuf_puts(abuf, "Table: Links\nLocal IP\tRemote IP\tHyst.\tLQ\tNLQ\tCost\n");
+  abuf_puts(abuf, "!#Table: Links\nLocal IP\tRemote IP\tHyst.\tLQ\tNLQ\tCost\n");
 #endif /* ACTIVATE_VTIME_TXTINFO */
 
   /* Link set */
@@ -411,7 +411,7 @@ ipc_print_routes(struct autobuf *abuf)
   struct rt_entry *rt;
   struct lqtextbuffer lqbuffer;
 
-  abuf_puts(abuf, "Table: Routes\nDestination\tGateway IP\tMetric\tETX\tInterface\n");
+  abuf_puts(abuf, "!#Table: Routes\nDestination\tGateway IP\tMetric\tETX\tInterface\n");
 
   /* Walk the route table */
   OLSR_FOR_ALL_RT_ENTRIES(rt) {
@@ -431,9 +431,9 @@ ipc_print_topology(struct autobuf *abuf)
   struct tc_entry *tc;
 
 #ifdef ACTIVATE_VTIME_TXTINFO
-  abuf_puts(abuf, "Table: Topology\nDest. IP\tLast hop IP\tLQ\tNLQ\tCost\tVTime\n");
+  abuf_puts(abuf, "!#Table: Topology\nDest. IP\tLast hop IP\tLQ\tNLQ\tCost\tVTime\n");
 #else /* ACTIVATE_VTIME_TXTINFO */
-  abuf_puts(abuf, "Table: Topology\nDest. IP\tLast hop IP\tLQ\tNLQ\tCost\n");
+  abuf_puts(abuf, "!#Table: Topology\nDest. IP\tLast hop IP\tLQ\tNLQ\tCost\n");
 #endif /* ACTIVATE_VTIME_TXTINFO */
 
   /* Topology */
@@ -815,23 +815,23 @@ send_info(unsigned int send_what, int the_socket)
   /* topology */
   if ((send_what & SIW_TOPO) == SIW_TOPO) ipc_print_topology(&abuf);
   /* hna */
-  if ((send_what & SIW_HNA) == SIW_HNA) ipc_print_hna(&abuf);
+  // if ((send_what & SIW_HNA) == SIW_HNA) ipc_print_hna(&abuf);
   /* sgw */
-  if ((send_what & SIW_SGW) == SIW_SGW) ipc_print_sgw(&abuf);
+  // if ((send_what & SIW_SGW) == SIW_SGW) ipc_print_sgw(&abuf);
   /* mid */
-  if ((send_what & SIW_MID) == SIW_MID) ipc_print_mid(&abuf);
+  // if ((send_what & SIW_MID) == SIW_MID) ipc_print_mid(&abuf);
   /* routes */
   if ((send_what & SIW_ROUTE) == SIW_ROUTE) ipc_print_routes(&abuf);
   /* gateways */
-  if ((send_what & SIW_GATEWAY) == SIW_GATEWAY) ipc_print_gateway(&abuf);
+  // if ((send_what & SIW_GATEWAY) == SIW_GATEWAY) ipc_print_gateway(&abuf);
   /* config */
-  if ((send_what & SIW_CONFIG) == SIW_CONFIG) ipc_print_config(&abuf);
+  // if ((send_what & SIW_CONFIG) == SIW_CONFIG) ipc_print_config(&abuf);
   /* interface */
-  if ((send_what & SIW_INTERFACE) == SIW_INTERFACE) ipc_print_interface(&abuf);
+  // if ((send_what & SIW_INTERFACE) == SIW_INTERFACE) ipc_print_interface(&abuf);
   /* 2hop neighbour list */
-  if ((send_what & SIW_2HOP) == SIW_2HOP) ipc_print_neigh(&abuf,true);
+  // if ((send_what & SIW_2HOP) == SIW_2HOP) ipc_print_neigh(&abuf,true);
   /* version */
-  if ((send_what & SIW_VERSION) == SIW_VERSION) ipc_print_version(&abuf);
+  // if ((send_what & SIW_VERSION) == SIW_VERSION) ipc_print_version(&abuf);
 
   assert(outbuffer_count < MAX_CLIENTS);
 
