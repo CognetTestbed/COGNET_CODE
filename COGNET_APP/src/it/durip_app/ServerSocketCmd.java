@@ -17,15 +17,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 package it.durip_app;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketAddress;
+//import java.io.BufferedReader;
+//import java.io.DataOutputStream;
+//import java.io.IOException;
+//import java.io.InputStreamReader;
+//import java.io.UnsupportedEncodingException;
+//import java.net.InetSocketAddress;
+//import java.net.ServerSocket;
+//import java.net.Socket;
+//import java.net.SocketAddress;
 
 import android.app.Service;
 import android.content.Intent;
@@ -84,7 +84,7 @@ public class ServerSocketCmd extends Service implements Runnable{
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d("MAC SERVERSOCKET", "Launched");
 		s = new String[params];
-	    boolean loop=intent.getBooleanExtra(LOOP, false);
+//	    boolean loop=intent.getBooleanExtra(LOOP, false);
 	    JniHook = new JniCall();
 	    s[0] = intent.getStringExtra(DESTINATION);
 	    s[1] = intent.getStringExtra(PORT);

@@ -21,7 +21,7 @@ package it.durip_app;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
-import android.app.Activity;
+//import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
@@ -47,7 +47,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.androidplot.series.XYSeries;
+//import com.androidplot.series.XYSeries;
 import com.androidplot.util.PlotStatistics;
 import com.androidplot.xy.*;
 

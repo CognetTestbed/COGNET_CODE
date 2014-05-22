@@ -21,10 +21,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningServiceInfo;
+//import android.app.ActivityManager;
+//import android.app.ActivityManager.RunningServiceInfo;
 import android.app.IntentService;
-import android.app.Service;
+//import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
@@ -35,7 +35,7 @@ public class Olsr extends IntentService {
 		// TODO Auto-generated constructor stub
 	}
 	static {
-		System.loadLibrary("olsrdLib"); // "libmyjni.so" in Unixes
+		System.loadLibrary("olsrdLib"); 
     }
 	public native int olsrdOff(int n);
 	public native int olsrdOn(int n);

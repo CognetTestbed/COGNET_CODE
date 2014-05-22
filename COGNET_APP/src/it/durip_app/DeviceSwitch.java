@@ -20,9 +20,9 @@ package it.durip_app;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
+//import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -30,24 +30,24 @@ import java.util.regex.Pattern;
 
 import it.durip_app.util.SystemUiHider;
 
-import android.annotation.TargetApi;
+//import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
+//import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
-import android.os.Build;
+//import android.os.AsyncTask;
+//import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+//import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
+//import android.view.LayoutInflater;
+//import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewParent;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
+//import android.view.ViewParent;
+//import android.widget.AdapterView;
+//import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.TextView;
+//import android.widget.Toast;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.

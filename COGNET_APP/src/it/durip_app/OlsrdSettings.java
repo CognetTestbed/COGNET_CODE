@@ -18,25 +18,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package it.durip_app;
 
 import java.io.BufferedReader;
-import java.io.File;
+//import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+//import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+//import java.nio.charset.Charset;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.os.Bundle;
-import android.provider.MediaStore.Files;
+//import android.provider.MediaStore.Files;
 import android.app.Activity;
-import android.content.Intent;
-import android.util.Log;
+//import android.content.Intent;
+//import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+//import android.view.View;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Toast;

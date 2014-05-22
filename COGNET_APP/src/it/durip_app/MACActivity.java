@@ -18,44 +18,44 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package it.durip_app;
 
 import android.os.Bundle;
-import android.app.Activity;
+//import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup.LayoutParams;
+//import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.support.v4.app.NavUtils;
-import android.annotation.SuppressLint;
+//import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.graphics.Color;
-import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Shader;
-import android.os.Bundle;
+//import android.app.Activity;
+//import android.graphics.Color;
+//import android.graphics.LinearGradient;
+//import android.graphics.Shader;
+//import android.os.Bundle;
 import com.androidplot.Plot;
 import com.androidplot.xy.*;
 
 import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
-import com.androidplot.Plot;
+//import com.androidplot.Plot;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.series.XYSeries;
-import com.androidplot.xy.*;
+//import com.androidplot.xy.*;
 
 import java.util.Arrays;
-import java.util.Observable;
-import java.util.Observer;
+//import java.util.Observable;
+//import java.util.Observer;
 
 import android.app.ActionBar;
 import android.app.ActivityManager;
 import android.app.FragmentTransaction;
 import android.app.ActivityManager.RunningServiceInfo;
-import android.content.Intent;
+//import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -80,10 +80,10 @@ public class MACActivity extends FragmentActivity implements ActionBar.TabListen
      * time.
      */
     ViewPager mViewPager;
-    private Thread mySource;
+//    private Thread mySource;
     public static MACSource data;
     //public static XYPlot dynamicPlot;
-    private XYPlot staticPlot;
+//    private XYPlot staticPlot;
     public static boolean isIperfRunning;
     public static boolean isOlsrRunning;
     private static String paramUrl, paramMAC;

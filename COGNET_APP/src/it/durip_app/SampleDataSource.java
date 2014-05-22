@@ -19,8 +19,8 @@ package it.durip_app;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+//import java.util.concurrent.locks.ReadWriteLock;
+//import java.util.concurrent.locks.ReentrantReadWriteLock;
  
 public class SampleDataSource implements Runnable {
  

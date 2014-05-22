@@ -17,23 +17,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 package it.durip_app;
 
-import it.durip_app.MACSource.MyObservable;
+//import it.durip_app.MACSource.MyObservable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Observable;
+//import java.util.Observable;
 
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningServiceInfo;
+//import android.app.ActivityManager;
+//import android.app.ActivityManager.RunningServiceInfo;
 import android.app.Service;
-import android.content.Context;
+//import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+//import android.view.LayoutInflater;
+//import android.view.View;
+//import android.widget.EditText;
+//import android.widget.Toast;
 
 public class Iperf extends Service {
 	/*

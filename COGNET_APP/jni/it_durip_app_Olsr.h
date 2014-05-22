@@ -4,6 +4,7 @@
 
 #ifndef _Included_it_durip_app_Olsr
 #define _Included_it_durip_app_Olsr
+//#define _Included_it_durip_app_olsrdLog
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -13,7 +14,10 @@ extern "C" {
  * Signature: (I)I
  */
 JNIEXPORT jint JNICALL Java_it_durip_1app_Olsr_olsrdOff
-  (JNIEnv *, jobject, jint);
+(JNIEnv *, jobject, jint);
+
+//JNIEXPORT jint JNICALL Java_it_durip_1app_Olsr_olsrdLogOff
+//  (JNIEnv *, jobject, jint);
 
 /*
  * Class:     it_durip_app_Olsr
@@ -22,6 +26,9 @@ JNIEXPORT jint JNICALL Java_it_durip_1app_Olsr_olsrdOff
  */
 JNIEXPORT jint JNICALL Java_it_durip_1app_Olsr_olsrdOn
   (JNIEnv *, jobject, jint);
+
+//JNIEXPORT jint JNICALL Java_it_durip_1app_Olsr_olsrdLogOn
+//  (JNIEnv *, jobject, jint, jobjectArray);
 
 #ifdef __cplusplus
 }

@@ -7,7 +7,8 @@
 
 #include "it_durip_app_ServerSocketCmd.h"
 #include "serverThread.h"
-//#include "jniMainActivity.h"
+
+int ctrlFirst = 1;
 
 JNIEXPORT jint JNICALL Java_it_durip_1app_ServerSocketCmd_mainJNI(JNIEnv *env, jobject thisObj ,
 		jint n, jobjectArray stringArray){
@@ -87,10 +88,19 @@ JNIEXPORT jint JNICALL Java_it_durip_1app_ServerSocketCmd_mainJNI(JNIEnv *env, j
 //	    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "NETMASK %s" , IP_NETMASK);
 
 
-    sprintf(scriptToLaunch, "su -c \"sh /sdcard/COGNET_TESTBED/SCRIPT/launcher.sh %s %s DURIP 0 %s %s\"" ,WLAN , IP_ADDR ,PHY, ESSID);
     
-    system(scriptToLaunch);
-    mainReadMacServer(stringCount-1, argv);
+
+    if(ctrlFirst == 1){
+    	sprintf(scriptToLaunch, "su -c \"sh /sdcard/COGNET_TESTBED/SCRIPT/launcher.sh %s %s DURIP 0 %s %s\"" ,WLAN , IP_ADDR ,PHY, ESSID);
+    	__android_log_print(ANDROID_LOG_DEBUG, "OPEN", "IPADDRESS %s" , scriptToLaunch);
+    	system(scriptToLaunch);
+    	mainReadMacServer(stringCount-1, argv);
+    	ctrlFirst = 0;
+    }else{
+    	sprintf(scriptToLaunch, "su -c \"sh /sdcard/COGNET_TESTBED/SCRIPT/launcher.sh %s %s DURIP 0 %s %s\"" ,WLAN , IP_ADDR ,PHY, ESSID);
+    	__android_log_print(ANDROID_LOG_DEBUG, "OPEN", "IPADDRESS %s" , scriptToLaunch);
+    	system(scriptToLaunch);
+    }
 	return 1;
 }
 

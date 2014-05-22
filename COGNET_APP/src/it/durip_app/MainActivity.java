@@ -1,7 +1,7 @@
 /*
 Cognitive Network APP 
 Copyright (C) 2014  Matteo Danieletto matteo.danieletto@dei.unipd.it
-University of Padova, Italy +34 049 827 7778
+University of Padova, Italy +39 049 827 7778
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -21,12 +21,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+//import java.util.Observable;
+//import java.util.Observer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.androidplot.Plot;
+//import com.androidplot.Plot;
 
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -261,7 +261,7 @@ public class MainActivity extends Activity {
 		
 		EditText mEdit;
 		//RadioGroup rg;
-		RadioButton rb;
+//		RadioButton rb;
 		String s[];
 		s= new String[ServerSocketCmd.params];
 		Log.d("MAC READ", "STAR READ MAC");		
@@ -375,7 +375,7 @@ public class MainActivity extends Activity {
 		}
     }
     
-    public void manageIperServer(View view) {
+    public void manageIperfServer(View view) {
 		boolean on = ((ToggleButton) view).isChecked();
 
 		if (on){
@@ -414,6 +414,39 @@ public class MainActivity extends Activity {
 	        }
 		}
     }
+    
+    
+    public void manageOlsrdLog(View view) {
+		boolean on = ((ToggleButton) view).isChecked();
+
+		if (on){
+			Log.i("OLSRD log launcher","Button trying to turn it on");
+	        try{
+	        	EditText OLSRfileLog = (EditText) findViewById(R.id.paramOLSRfileLog);
+	        	EditText OLSRSampletimelog = (EditText) findViewById(R.id.paramOLSRLogTime);
+	        	Intent intentOlsrdLog = new Intent(this, olsrdLog.class);	        											
+	        	String filename = OLSRfileLog.getText().toString();
+	        	String sampletime = OLSRSampletimelog.getText().toString();
+	        	
+	            intentOlsrdLog.putExtra(olsrdLog.FILENAME, filename);	            
+	            intentOlsrdLog.putExtra(olsrdLog.TIME, sampletime);
+	            
+	        	startService(intentOlsrdLog); // make the request!
+	        }catch(Exception e){
+	    		Log.i("OLSRD Log err", e.toString());
+	        }
+		}else{
+			Log.i("OLSRD log launcher","Button trying to switch off olsr");
+	        try{
+	        	stopService(new Intent(this, olsrdLog.class)); // make the request!
+	        }catch(Exception e){
+	    		Log.i("OLSRD Log err", e.toString());
+	        }
+		}
+    }
+    
+    
+    
     
     
     public void openMAC(View view) {
@@ -569,42 +602,6 @@ public class MainActivity extends Activity {
     		Log.i("ExperimentMasterActivity err", e.toString());
         }
     }
-    /*
-    public void videoStreaming(View view) {
-        Intent intentStreaming = new Intent(this, VideoStreaming.class);
-        EditText editText = (EditText) findViewById(R.id.pingami);
-        String message = editText.getText().toString();
-        intentStreaming.putExtra(URL_STREAMING,message);
-        intentStreaming.putExtra(MEDIA_STREAMING,5);
-        try{
-            startActivity(intentStreaming); // make the request!
-        }catch(Exception e){
-    		Log.i("streaming err", e.toString());
-        }
-    }
     
-    public void videoChat(View view) {
-        Intent intentChat = new Intent(this, VideoStreaming.class);
-        EditText editText = (EditText) findViewById(R.id.username);
-        String message = editText.getText().toString();
-        intentChat.putExtra(USERNAME,message);
-        try{
-            startActivity(intentChat); // make the request!
-        }catch(Exception e){
-    		Log.i("chatting err", e.toString());
-        }
-    }
-    public void videoServer(View view) {
-        Intent intentChat = new Intent(this, VideoServerActivity.class);
-        EditText editText = (EditText) findViewById(R.id.username);
-        String message = editText.getText().toString();
-        intentChat.putExtra(USERNAME,message);
-        try{
-            startActivity(intentChat); // make the request!
-        }catch(Exception e){
-    		Log.i("server err", e.toString());
-        }
-    }
-    */
 }
 

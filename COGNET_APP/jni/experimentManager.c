@@ -89,13 +89,13 @@ JNIEXPORT jint JNICALL Java_it_durip_1app_ExperimentMasterActivity_startExperime
 
     char **argv;
 	int stringCount = (*env)->GetArrayLength(env, stringArray);
-	__android_log_print(ANDROID_LOG_DEBUG, "EXPERIMENT", "getarr");
+//	__android_log_print(ANDROID_LOG_DEBUG, "EXPERIMENT", "getarr");
     argv = (char **) malloc(sizeof( char *) * stringCount);
 
 	for(ii=0; ii < stringCount; ii++) {
 		jstring element = (*env)->GetObjectArrayElement(env, stringArray, ii);
 		const char * rawstring = (*env)->GetStringUTFChars(env, element, NULL);
-		__android_log_print(ANDROID_LOG_DEBUG, "EXPERIMENT", rawstring);
+//		__android_log_print(ANDROID_LOG_DEBUG, "EXPERIMENT", rawstring);
         switch (ii) {
             case 0:
                 strcpy(filename, rawstring);
