@@ -28,11 +28,12 @@ adb shell chmod 755 /sdcard/COGNET_TESTBED/SCRIPT/launcher.sh
 
 adb push scriptOLSRD_OUTPUT.sh /sdcard/COGNET_TESTBED/SCRIPT/
 adb shell chmod 755 /sdcard/COGNET_TESTBED/SCRIPT/scriptOLSRD_OUTPUT.sh
-cd ../DURIP_MODULE_TABLET_ALL/
+
+cd ../../COGNET_TCP_MODULE/
 sh $(pwd)/compileModule.sh nexus
 cd -
 #ADD OLSRD, PLUGIN and CONFIG
-cd ../OLSRD_VERSIONS/olsrd_telnet/
+cd ../../MULTIHOP_ROUTE_SW/olsrd_telnet/
 sh $(pwd)/MAKE_ANDROID.sh
 cd -
 adb push olsrdTABLET.conf /sdcard/COGNET_TESTBED/CONFIG/

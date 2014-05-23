@@ -353,7 +353,7 @@ ipc_print_neigh(struct autobuf *abuf, bool list_2hop)
 
   /* Neighbors */
   OLSR_FOR_ALL_NBR_ENTRIES(neigh) {
-    abuf_appendf(abuf, "%s\t%s\t%s\t%s\t%d\t", olsr_ip_to_string(&buf1, &neigh->neighbor_main_addr), (neigh->status == SYM) ? "YES" : "NO",
+    abuf_appendf(abuf, "N:%s\t%s\t%s\t%s\t%d\t", olsr_ip_to_string(&buf1, &neigh->neighbor_main_addr), (neigh->status == SYM) ? "YES" : "NO",
               neigh->is_mpr ? "YES" : "NO", olsr_lookup_mprs_set(&neigh->neighbor_main_addr) ? "YES" : "NO", neigh->willingness);
     thop_cnt = 0;
 
@@ -388,13 +388,13 @@ ipc_print_link(struct autobuf *abuf)
 #ifdef ACTIVATE_VTIME_TXTINFO
     int diff = (unsigned int)(my_link->link_timer->timer_clock - now_times);
 
-    abuf_appendf(abuf, "%s\t%s\t%d.%03d\t%s\t%s\t\n", olsr_ip_to_string(&buf1, &my_link->local_iface_addr),
+    abuf_appendf(abuf, "L:%s\t%s\t%d.%03d\t%s\t%s\t\n", olsr_ip_to_string(&buf1, &my_link->local_iface_addr),
               olsr_ip_to_string(&buf2, &my_link->neighbor_iface_addr),
               diff/1000, abs(diff%1000),
               get_link_entry_text(my_link, '\t', &lqbuffer1),
               get_linkcost_text(my_link->linkcost, false, &lqbuffer2));
 #else /* ACTIVATE_VTIME_TXTINFO */
-    abuf_appendf(abuf, "%s\t%s\t0.00\t%s\t%s\t\n", olsr_ip_to_string(&buf1, &my_link->local_iface_addr),
+    abuf_appendf(abuf, "L:%s\t%s\t0.00\t%s\t%s\t\n", olsr_ip_to_string(&buf1, &my_link->local_iface_addr),
               olsr_ip_to_string(&buf2, &my_link->neighbor_iface_addr),
               get_link_entry_text(my_link, '\t', &lqbuffer1),
               get_linkcost_text(my_link->linkcost, false, &lqbuffer2));
@@ -415,7 +415,7 @@ ipc_print_routes(struct autobuf *abuf)
 
   /* Walk the route table */
   OLSR_FOR_ALL_RT_ENTRIES(rt) {
-    abuf_appendf(abuf, "%s/%d\t%s\t%d\t%s\t%s\t\n", olsr_ip_to_string(&buf1, &rt->rt_dst.prefix), rt->rt_dst.prefix_len,
+    abuf_appendf(abuf, "R:%s/%d\t%s\t%d\t%s\t%s\t\n", olsr_ip_to_string(&buf1, &rt->rt_dst.prefix), rt->rt_dst.prefix_len,
               olsr_ip_to_string(&buf2, &rt->rt_best->rtp_nexthop.gateway), rt->rt_best->rtp_metric.hops,
               get_linkcost_text(rt->rt_best->rtp_metric.cost, true, &lqbuffer),
               if_ifwithindex_name(rt->rt_best->rtp_nexthop.iif_index));
@@ -446,13 +446,13 @@ ipc_print_topology(struct autobuf *abuf)
 #ifdef ACTIVATE_VTIME_TXTINFO
         uint32_t vt = tc->validity_timer != NULL ? (tc->validity_timer->timer_clock - now_times) : 0;
         int diff = (int)(vt);
-        abuf_appendf(abuf, "%s\t%s\t%s\t%s\t%d.%03d\n", olsr_ip_to_string(&dstbuf, &tc_edge->T_dest_addr),
+        abuf_appendf(abuf, "T:%s\t%s\t%s\t%s\t%d.%03d\n", olsr_ip_to_string(&dstbuf, &tc_edge->T_dest_addr),
             olsr_ip_to_string(&addrbuf, &tc->addr),
             get_tc_edge_entry_text(tc_edge, '\t', &lqbuffer1),
             get_linkcost_text(tc_edge->cost, false, &lqbuffer2),
             diff/1000, diff%1000);
 #else /* ACTIVATE_VTIME_TXTINFO */
-        abuf_appendf(abuf, "%s\t%s\t%s\t%s\n", olsr_ip_to_string(&dstbuf, &tc_edge->T_dest_addr), olsr_ip_to_string(&addrbuf, &tc->addr),
+        abuf_appendf(abuf, "T:%s\t%s\t%s\t%s\n", olsr_ip_to_string(&dstbuf, &tc_edge->T_dest_addr), olsr_ip_to_string(&addrbuf, &tc->addr),
                   get_tc_edge_entry_text(tc_edge, '\t', &lqbuffer1), get_linkcost_text(tc_edge->cost, false, &lqbuffer2));
 #endif /* ACTIVATE_VTIME_TXTINFO */
       }

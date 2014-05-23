@@ -534,8 +534,8 @@ public class MainActivity extends Activity {
     
     public void openGraph(View view) {
 
-        EditText editText = (EditText) findViewById(R.id.pingresults);
-        String message = editText.getText().toString();
+//        EditText editText = (EditText) findViewById(R.id.pingresults);
+//        String message = editText.getText().toString();
         EditText urlText = (EditText) findViewById(R.id.paramUrl);
         String url = urlText.getText().toString();
         EditText tText = (EditText) findViewById(R.id.paramT);
@@ -548,7 +548,7 @@ public class MainActivity extends Activity {
         //String verbose = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);
         Intent intentGraph = new Intent(this, GraphActivity.class);
-        intentGraph.putExtra(SHELL_RESULTS, message);
+//        intentGraph.putExtra(SHELL_RESULTS, message);
         intentGraph.putExtra(PARAM_URL, url);
         intentGraph.putExtra(PARAM_T, t);
         intentGraph.putExtra(PARAM_I, i);
