@@ -89,6 +89,11 @@
             android:exported="true" >
         </service>
         <service
+            android:name="it.durip_app.olsrdLog"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
             android:name="it.durip_app.Sensors"
             android:enabled="true"
             android:exported="true" >
