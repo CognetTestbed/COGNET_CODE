@@ -80,7 +80,7 @@ public class GraphActivity extends FragmentActivity implements ActionBar.TabList
     private Thread mySource;
     public static DataSource data;
     //public static XYPlot dynamicPlot;
-    private XYPlot staticPlot;
+//    private XYPlot staticPlot;
     //public MyPlotUpdater plotUpdater;
 
 	@Override
@@ -255,7 +255,7 @@ public class GraphActivity extends FragmentActivity implements ActionBar.TabList
             }
         }
         private XYPlot dynamicPlot;
-        private XYPlot staticPlot;
+//        private XYPlot staticPlot;
         //private MyPlotUpdater plotUpdater;
         public static final String ARG_SECTION_NUMBER = "section_number";
         public static final String CWN = "CWN";

@@ -154,7 +154,8 @@ public class OlsrdSettings extends Activity {
 	}
 	
 	private void commander(String command){
-        Process p = null;
+//        Process p = null;
+		Process p = null;
         Runtime r = Runtime.getRuntime();
         try {
 			p = r.exec(command);
@@ -305,7 +306,7 @@ public class OlsrdSettings extends Activity {
             FileInputStream fstream = new FileInputStream(path);
             BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
             String line;
-            StringBuilder fileContent = new StringBuilder();
+//            StringBuilder fileContent = new StringBuilder();
             //Read File Line By Line
             String tmp = null;
             while ((line = br.readLine()) != null) {

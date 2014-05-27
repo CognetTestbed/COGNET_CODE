@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 package it.durip_app;
 
-import java.io.BufferedReader;
+//import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,6 +34,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Environment;
 import android.os.IBinder;
 //import android.util.Log;
 
@@ -45,15 +46,12 @@ public class Sensors extends Service implements SensorEventListener {
 	public static final String DESTINATION="DESTINATION";
 	public static final String TIME="TIME";
 	public static final String INTERVAL="INTERVAL";
+	
+	private static final String fileGravity 	 = Environment.getExternalStorageDirectory().getPath() + "/local/log/Sensor/Service_GRAVITY.txt";
+	private static final String fileAcceleration = Environment.getExternalStorageDirectory().getPath() +"/local/log/Sensor/Service_LINEAR_ACCELERATION.txt";
+	private static final String fileRotation =Environment.getExternalStorageDirectory().getPath() +"/local/log/Sensor/Service_MAGNETIC_ROTATION.txt";
 	private boolean isPlaying=false;
-	private String IperfCmd = "";
-	private static Process p=null;
-	private static BufferedReader lines=null;
-	private static Runtime r = Runtime.getRuntime();
-	private String inputLine="";
-	private static String ip = "";
-	private static String t = "";
-	private static String i = "";
+
 	private static SensorManager managerSensor = null;
     private static Sensor orSensor3 = null;
     private static Sensor orSensor2 = null;
@@ -69,9 +67,9 @@ public class Sensors extends Service implements SensorEventListener {
 	    boolean loop=intent.getBooleanExtra(LOOP, false);
         managerSensor = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
 		try {
-			outGravity = new FileOutputStream("/sdcard/Service_GRAVITY.txt", true);
-			outLinear = new FileOutputStream("/sdcard/Service_LINEAR_ACCELERATION.txt", true);
-			outRotation = new FileOutputStream("/sdcard/Service_MAGNETIC_ROTATION.txt", true);
+			outGravity = new FileOutputStream(fileGravity, true);
+			outLinear = new FileOutputStream(fileAcceleration, true);
+			outRotation = new FileOutputStream(fileRotation, true);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

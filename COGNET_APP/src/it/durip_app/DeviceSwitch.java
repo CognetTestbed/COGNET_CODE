@@ -104,7 +104,7 @@ public class DeviceSwitch extends Activity {
 		//String result="";
 	    try {
 	        String inputLine, pingCmd = "head -"+i+" /sdcard/hosts";
-	        String []result= null;
+//	        String []result= null;
 
 	        //Choose runtime or process builder, they are exactly the same!!
 	        
@@ -194,8 +194,8 @@ public class DeviceSwitch extends Activity {
 
 		
 
-		final View controlsView = findViewById(R.id.fullscreen_content_controls);
-		final View contentView = findViewById(R.id.fullscreen_content);
+//		final View controlsView = findViewById(R.id.fullscreen_content_controls);
+//		final View contentView = findViewById(R.id.fullscreen_content);
 		
 /*
 		// Set up an instance of SystemUiHider to control the system UI for
@@ -309,7 +309,8 @@ public class DeviceSwitch extends Activity {
 	}*/
 	
 	public void flushIptables(View view){
-		int i = flush();
+//		int i = flush();
+		flush();
 		ListView tmp = (ListView)((View)(view.getParent().getParent())).findViewById(R.id.hosts);
 		for(int j=0; j<tmp.getChildCount(); ++j) {
 		    View nextChild = tmp.getChildAt(j);
@@ -320,7 +321,8 @@ public class DeviceSwitch extends Activity {
 		}
 	}
 	public void fillIptables(View view){
-		int i = fill();
+//		int i = fill();
+		fill();
 		ListView tmp = (ListView)((View)(view.getParent().getParent())).findViewById(R.id.hosts);
 		for(int j=0; j<tmp.getChildCount(); ++j) {
 		    View nextChild = tmp.getChildAt(j);

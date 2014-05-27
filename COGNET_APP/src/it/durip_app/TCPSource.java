@@ -111,7 +111,7 @@ public class TCPSource implements Runnable {
     }
     private static Thread myTCPThread;
     private static boolean running =false;
-    private static int iperfCount = 0;
+    private static int iperfCount ;
     public boolean isRunning() {
     	return running;
     }

@@ -149,8 +149,8 @@ public class DataSource implements Runnable {
         		}
 	        }
 	        
-	        Runtime ru = Runtime.getRuntime();
-	        Process op = ru.exec("su");
+//	        Runtime ru = Runtime.getRuntime();
+//	        Process op = ru.exec("su");
 	        Runtime r = Runtime.getRuntime();
 	        p = r.exec(ServerCmd);
 	        Runtime r2 = Runtime.getRuntime();
@@ -160,10 +160,11 @@ public class DataSource implements Runnable {
 	        //TODO define pattern for MAC
 	        //MAC:00:1d:7d:49:2e:4e;RSSi:-77;RXB:21600;RXDROP:0;RXDUPL:0;RXFRAG:270;RXPACKS:540;TXB:0;TXFILT:0;TXFRAG:0;TXPACKS:0;TXRETRYCOUNT:0;TXRETRYF:0;INMS:60
 	        Pattern dataPatternMAC = Pattern.compile("^.*MAC:([0-9A-F]{2}[:-]){5}([0-9A-F]{2});RSSi:(-?\\d+);RXB:(\\d+);RXDROP:(\\d+);RXDUPL:(\\d+);RXFRAG:(\\d+);RXPACKS:(\\d+);TXB:(\\d+);TXFILT:(\\d+);TXFRAG:(\\d+);TXPACKS:(\\d+);TXRETRYCOUNT:(\\d+);TXRETRYF:(\\d+);INMS:(\\d+)");
-	        Pattern dataPatternMAC2 = Pattern.compile("^.*time:(\\d+);RXPACK:(\\d+);RXB:(\\d+);TXPACK:(\\d+);TXB:(\\d+);COLLISION:(\\d+).*$");
-	        BufferedReader mac, tcp;
+//	        Pattern dataPatternMAC2 = Pattern.compile("^.*time:(\\d+);RXPACK:(\\d+);RXB:(\\d+);TXPACK:(\\d+);TXB:(\\d+);COLLISION:(\\d+).*$");
+	        BufferedReader mac;
+	        //, tcp;
 	        //System.out.println(p.exitValue());
-	        Matcher datas_mac, datas_tcp;
+	        Matcher datas_mac;//, datas_tcp;
             while (true) {
             	mac = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 		        while ((inputLine = mac.readLine()) != null) {

@@ -35,6 +35,7 @@ import android.app.Activity;
 //import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -59,6 +60,8 @@ public class ExperimentMasterActivity extends Activity {
 	public native int stopExperiment(int n, String []s);
 	private static String[] s;
     ArrayList<ManagedIp> managedIps = new ArrayList<ManagedIp>();
+    private static final String fileIPExperiment = Environment.getExternalStorageDirectory().getPath()+"fileIP";
+    private static final String fileIPExperimentStop= Environment.getExternalStorageDirectory().getPath()+"fileIPKill";
     IpListAdapter boxAdapter;
 	//private static int params=3;
 	
@@ -102,8 +105,8 @@ public class ExperimentMasterActivity extends Activity {
         ListView lvMain = (ListView) findViewById(R.id.IpListToManage);
         lvMain.setAdapter(boxAdapter);
 
-		final View controlsView = findViewById(R.id.fullscreen_content_controls);
-		final View contentView = findViewById(R.id.fullscreen_content);
+//		final View controlsView = findViewById(R.id.fullscreen_content_controls);
+//		final View contentView = findViewById(R.id.fullscreen_content);
 
 		NumberPicker ip1 = (NumberPicker) findViewById(R.id.ip1);
 		NumberPicker ip2 = (NumberPicker) findViewById(R.id.ip2);
@@ -126,7 +129,7 @@ public class ExperimentMasterActivity extends Activity {
 	    String newIp;
 	    boolean addme;
 		try {
-			br = new BufferedReader(new FileReader("/sdcard/fileIP"));
+			br = new BufferedReader(new FileReader(fileIPExperiment));
 			while ((newIp = br.readLine()) != null) {
 				addme = true;
 				// if already in the list do not add another one
@@ -316,7 +319,7 @@ public class ExperimentMasterActivity extends Activity {
         Log.d("manager", "got file content " + fileContent);
         PrintWriter out;
 		try {
-			out = new PrintWriter("/sdcard/fileIP");
+			out = new PrintWriter(fileIPExperiment);
 	        out.write(fileContent);
 	        out.close();
 		} catch (FileNotFoundException e) {
@@ -353,10 +356,10 @@ public class ExperimentMasterActivity extends Activity {
         Log.d("manager", "got file content normal " + fileContentNormal);
         PrintWriter outKill,outNormal;
 		try {
-			outKill = new PrintWriter("/sdcard/fileIPKill");
+			outKill = new PrintWriter(fileIPExperimentStop);
 			outKill.write(fileContentKill);
 			outKill.close();
-			outNormal = new PrintWriter("/sdcard/fileIP");
+			outNormal = new PrintWriter(fileIPExperiment);
 			outNormal.write(fileContentNormal);
 			outNormal.close();
 		} catch (FileNotFoundException e) {

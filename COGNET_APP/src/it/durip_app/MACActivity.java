@@ -364,7 +364,7 @@ public class MACActivity extends FragmentActivity implements ActionBar.TabListen
             }
         }
         private XYPlot dynamicPlot;
-        private XYPlot staticPlot;
+//        private XYPlot staticPlot;
         //private MyPlotUpdater plotUpdater;
         public static final String ARG_SECTION_NUMBER = "section_number";     
         

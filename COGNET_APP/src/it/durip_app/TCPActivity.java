@@ -86,11 +86,11 @@ public class TCPActivity extends FragmentActivity implements ActionBar.TabListen
      * time.
      */
     ViewPager mViewPager;
-    private Thread mySource;
+//    private Thread mySource;
     public static TCPSource data;
     //public static XYPlot dynamicPlot;
-    private XYPlot staticPlot;
-    private static int frequency = 0;
+//    private XYPlot staticPlot;
+//    private static int frequency = 0;
     private static String paramUrl;
     public static boolean isIperfRunning;
     private static int paramT,paramI,paramPort,paramVerbose, paramSleep;
@@ -109,7 +109,7 @@ public class TCPActivity extends FragmentActivity implements ActionBar.TabListen
 	   	paramPort = intent.getIntExtra(MainActivity.PARAM_PORT,4000);
 	   	paramSleep = intent.getIntExtra(MainActivity.PARAM_SLEEP,500);
 	   	paramVerbose = intent.getIntExtra(MainActivity.PARAM_VERBOSE,1);
-	   	frequency = paramPort/1000;
+//	   	frequency = paramPort/1000;
         data.setUrl(paramUrl);
         data.setT(paramT);
         data.setI(paramI);
@@ -321,7 +321,7 @@ public class TCPActivity extends FragmentActivity implements ActionBar.TabListen
             }
         }
         private XYPlot dynamicPlot;
-        private XYPlot staticPlot;
+//        private XYPlot staticPlot;
         //private MyPlotUpdater plotUpdater;
         public static final String ARG_SECTION_NUMBER = "section_number";
         public static final String CWND = "CWND";
@@ -453,8 +453,8 @@ public class TCPActivity extends FragmentActivity implements ActionBar.TabListen
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.tcp_values, container, false);
-            Bundle args = getArguments();
-            int nr = args.getInt(ARG_SECTION_NUMBER);
+//            Bundle args = getArguments();
+//            int nr = args.getInt(ARG_SECTION_NUMBER);
     	    return rootView;
             
         }
