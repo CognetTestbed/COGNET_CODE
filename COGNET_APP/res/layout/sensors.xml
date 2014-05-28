@@ -8,20 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".GraphActivity" >
 
-    <TextView
-        android:id="@+id/plotNr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/results" />
-    
-        <TextView
-        android:id="@+id/texxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/results" />
-    
-
-
     <com.androidplot.xy.XYPlot
         android:id="@+id/aprHistoryPlot"
         android:layout_width="wrap_content"
@@ -30,22 +16,4 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
         title="A/P/R History" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="250dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <CheckBox android:id="@+id/hwAccelerationCb"
-                  android:text="datas"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
-
-        <CheckBox android:id="@+id/showFpsCb"
-                  android:text="Show FPS"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
-     </LinearLayout>
 </RelativeLayout>

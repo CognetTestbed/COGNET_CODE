@@ -8,27 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".GraphActivity" >
 
-    <TextView
-        android:id="@+id/plotNr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/results" />
-    
-        <TextView
-        android:id="@+id/texxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/results" />
-    
-    <com.androidplot.xy.XYPlot
-            android:id="@+id/mySimpleXYPlot"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            title="Static Ping"/>
-
     <ToggleButton
         android:id="@+id/iperfManager"
         android:layout_width="wrap_content"
@@ -38,5 +17,13 @@
         android:textOn="IperfOn"
     	android:textOff="IperfOff"
         android:onClick="handleIperf" />
+
+    <com.androidplot.xy.XYPlot
+        android:id="@+id/mySimpleXYPlot"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/iperfManager"
+        android:layout_marginTop="31dp" />
 
 </RelativeLayout>

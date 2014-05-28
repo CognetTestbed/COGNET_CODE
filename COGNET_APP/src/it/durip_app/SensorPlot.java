@@ -37,35 +37,39 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+//import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
+//import android.widget.CheckBox;
+//import android.widget.CompoundButton;
+//import android.widget.TextView;
+
 
 //import com.androidplot.series.XYSeries;
-import com.androidplot.util.PlotStatistics;
+//import com.androidplot.util.PlotStatistics;
 import com.androidplot.xy.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
+//import java.io.FileNotFoundException;
+//import java.io.FileOutputStream;
+//import java.io.IOException;
+//import java.io.OutputStream;
+//import java.io.OutputStreamWriter;
+//import java.io.UnsupportedEncodingException;
+//import java.io.Writer;
+//import java.text.FieldPosition;
+//import java.text.Format;
+//import java.text.ParsePosition;
 import java.util.Arrays;
 
 // Monitor the phone's orientation sensor and plot the resulting azimuth pitch and roll values.
 // See: http://developer.android.com/reference/android/hardware/SensorEvent.html
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+//@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class SensorPlot extends FragmentActivity implements ActionBar.TabListener
 {
     AppSectionsPagerAdapter mAppSectionsPagerAdapter;
@@ -121,19 +125,19 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
                 actionBar.setSelectedNavigationItem(position);
             }
         });
-
+        
         // For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
+        for (int ii = 0; ii < mAppSectionsPagerAdapter.getCount(); ii++) {
             // Create a tab with text corresponding to the page title defined by the adapter.
             // Also specify this Activity object, which implements the TabListener interface, as the
             // listener for when this tab is selected.
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mAppSectionsPagerAdapter.getPageTitle(i))
+            actionBar.addTab(actionBar.newTab().setText(mAppSectionsPagerAdapter.getPageTitle(ii+1))
                             .setTabListener(this));
+            
         }
         // Show the Up button in the action bar.        
         
+        System.out.println("OnCreate \n");
 
 
     }
@@ -177,13 +181,16 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
     
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        mViewPager.setCurrentItem(13);
+    	System.out.println("onTabUnselected \n");
+//        mViewPager.setCurrentItem(13);
     }
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in the ViewPager.
+    	System.out.println("onTabSelected \n");
         mViewPager.setCurrentItem(tab.getPosition());
+        
     }
 
     @Override
@@ -195,6 +202,10 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
      * sections of the app.
      */
     public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
+    	
+    	
+    	private final static int numberFrame = 12;
+    	
         public AppSectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -202,7 +213,9 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
         @Override
         public Fragment getItem(int i) {
         	Fragment fragment;
+        	
             Bundle args = new Bundle();
+//            System.out.println(args.);
             //if (i < 6){
                 fragment = new AccelerometerFragment();
                 args.putInt(AccelerometerFragment.ARG_SECTION_NUMBER, i + 1);
@@ -213,12 +226,41 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
 
         @Override
         public int getCount() {
-            return 13;
+            return numberFrame;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return "S " + (position + 1);
+        	String namePlot = new String();
+        	switch(position){
+        	case 1:
+        	case 2:
+        		namePlot = "ACCELEROMETER";
+        		break;
+        	case 3:        		
+        	case 4:
+        		namePlot = "GYROSCOPE";
+        		break;
+        	case 5:
+        	case 6:
+        		namePlot = "ORIENTATION";
+        		break;
+        	case 7:
+        	case 8:
+        		namePlot = "FUSION ACCELEROMETER";
+        		break;
+        	case 9:
+        	case 10:
+        		namePlot = "GRAVITY";
+        		break;
+        	case 11:
+        	case 12:
+        		namePlot = "ORIENTATION VECT";
+        		break;
+        	 
+        	}
+        	
+            return namePlot;
         }
     }
     
@@ -265,247 +307,195 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
         /**
          * A simple formatter to convert bar indexes into sensor names.
          */
-        private class APRIndexFormat extends Format {
-            @Override
-            public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
-                Number num = (Number) obj;
-
-                // using num.intValue() will floor the value, so we add 0.5 to round instead:
-                int roundNum = (int) (num.floatValue() + 0.5f);
-                switch(roundNum) {
-                    case 0:
-                        toAppendTo.append(labels[0]);
-                        break;
-                    case 1:
-                        toAppendTo.append(labels[1]);
-                        break;
-                    case 2:
-                        toAppendTo.append(labels[2]);
-                        break;
-                    default:
-                        toAppendTo.append("Unknown");
-                }
-                return toAppendTo;
-            }
-
-            @Override
-            public Object parseObject(String source, ParsePosition pos) {
-                return null;  // We don't use this so just return null for now.
-            }
-        }
-        private static final int HISTORY_SIZE = 300;            // number of points to plot in history
+//        private class APRIndexFormat extends Format {
+//            @Override
+//            public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
+//                Number num = (Number) obj;
+//                
+//                // using num.intValue() will floor the value, so we add 0.5 to round instead:
+//                int roundNum = (int) (num.floatValue() + 0.5f);
+//                switch(roundNum) {
+//                    case 0:
+//                        toAppendTo.append(labels[0]);
+//                        break;
+//                    case 1:
+//                        toAppendTo.append(labels[1]);
+//                        break;
+//                    case 2:
+//                        toAppendTo.append(labels[2]);
+//                        break;
+//                    default:
+//                        toAppendTo.append("Unknown");
+//                }
+//                return toAppendTo;
+//            }
+//
+//            @Override
+//            public Object parseObject(String source, ParsePosition pos) {
+//                return null;  // We don't use this so just return null for now.
+//            }
+//        }//private class
+        
+        private static final int HISTORY_SIZE = 50;            // number of points to plot in history
         private SensorManager sensorMgr = null;
-        private Sensor orSensor3 = null;
-        private Sensor orSensor2 = null;
+//        private Sensor orSensor3 = null;
+//        private Sensor orSensor2 = null;
         private Sensor orSensor = null;
 
         private XYPlot aprLevelsPlot = null;
         private XYPlot aprHistoryPlot = null;
         private String[] labels;
-        private CheckBox hwAcceleratedCb;
-        private CheckBox showFpsCb;
+//        private CheckBox hwAcceleratedCb;
+//        private CheckBox showFpsCb;
         private SimpleXYSeries aprLevelsSeries = null;
         private SimpleXYSeries azimuthHistorySeries = null;
         private SimpleXYSeries pitchHistorySeries = null;
         private SimpleXYSeries rollHistorySeries = null;
-        private OutputStream outGravity = null;
-        private OutputStream outLinear = null;
-        private OutputStream outRotation = null;
-        private Writer writeGravity;
-        private Writer writeRotation;
-        private Writer writeLinear;
+        
+        final String[] barLabel = new String[] {
+                "X","Y","Z"
+            };
+//        private OutputStream outGravity = null;
+//        private OutputStream outLinear = null;
+//        private OutputStream outRotation = null;
+//        private Writer writeGravity;
+//        private Writer writeRotation;
+//        private Writer writeLinear;
+        //Number to identify sensor to plot
         private int nr;
         public static final String ARG_SECTION_NUMBER = "section_number";
-    	private TextView[] dataEntries;
+//    	private TextView[] dataEntries;
+    	
+    	
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-
+        	
             Bundle args = getArguments();
-            nr = args.getInt(ARG_SECTION_NUMBER);
+            nr = args.getInt(ARG_SECTION_NUMBER);            
             switch(nr){
 	            case 1:
 	            case 2:
-		            labels = new String[] {"X","Y","Z","Accelerometer"};
+		            labels = new String[] {"X","Y","Z","Accelerometer" , "m/s^2"};
 		            break;
+
 	            case 3:
 	            case 4:
-		            //labels = new String[] {"Azimuth","Pitch","Roll","Gyroscope"};
-		            labels = new String[] {"X/rad","Y/rad","Z/rad","Gyroscope"};
+		            labels = new String[] {"X-axis","Y-axis","Z-axis","Gyroscope" , "rad/sec" };
 		            break;
 	            case 5:
 	            case 6:
-		            labels = new String[] {"X/rad","Y/rad","Z/rad","Orientation"};
+		            labels = new String[] {"Azimuth","Pitch","Roll","Orientation" , "Deg"};
 		            break;
+		            //A three dimensional vector indicating acceleration along each device axis, 
+//		            not including gravity. All values have units of m/s^2
 	            case 7:
 	            case 8:
-		            labels = new String[] {"X+Z/rad","Y","Z+X/rad+Y/rad","Linear Acceleration"};
+		            labels = new String[] {"X","Y","Z","Linear Acceleration" ,"m/s^2"};
 		            break;
 	            case 9:
 	            case 10:
-		            labels = new String[] {"Z+X+Y/rad+Z/rad","Y+Z/rad+X/rad","Null->orientation","Gravity:FUSED"};
+		            labels = new String[] {"Z+X+Y/rad+Z/rad","Y+Z/rad+X/rad","Null->orientation","Gravity" , "m/s^2"};
 		            break;
 	            case 11:
 	            case 12:
-		            labels = new String[] {"Y.Z tgGround East","tgGround North","PerpGround","Rotation Vector"};
+		            labels = new String[] {"Y.Z tgGround East","tgGround North","PerpGround","Rotation Vector" , "TBD"};
 		            break;
-	            case 13:
-		            labels = new String[] {"x","y","z","multiple"};
-		            break;
+
 	        }
  
             View rootView;
-            if (nr == 13){
-                rootView = inflater.inflate(R.layout.sensors_values, container, false);
-                dataEntries = new TextView[9];
-                dataEntries[0] = ((TextView) rootView.findViewById(R.id.aX));
-                dataEntries[1] = ((TextView) rootView.findViewById(R.id.aY));
-                dataEntries[2] = ((TextView) rootView.findViewById(R.id.aZ));
-                dataEntries[3] = ((TextView) rootView.findViewById(R.id.rX));
-                dataEntries[4] = ((TextView) rootView.findViewById(R.id.rY));
-                dataEntries[5] = ((TextView) rootView.findViewById(R.id.rZ));
-                dataEntries[6] = ((TextView) rootView.findViewById(R.id.laX));
-                dataEntries[7] = ((TextView) rootView.findViewById(R.id.laY));
-                dataEntries[8] = ((TextView) rootView.findViewById(R.id.laZ));
 
-				try {
-					outGravity = new FileOutputStream("/sdcard/GRAVITY.txt", true);
-					outLinear = new FileOutputStream("/sdcard/LINEAR_ACCELERATION.txt", true);
-					outRotation = new FileOutputStream("/sdcard/MAGNETIC_ROTATION.txt", true);
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                try {
-					writeGravity = new OutputStreamWriter(outGravity, "UTF-8");
-					writeLinear = new OutputStreamWriter(outLinear, "UTF-8");
-					writeRotation = new OutputStreamWriter(outRotation, "UTF-8");
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-            	try {
-					writeGravity.append("TIME Xm/s2 Ym/s2 Zm/s2\n");
-					writeLinear.append("TIME Xm/s2 Ym/s2 Zm/s2\n");
-					writeRotation.append("TIME X Y Z\n");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                
-                /*
-                ((TextView) rootView.findViewById(R.id.aX)).setText(
-                        getString(R.string.plotNr, nr));
-                ((TextView) rootView.findViewById(R.id.aY)).setText(
-                        getString(R.string.plotNr, nr));
-                ((TextView) rootView.findViewById(R.id.aZ)).setText(
-                        getString(R.string.plotNr, nr));
-                ((TextView) rootView.findViewById(R.id.rX)).setText(
-                        getString(R.string.plotNr, nr));
-                ((TextView) rootView.findViewById(R.id.rY)).setText(
-                        getString(R.string.plotNr, nr));
-                ((TextView) rootView.findViewById(R.id.rZ)).setText(
-                        getString(R.string.plotNr, nr));
-                        */
-            }
-            else{
-                rootView = inflater.inflate(R.layout.sensors, container, false);
-                ((TextView) rootView.findViewById(R.id.texxt)).setText(
-                        getString(R.string.plotNr, nr));
-                hwAcceleratedCb = (CheckBox) rootView.findViewById(R.id.hwAccelerationCb);
-                showFpsCb = (CheckBox) rootView.findViewById(R.id.showFpsCb);
-	            if (nr%2 == 0){
-	                aprLevelsPlot = (XYPlot) rootView.findViewById(R.id.aprHistoryPlot);
-	
-	                aprLevelsSeries = new SimpleXYSeries(labels[3]);
-	                aprLevelsSeries.useImplicitXVals();
-	                aprLevelsPlot.addSeries(aprLevelsSeries, new BarFormatter(Color.argb(100, 0, 200, 0), Color.rgb(0, 80, 0)));
-	                aprLevelsPlot.setDomainStepValue(3);
-	                aprLevelsPlot.setTicksPerRangeLabel(3);
-	
-	                // per the android documentation, the minimum and maximum readings we can get from
-	                // any of the orientation sensors is -180 and 359 respectively so we will fix our plot's
-	                // boundaries to those values.  If we did not do this, the plot would auto-range which
-	                // can be visually confusing in the case of dynamic plots.
-	                aprLevelsPlot.setRangeBoundaries(-180, 359, BoundaryMode.AUTO);
-	
-	                // use our custom domain value formatter:
-	                aprLevelsPlot.setDomainValueFormat(new APRIndexFormat());
-	
-	                // update our domain and range axis labels:
-	                aprLevelsPlot.setDomainLabel("Axis");
-	                aprLevelsPlot.getDomainLabelWidget().pack();
-	                aprLevelsPlot.setRangeLabel("Angle (Degs)");
-	                aprLevelsPlot.getRangeLabelWidget().pack();
-	
-	                aprLevelsPlot.setGridPadding(15, 0, 15, 0);
-	                //aprLevelsPlot.addListener(new PlotStatistics(1000, true));
-	                //aprLevelsPlot.disableAllMarkup();
-	                final PlotStatistics levelStats = new PlotStatistics(1000, false);
-	                aprLevelsPlot.addListener(levelStats);
-	                hwAcceleratedCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-	                    @Override
-	                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-	                        if(b) {
-	                            aprLevelsPlot.setLayerType(View.LAYER_TYPE_NONE, null);
-	                        } else {
-	                            aprLevelsPlot.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-	                        }
-	                    }
-	                });
-	                showFpsCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-	                    @Override
-	                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-	                        levelStats.setAnnotatePlotEnabled(b);
-	                    }
-	                });
-	                BarRenderer barRenderer = (BarRenderer) aprLevelsPlot.getRenderer(BarRenderer.class);
-	                if(barRenderer != null) {
-	                    // make our bars a little thicker than the default so they can be seen better:
-	                    barRenderer.setBarWidth(25);
-	                }
-	            }else{
-	                // setup the APR History plot:
-	                aprHistoryPlot = (XYPlot) rootView.findViewById(R.id.aprHistoryPlot);
-	
-	                azimuthHistorySeries = new SimpleXYSeries(labels[0]);
-	                azimuthHistorySeries.useImplicitXVals();
-	                pitchHistorySeries = new SimpleXYSeries(labels[1]);
-	                pitchHistorySeries.useImplicitXVals();
-	                rollHistorySeries = new SimpleXYSeries(labels[2]);
-	                rollHistorySeries.useImplicitXVals();
-	
-	                aprHistoryPlot.setRangeBoundaries(-180, 359, BoundaryMode.AUTO);
-	                aprHistoryPlot.setDomainBoundaries(0, 300, BoundaryMode.AUTO);
-	                aprHistoryPlot.addSeries(azimuthHistorySeries, new LineAndPointFormatter(Color.rgb(100, 100, 200), Color.BLUE, null));
-	                aprHistoryPlot.addSeries(pitchHistorySeries, new LineAndPointFormatter(Color.rgb(100, 200, 100), Color.BLACK, null));
-	                aprHistoryPlot.addSeries(rollHistorySeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null));
-	                aprHistoryPlot.setDomainStepValue(5);
-	                aprHistoryPlot.setTicksPerRangeLabel(3);
-	                aprHistoryPlot.setDomainLabel("ms");
-	                aprHistoryPlot.getDomainLabelWidget().pack();
-	                aprHistoryPlot.setRangeLabel("Angle (Degs)");
-	                aprHistoryPlot.getRangeLabelWidget().pack();
-	                //aprHistoryPlot.disableAllMarkup();
-	                final PlotStatistics histStats = new PlotStatistics(1000, false);
-	                aprHistoryPlot.addListener(histStats);
-	                hwAcceleratedCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-	                    @Override
-	                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-	                        if(b) {
-	                            aprHistoryPlot.setLayerType(View.LAYER_TYPE_NONE, null);
-	                        } else {
-	                            aprHistoryPlot.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-	                        }
-	                    }
-	                });
-	                showFpsCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-	                    @Override
-	                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-	                        histStats.setAnnotatePlotEnabled(b);
-	                    }
-	                });
-	            }
+            rootView = inflater.inflate(R.layout.sensors, container, false);
+
+            //                ((TextView) rootView.findViewById(R.id.texxt)).setText(
+            //                        getString(R.string.plotNr, nr));
+
+            //                hwAcceleratedCb = (CheckBox) rootView.findViewById(R.id.hwAccelerationCb);
+            //                showFpsCb = (CheckBox) rootView.findViewById(R.id.showFpsCb);
+            if (nr%2 == 0){
+            	aprLevelsPlot = (XYPlot) rootView.findViewById(R.id.aprHistoryPlot);
+
+            	aprLevelsSeries = new SimpleXYSeries(labels[3]);
+            	//	                aprLevelsSeries.useImplicitXVals();
+            	//	                aprLevelsSeries.s
+            	aprLevelsPlot.addSeries(aprLevelsSeries, new BarFormatter(Color.argb(100, 0, 200, 0), Color.rgb(0, 80, 0)));
+            	aprLevelsPlot.setDomainStepValue(3);
+            	aprLevelsPlot.setTicksPerRangeLabel(3);
+            	aprLevelsPlot.setRangeLabel(labels[4]);
+
+//aprLevelsPlot.
+            	// per the android documentation, the minimum and maximum readings we can get from
+            	// any of the orientation sensors is -180 and 359 respectively so we will fix our plot's
+            	// boundaries to those values.  If we did not do this, the plot would auto-range which
+            	// can be visually confusing in the case of dynamic plots.
+            	//	                aprLevelsPlot.setRangeBoundaries(-180, 359, BoundaryMode.AUTO);
+
+            	// use our custom domain value formatter:
+            	//	                aprLevelsPlot.setDomainValueFormat(new APRIndexFormat());
+
+            	// update our domain and range axis labels:
+            	//	                aprLevelsPlot.setDomainLabel("Axis");
+            	aprLevelsPlot.getDomainLabelWidget().pack();
+
+            	aprLevelsPlot.getRangeLabelWidget().pack();
+            	aprLevelsPlot.setTitle(labels[3]);
+            	aprLevelsPlot.setGridPadding(15, 0, 15, 0);
+            	//aprLevelsPlot.addListener(new PlotStatistics(1000, true));
+
+            
+            	aprLevelsPlot.setDomainValueFormat(new Format() {            		 
+                    @Override
+                    public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
+                        return new StringBuffer( barLabel[ ( (Number)obj).intValue() ]  );
+                    }
+         
+                    @Override
+                    public Object parseObject(String source, ParsePosition pos) {
+                        return null;
+                    }
+                });
+            	
+            	
+            	BarRenderer barRenderer = (BarRenderer) aprLevelsPlot.getRenderer(BarRenderer.class);
+            	if(barRenderer != null) {
+            		// make our bars a little thicker than the default so they can be seen better:
+            		barRenderer.setBarWidth(100);
+//            		barRenderer.
+            	}
+            }else{
+
+            	// setup the APR History plot:
+            	aprHistoryPlot = (XYPlot) rootView.findViewById(R.id.aprHistoryPlot);
+
+            	azimuthHistorySeries = new SimpleXYSeries(labels[0]);
+            	azimuthHistorySeries.useImplicitXVals();
+            	pitchHistorySeries = new SimpleXYSeries(labels[1]);
+            	pitchHistorySeries.useImplicitXVals();
+            	rollHistorySeries = new SimpleXYSeries(labels[2]);
+            	rollHistorySeries.useImplicitXVals();
+
+            	//	                aprHistoryPlot.setRangeBoundaries(-180, 359, BoundaryMode.AUTO);
+            	//	                aprHistoryPlot.setDomainBoundaries(0, 300, BoundaryMode.AUTO);
+            	PointLabelFormatter point1 = new  PointLabelFormatter(Color.rgb(255, 255, 255)); 
+            	PointLabelFormatter point2 = new  PointLabelFormatter(Color.rgb(0, 0, 0)); 
+            	PointLabelFormatter point3 = new  PointLabelFormatter(Color.rgb(200, 100, 100)); 
+            	aprHistoryPlot.addSeries(azimuthHistorySeries, new LineAndPointFormatter(Color.rgb(100, 100, 200), Color.BLUE, null , point1));
+            	aprHistoryPlot.addSeries(pitchHistorySeries, new LineAndPointFormatter(Color.rgb(100, 200, 100), Color.BLACK, null , point2));
+            	aprHistoryPlot.addSeries(rollHistorySeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null , point3));
+
+            	aprHistoryPlot.setDomainStep(XYStepMode.INCREMENT_BY_VAL ,5);
+
+            	aprHistoryPlot.setTicksPerRangeLabel(3);
+            	//	                
+            	aprHistoryPlot.getDomainLabelWidget().pack();
+            	//	                aprHistoryPlot.getBackgroundPaint().setAlpha(0);
+            	//	                aprHistoryPlot.getGraphWidget().getBackgroundPaint().setAlpha(0);
+            	//	                aprHistoryPlot.getGraphWidget().getGridBackgroundPaint().setAlpha(0);
+            	aprHistoryPlot.setRangeLabel(labels[4]);
+            	aprHistoryPlot.setTitle(labels[3]);
+            	aprHistoryPlot.getRangeLabelWidget().pack();	               
+
             }
             registerSensor();
             return rootView;
@@ -532,13 +522,18 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
         	registerSensor();
         }
         private void cleanup() {
-            // aunregister with the orientation sensor before exiting:
+            // unregister with the orientation sensor before exiting:
             sensorMgr.unregisterListener(this);
             //finish();
         }
+        
+        
+        
+        //PARTE DEL SENSORE
         private void registerSensor(){
             // register for orientation sensor events:
             sensorMgr = managerSensor;
+            System.out.println("REGISTER SENSOR");
             switch(nr){
 	            case 1:
 	            case 2:
@@ -564,6 +559,8 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
 		                }
 		            }
 		            break;
+		            
+//FUSION VALUE		            
 	            case 7:
 	            case 8:
 		            for (Sensor sensor : sensorMgr.getSensorList(Sensor.TYPE_LINEAR_ACCELERATION)) {
@@ -587,24 +584,7 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
 		                    orSensor = sensor;
 		                }
 		            }
-		            break;
-	            case 13:
-		            for (Sensor sensor : sensorMgr.getSensorList(Sensor.TYPE_ALL)) {
-		                if (sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-		                    orSensor = sensor;
-		                }
-		                if (sensor.getType() == Sensor.TYPE_GRAVITY) {
-		                    orSensor2 = sensor;
-		                }
-		                if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-		                    orSensor3 = sensor;
-		                }
-		            }
-		            //really bad programmation example! to be re-designed!
-		            sensorMgr.registerListener(this, orSensor2, SensorManager.SENSOR_DELAY_UI);
-		            sensorMgr.registerListener(this, orSensor3, SensorManager.SENSOR_DELAY_UI);
-		            break;
-            
+		            break;            
             }
             
 
@@ -619,66 +599,35 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
         	
         }
 
+        
+        
+        //TO CHECK
+        
         // Called whenever a new orSensor reading is taken.
         @Override
         public synchronized void onSensorChanged(SensorEvent sensorEvent) {
 
             // update instantaneous data:
             Number[] series1Numbers = {sensorEvent.values[0], sensorEvent.values[1], sensorEvent.values[2]};
-    		Log.i(labels[3] + " VALS: ", sensorEvent.values[0] + " - " + sensorEvent.values[1] + " -- "+sensorEvent.values[2]);
-            if (nr==13){
-            	if(sensorEvent.sensor.getType() == Sensor.TYPE_GRAVITY) {
-                	dataEntries[0].setText("" + sensorEvent.values[0]);
-                	dataEntries[1].setText("" + sensorEvent.values[1]);
-                	dataEntries[2].setText("" + sensorEvent.values[2]);
-                	try {
-						writeGravity.append(System.currentTimeMillis() + " " + sensorEvent.values[0] + " " + sensorEvent.values[1] + " " + sensorEvent.values[2] + "\n");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-            	}
-            	if(sensorEvent.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-                	dataEntries[3].setText("" + sensorEvent.values[0]);
-                	dataEntries[4].setText("" + sensorEvent.values[1]);
-                	dataEntries[5].setText("" + sensorEvent.values[2]);
-                	try {
-						writeRotation.append(System.currentTimeMillis() + " " + sensorEvent.values[0] + " " + sensorEvent.values[1] + " " + sensorEvent.values[2] + "\n");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-            	}           	
-            	if(sensorEvent.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-                	dataEntries[6].setText("" + sensorEvent.values[0]);
-                	dataEntries[7].setText("" + sensorEvent.values[1]);
-                	dataEntries[8].setText("" + sensorEvent.values[2]);
-                	try {
-						writeLinear.append(System.currentTimeMillis() + " " + sensorEvent.values[0] + " " + sensorEvent.values[1] + " " + sensorEvent.values[2] + "\n");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-            	}
+            	
+            if (nr%2==0){
+            	//TO DRAW ON BAR PLOT
+            	aprLevelsSeries.setModel(Arrays.asList(series1Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+            	// redraw the Plots:
+            	aprLevelsPlot.redraw();
             }else{
-	    		if (nr%2==0){
-	                aprLevelsSeries.setModel(Arrays.asList(series1Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
-	                // redraw the Plots:
-	                aprLevelsPlot.redraw();
-	            }else{
-	                // get rid the oldest sample in history:
-	                if (rollHistorySeries.size() > HISTORY_SIZE) {
-	                    rollHistorySeries.removeFirst();
-	                    pitchHistorySeries.removeFirst();
-	                    azimuthHistorySeries.removeFirst();
-	                }
-	
-	                // add the latest history sample:
-	                azimuthHistorySeries.addLast(null, sensorEvent.values[0]);
-	                pitchHistorySeries.addLast(null, sensorEvent.values[1]);
-	                rollHistorySeries.addLast(null, sensorEvent.values[2]);
-	                aprHistoryPlot.redraw();
-	            }
+            	// get rid the oldest sample in history:
+            	if (rollHistorySeries.size() > HISTORY_SIZE) {
+            		rollHistorySeries.removeFirst();
+            		pitchHistorySeries.removeFirst();
+            		azimuthHistorySeries.removeFirst();
+            	}
+
+            	// add the latest history sample:
+            	azimuthHistorySeries.addLast(null, sensorEvent.values[0]);
+            	pitchHistorySeries.addLast(null, sensorEvent.values[1]);
+            	rollHistorySeries.addLast(null, sensorEvent.values[2]);
+            	aprHistoryPlot.redraw();
             }
         }
 

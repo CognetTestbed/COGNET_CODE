@@ -476,8 +476,8 @@ public class MACActivity extends FragmentActivity implements ActionBar.TabListen
             View rootView = inflater.inflate(R.layout.graphs, container, false);
             Bundle args = getArguments();
             int nr = args.getInt(ARG_SECTION_NUMBER);
-            ((TextView) rootView.findViewById(R.id.texxt)).setText(
-                    getString(R.string.plotNr, nr));
+//            ((TextView) rootView.findViewById(R.id.texxt)).setText(
+//                    getString(R.string.plotNr, nr));
 
  
     	    

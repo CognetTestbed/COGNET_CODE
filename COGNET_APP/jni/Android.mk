@@ -44,7 +44,7 @@ include $(PREBUILT_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 MY_LOCAL_SRC_DIR:=../../COGNET_CLIENT_PARAMETERS
 MY_LOCAL_SRC_DIR_MANAGE:=../../MANAGER_NODE_COGNET_TABLET
-LOCAL_CFLAGS := -DTEST_MATTEO=1  
+LOCAL_CFLAGS := -DATH9K_HTC=1  
 #LOCAL_CFLAGS := -DTEST_MATTEO=1 -g
 
 LOCAL_MODULE    := MACReadServer
@@ -71,4 +71,31 @@ LOCAL_SHARED_LIBRARIES:=nl-3 nl-genl-3
 LOCAL_LDLIBS := -llog
 include $(BUILD_SHARED_LIBRARY)
 
+include $(CLEAR_VARS)
+MY_LOCAL_SRC_DIR:=../../COGNET_CLIENT_PARAMETERS
+MY_LOCAL_SRC_DIR_MANAGE:=../../MANAGER_NODE_COGNET_TABLET
+LOCAL_CFLAGS := -DATH9K_HTC=1  
 
+LOCAL_MODULE    := ExperimentManager
+LOCAL_SRC_FILES:=experimentManager.c
+LOCAL_SRC_FILES+=$(MY_LOCAL_SRC_DIR)/serverCOGNET.c\
+				 $(MY_LOCAL_SRC_DIR)/libTHREADS_MAC/macObservation.c\
+				 $(MY_LOCAL_SRC_DIR)/libTHREADS_MAC/printMACvalue.c \
+				 $(MY_LOCAL_SRC_DIR)/libTHREADS_MAC/commonFunction.c \
+				 $(MY_LOCAL_SRC_DIR)/libTHREADS_MAC/CognetThreadControlRead.c \
+				 $(MY_LOCAL_SRC_DIR)/libTHREADS_MAC/macChangeParams.c \
+				 $(MY_LOCAL_SRC_DIR)/libTHREADS_MAC/tcpObservation.c \
+				 $(MY_LOCAL_SRC_DIR)/libTHREADS_MAC/macThreadComm.c \
+				 $(MY_LOCAL_SRC_DIR)/libTHREADS_MAC/get_station.c \
+				 $(MY_LOCAL_SRC_DIR_MANAGE)/managerNodeCognet.c  
+				 
+LOCAL_C_INCLUDES:=$(MY_LOCAL_SRC_DIR)/include
+LOCAL_C_INCLUDES+=$(MY_LOCAL_PATH_NL)/include/ \
+		  $(MY_LOCAL_PATH_NL)/android_toolchain/jni/missing_include \
+		  $(MY_LOCAL_PATH_NL)/android_toolchain/jni/generated_include 
+
+#$(warning $(LOCAL_C_INCLUDES))
+LOCAL_SHARED_LIBRARIES:=nl-3 nl-genl-3				 
+				 
+LOCAL_LDLIBS := -llog
+include $(BUILD_SHARED_LIBRARY)

@@ -1,3 +1,3 @@
-const char olsrd_version[] = "olsr.org - pre-0.6.7-git_eba9b7c-hash_f5bc62c063e18ee5c13ab4d46d1a227e";
+const char olsrd_version[] = "olsr.org - pre-0.6.7-git_103ccd3-hash_71dfffc069c8aa215bef6f8a8fafc08a";
 const char build_host[]    = "pcsensori14";
-const char build_date[]    = "2014-03-28 16:25:37";
+const char build_date[]    = "2014-05-23 14:39:13";

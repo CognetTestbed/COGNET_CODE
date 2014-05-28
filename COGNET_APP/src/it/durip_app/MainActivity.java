@@ -344,13 +344,13 @@ public class MainActivity extends Activity {
 	            intentIperf.putExtra(Iperf.INTERVAL, i+"");
 	        	startService(intentIperf); // make the request!
 	        }catch(Exception e){
-	    		Log.i("senros err", e.toString());
+	    		Log.i("IPERF err", e.toString());
 	        }
 		}else{
 	        try{
 	        	stopService(new Intent(this, Iperf.class)); // make the request!
 	        }catch(Exception e){
-	    		Log.i("senros err", e.toString());
+	    		Log.i("IPERF err", e.toString());
 	        }
 		}
     }
@@ -364,13 +364,13 @@ public class MainActivity extends Activity {
 	            Intent intentSensors = new Intent(this, Sensors.class);
 	        	startService(intentSensors); // make the request!
 	        }catch(Exception e){
-	    		Log.i("senros err", e.toString());
+	    		Log.i("SENSORS err", e.toString());
 	        }
 		}else{
 	        try{
 	        	stopService(new Intent(this, Sensors.class)); // make the request!
 	        }catch(Exception e){
-	    		Log.i("senros err", e.toString());
+	    		Log.i("MATTEO sensors err", e.toString());
 	        }
 		}
     }

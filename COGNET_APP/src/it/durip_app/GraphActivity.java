@@ -23,7 +23,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 //import android.view.ViewGroup.LayoutParams;
-import android.widget.TextView;
+//import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 //import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -397,8 +397,8 @@ public class GraphActivity extends FragmentActivity implements ActionBar.TabList
             View rootView = inflater.inflate(R.layout.graphs, container, false);
             Bundle args = getArguments();
             int nr = args.getInt(ARG_SECTION_NUMBER);
-            ((TextView) rootView.findViewById(R.id.texxt)).setText(
-                    getString(R.string.plotNr, nr));
+//            ((TextView) rootView.findViewById(R.id.texxt)).setText(
+//                    getString(R.string.plotNr, nr));
 
             // initialize our XYPlot reference:
             //mySimpleXYPlot = new XYPlot(this,"great plot"); 
