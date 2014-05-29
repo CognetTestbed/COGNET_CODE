@@ -95,12 +95,12 @@ public class DataSource implements Runnable {
     private void ping(String paramUrl){
     	ping(paramUrl,pT,pI,pVerbose,pPort);
     }
-    private void ping(String paramUrl, int T){
-    	ping(paramUrl,T,pI,pVerbose,pPort);
-    }
-    private void ping(String paramUrl, int T, int I){
-    	ping(paramUrl,T,I,pVerbose,pPort);
-    }
+//    private void ping(String paramUrl, int T){
+//    	ping(paramUrl,T,pI,pVerbose,pPort);
+//    }
+//    private void ping(String paramUrl, int T, int I){
+//    	ping(paramUrl,T,I,pVerbose,pPort);
+//    }
     public void setUrl(String paramUrl){
     	
         if(paramUrl.length() < 7 /*!IPAddressUtil.isIPv4LiteralAddress(paramUrl)*/)

@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
 
 		//String result="";
 	    try {
-	        String result="", inputLine, pingCmd = "ping -c 5 -l 3 " + url;
+	        String inputLine, pingCmd = "ping -c 5 -l 3 " + url;
 	        //Choose runtime or process builder, they are exactly the same!!
 	        
 	        Runtime r = Runtime.getRuntime();
