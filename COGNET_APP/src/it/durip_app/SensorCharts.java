@@ -1,22 +1,34 @@
 package it.durip_app;
 
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
 import java.util.Arrays;
 
+import com.androidplot.xy.BarFormatter;
+import com.androidplot.xy.BarRenderer;
+import com.androidplot.xy.LineAndPointFormatter;
+import com.androidplot.xy.PointLabelFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
+import com.androidplot.xy.XYStepMode;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
+//import android.view.LayoutInflater;
 import android.view.Menu;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
+//import android.view.View;
+//import android.view.ViewGroup;
+//import android.hardware.Sensor;
+//import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
+//import android.hardware.SensorManager;
 
 
 public class SensorCharts extends Activity implements SensorEventListener{
@@ -42,12 +54,7 @@ public class SensorCharts extends Activity implements SensorEventListener{
     final String[] barLabel = new String[] {
             "X","Y","Z"
         };
-//    private OutputStream outGravity = null;
-//    private OutputStream outLinear = null;
-//    private OutputStream outRotation = null;
-//    private Writer writeGravity;
-//    private Writer writeRotation;
-//    private Writer writeLinear;
+
     //Number to identify sensor to plot
     private int nr;
 	
@@ -64,7 +71,84 @@ public class SensorCharts extends Activity implements SensorEventListener{
 		nr = myIntent.getIntExtra( "SensorName" ,1 );
 		
 		System.out.println("NR value" + nr);
-		registerSensor();
+		
+		            
+        switch(nr){
+            case 1:            
+	            labels = new String[] {"X","Y","Z","Accelerometer" , "m/s^2"};
+	            break;
+
+            case 2:       
+	            labels = new String[] {"X-axis","Y-axis","Z-axis","Gyroscope" , "rad/sec" };
+	            break;
+            case 3:
+	            labels = new String[] {"Azimuth","Pitch","Roll","Orientation" , "Deg"};
+	            break;
+	            //A three dimensional vector indicating acceleration along each device axis, 
+//	            not including gravity. All values have units of m/s^2
+            case 4:
+	            labels = new String[] {"X","Y","Z","Linear Acceleration" ,"m/s^2"};
+	            break;
+            case 5:
+	            labels = new String[] {"Z+X+Y/rad+Z/rad","Y+Z/rad+X/rad","Null->orientation","Gravity" , "m/s^2"};
+	            break;
+            case 6:
+	            labels = new String[] {"Y.Z tgGround East","tgGround North","PerpGround","Rotation Vector" , "TBD"};
+	            break;
+            case 7:
+	            labels = new String[] {"Light","None","None","Light" , "Si"};
+	            break;
+	            
+        }
+
+//        View rootView;
+//
+//        rootView = inflater.inflate(R.layout.sensors, container, false);
+
+        //                ((TextView) rootView.findViewById(R.id.texxt)).setText(
+        //                        getString(R.string.plotNr, nr));
+
+        //                hwAcceleratedCb = (CheckBox) rootView.findViewById(R.id.hwAccelerationCb);
+        //                showFpsCb = (CheckBox) rootView.findViewById(R.id.showFpsCb);
+
+
+        	// setup the APR History plot:
+        	aprHistoryPlot = (XYPlot)findViewById(R.id.timeserieChart);
+
+        	
+        	
+        	
+        	azimuthHistorySeries = new SimpleXYSeries(labels[0]);
+        	azimuthHistorySeries.useImplicitXVals();
+        	pitchHistorySeries = new SimpleXYSeries(labels[1]);
+        	pitchHistorySeries.useImplicitXVals();
+        	rollHistorySeries = new SimpleXYSeries(labels[2]);
+        	rollHistorySeries.useImplicitXVals();
+
+        	//	                aprHistoryPlot.setRangeBoundaries(-180, 359, BoundaryMode.AUTO);
+        	//	                aprHistoryPlot.setDomainBoundaries(0, 300, BoundaryMode.AUTO);
+        	PointLabelFormatter point1 = new  PointLabelFormatter(Color.rgb(255, 255, 255)); 
+        	PointLabelFormatter point2 = new  PointLabelFormatter(Color.rgb(0, 0, 0)); 
+        	PointLabelFormatter point3 = new  PointLabelFormatter(Color.rgb(200, 100, 100)); 
+//
+        	aprHistoryPlot.addSeries(azimuthHistorySeries, new LineAndPointFormatter(Color.rgb(100, 100, 200), Color.BLUE, null , point1));
+        	aprHistoryPlot.addSeries(pitchHistorySeries, new LineAndPointFormatter(Color.rgb(100, 200, 100), Color.BLACK, null , point2));
+        	aprHistoryPlot.addSeries(rollHistorySeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null , point3));
+
+        	aprHistoryPlot.setDomainStep(XYStepMode.INCREMENT_BY_VAL ,5);
+
+        	aprHistoryPlot.setTicksPerRangeLabel(3);
+        	//	                
+        	aprHistoryPlot.getDomainLabelWidget().pack();
+        	//	                aprHistoryPlot.getBackgroundPaint().setAlpha(0);
+        	//	                aprHistoryPlot.getGraphWidget().getBackgroundPaint().setAlpha(0);
+        	//	                aprHistoryPlot.getGraphWidget().getGridBackgroundPaint().setAlpha(0);
+        	aprHistoryPlot.setRangeLabel(labels[4]);
+        	aprHistoryPlot.setTitle(labels[3]);
+        	aprHistoryPlot.getRangeLabelWidget().pack();	               
+
+
+        	registerSensor();
 	}
 
 	@Override
@@ -76,20 +160,14 @@ public class SensorCharts extends Activity implements SensorEventListener{
 
 	
 	
-	
-	
-	
-	
-	
-	
-	
+
 	//PARTE DEL SENSORE
     private void registerSensor(){
         // register for orientation sensor events:
 //        sensorMgr = managerSensor;
         System.out.println("REGISTER SENSOR");
         switch(nr){
-            case 0:
+            case 1:
             
 	            for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_ACCELEROMETER)) {
 	                if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -97,14 +175,14 @@ public class SensorCharts extends Activity implements SensorEventListener{
 	                }
 	            }
 	            break;
-            case 1:
+            case 2:
 	            for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_GYROSCOPE)) {
 	                if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
 	                    orSensor = sensor;
 	                }
 	            }
 	            break;
-            case 2:
+            case 3:
 	            for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_ORIENTATION)) {
 	                if (sensor.getType() == Sensor.TYPE_ORIENTATION) {
 	                    orSensor = sensor;
@@ -127,14 +205,14 @@ public class SensorCharts extends Activity implements SensorEventListener{
 	                }
 	            }
 	            break;
-            case 7:
+            case 6:
 	            for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_ROTATION_VECTOR)) {
 	                if (sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
 	                    orSensor = sensor;
 	                }
 	            }
 	            break;
-            case 8:
+            case 7:
 	            for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_LIGHT)) {
 	                if (sensor.getType() == Sensor.TYPE_LIGHT) {
 	                    orSensor = sensor;
@@ -188,7 +266,7 @@ public class SensorCharts extends Activity implements SensorEventListener{
         		aprHistoryPlot.redraw();
 //        	}
     	}else{
-        	Number[] series1Numbers = {sensorEvent.values[0], 0, 0};
+//        	Number[] seriesNumbers = {sensorEvent.values[0], 0, 0};
 //        	if (nr%2==0){
 //        		//TO DRAW ON BAR PLOT
 //        		aprLevelsSeries.setModel(Arrays.asList(series1Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
@@ -217,6 +295,8 @@ public class SensorCharts extends Activity implements SensorEventListener{
     public void onAccuracyChanged(Sensor sensor, int i) {
         // Not interested in this event
     }
+    
+  
 }
 	
 	

@@ -23,8 +23,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 //import java.util.Observable;
 //import java.util.Observer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+//import java.util.regex.Matcher;
+//import java.util.regex.Pattern;
 
 //import com.androidplot.Plot;
 
@@ -40,11 +40,11 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+//import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.TextView;
+//import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.widget.AdapterView.OnItemSelectedListener;
 public class MainActivity extends Activity {
@@ -66,51 +66,51 @@ public class MainActivity extends Activity {
 	public static PowerManager pm = null;
 	private boolean checkOndemandSpinner = false;
 	
-	private void ping(String url) {
-
-		//String result="";
-	    try {
-	        String inputLine, pingCmd = "ping -c 5 -l 3 " + url;
-	        //Choose runtime or process builder, they are exactly the same!!
-	        
-	        Runtime r = Runtime.getRuntime();
-	        Process p = r.exec(pingCmd);
-	        
-	        /*
-			Process p = new ProcessBuilder()
-		    .command("ping", "android.com")
-		    .start();
-			*/
-	        BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-	        
-	        TextView t=(TextView)findViewById(R.id.statusInfo);
-	        t.setText("Pinging....\n");
-	        
-	        // Create a Pattern object
-	        Pattern dataPattern = Pattern.compile("^.*icmp_seq=(\\d+) ttl=(\\d+) time=(\\d+\\.?\\d?\\d?) ms.*$");
-	        while ((inputLine = in.readLine()) != null) {
-		        System.out.println(inputLine);
-		        Matcher datas = dataPattern.matcher(inputLine);
-		        if (datas.find( )) {
-		        	t.append("\nicmp_seq: " + datas.group(1) + 
-		        			" ttl: " + datas.group(2) + 
-		        			" time: " + datas.group(3));
-		         } else {
-		            //t.append("\nBad ping");
-		        	 System.out.println("NO MATCH");
-		         }
-		        t.invalidate();
-		        //result += inputLine;
-
-		        //t.setText(result);
-	        }
-            t.append("\nPing done!");
-        	in.close();
-        }catch (IOException e) {
-    		Log.i("read response", e.toString());
-        }
-	    //return result;
-	}
+//	private void ping(String url) {
+//
+//		//String result="";
+//	    try {
+//	        String inputLine, pingCmd = "ping -c 5 -l 3 " + url;
+//	        //Choose runtime or process builder, they are exactly the same!!
+//	        
+//	        Runtime r = Runtime.getRuntime();
+//	        Process p = r.exec(pingCmd);
+//	        
+//	        /*
+//			Process p = new ProcessBuilder()
+//		    .command("ping", "android.com")
+//		    .start();
+//			*/
+//	        BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//	        
+//	        TextView t=(TextView)findViewById(R.id.statusInfo);
+//	        t.setText("Pinging....\n");
+//	        
+//	        // Create a Pattern object
+//	        Pattern dataPattern = Pattern.compile("^.*icmp_seq=(\\d+) ttl=(\\d+) time=(\\d+\\.?\\d?\\d?) ms.*$");
+//	        while ((inputLine = in.readLine()) != null) {
+//		        System.out.println(inputLine);
+//		        Matcher datas = dataPattern.matcher(inputLine);
+//		        if (datas.find( )) {
+//		        	t.append("\nicmp_seq: " + datas.group(1) + 
+//		        			" ttl: " + datas.group(2) + 
+//		        			" time: " + datas.group(3));
+//		         } else {
+//		            //t.append("\nBad ping");
+//		        	 System.out.println("NO MATCH");
+//		         }
+//		        t.invalidate();
+//		        //result += inputLine;
+//
+//		        //t.setText(result);
+//	        }
+//            t.append("\nPing done!");
+//        	in.close();
+//        }catch (IOException e) {
+//    		Log.i("read response", e.toString());
+//        }
+//	    //return result;
+//	}
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,7 +140,8 @@ public class MainActivity extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
         		this,
 	        	android.R.layout.simple_spinner_item,
-	        	new String[]{"Accelerometer","Gyroscope","Light","Accelerometer Fusion"}
+	        	new String[]{"Accelerometer","Gyroscope","Orientation","Accelerometer Fusion" , "Gravity", "Rotation",
+        				"Light"}
         		);
         spinner.setAdapter(adapter);
         
@@ -153,7 +154,7 @@ public class MainActivity extends Activity {
 	        		
 	        		Intent intentSensor = new Intent(MainActivity.this ,  SensorCharts.class);
 	                try{
-	                	intentSensor.putExtra("SensorName", pos);
+	                	intentSensor.putExtra("SensorName", pos+1);
 	                    startActivity(intentSensor); // make the request!
 	                }catch(Exception e){
 	            		Log.i("sensor err", e.toString());
