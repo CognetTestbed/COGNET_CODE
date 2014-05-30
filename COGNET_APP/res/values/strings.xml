@@ -64,8 +64,9 @@
     <string name="tcp_graph_text">TCP Graph</string>
     <string name="mac_graph_text">MAC Graph</string>
     <string name="action_iperf">IPERF</string>
-	<string name="start_experiment">Start Experiment</string>
-	<string name="experiment_manager">Experiment Manager</string>
+    <string name="start_experiment">Start Experiment</string>
+    <string name="experiment_manager">Experiment Manager</string>
+
     <string-array name="mac_addresses">
         <item>ALL</item>
         <item>00:1d:7d:49:2e:4e</item>
@@ -85,12 +86,10 @@
     <string name="dummy_content">DURIP NODES</string>
     <string name="title_activity_olsrd_settings">OlsrdSettings</string>
     <string name="title_activity_experiment_master">ExperimentMasterActivity</string>
-
     <string name="phy1">phy1</string>
     <string name="phy_label">phy to use</string>
-    <string name="title_label">NETWORK MANAGER</string>    
+    <string name="title_label">NETWORK MANAGER</string>
     <string name="ip_network_label">Set Device IP</string>
-    
     <string name="carmen_port_label">CARMEN port</string>
     <string name="iperf_ping_label">IPERF and PING parameters</string>
     <string name="ip_rx_label">IP receiver</string>
@@ -113,6 +112,6 @@
     <string name="update_mac_label">Update MAC</string>
     <string name="ping_label">Ping IP</string>
     <string name="net_stat_label">Net status</string>
-    
-    
+    <string name="title_activity_sensor_charts">SensorCharts</string>
+
 </resources>

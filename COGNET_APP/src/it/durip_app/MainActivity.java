@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 
 //import com.androidplot.Plot;
 
+
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.app.Activity;
@@ -37,6 +38,7 @@ import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,7 +46,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
+import android.widget.AdapterView.OnItemSelectedListener;
 public class MainActivity extends Activity {
 
 	
@@ -62,6 +64,7 @@ public class MainActivity extends Activity {
 	public static final String USERNAME = "user"; 
 	public static PowerManager.WakeLock wl = null;
 	public static PowerManager pm = null;
+	private boolean checkOndemandSpinner = false;
 	
 	private void ping(String url) {
 
@@ -112,6 +115,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         final int SUPERUSER_REQUEST = 2323; // arbitrary number of your choosing
         Intent intent = new Intent("android.intent.action.superuser"); // superuser request
@@ -131,15 +135,43 @@ public class MainActivity extends Activity {
 		wl.acquire();
         updateMac(findViewById(R.layout.activity_main));
         
-        Button buttonStart = (Button) findViewById(R.id.pingButton);
-        buttonStart.setOnClickListener(new View.OnClickListener() {
-	        @Override
-	        public void onClick(View v) {
-	            EditText urlText = (EditText) findViewById(R.id.paramUrl);
-	            String url = urlText.getText().toString();
-	    		ping(url);
-	        }
-        });
+          
+        Spinner spinner = (Spinner)findViewById(R.id.spinnerSensor);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        		this,
+	        	android.R.layout.simple_spinner_item,
+	        	new String[]{"Accelerometer","Gyroscope","Light","Accelerometer Fusion"}
+        		);
+        spinner.setAdapter(adapter);
+        
+        spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+        	
+        	public void onItemSelected(AdapterView<?> adapter, View view,int pos, long id) {
+        		if(checkOndemandSpinner){
+	        		String selected = (String)adapter.getItemAtPosition(pos);
+	        		System.out.println(selected);
+	        		
+	        		Intent intentSensor = new Intent(MainActivity.this ,  SensorCharts.class);
+	                try{
+	                	intentSensor.putExtra("SensorName", pos);
+	                    startActivity(intentSensor); // make the request!
+	                }catch(Exception e){
+	            		Log.i("sensor err", e.toString());
+	                }
+	        		
+        		}else{
+        			checkOndemandSpinner = true;
+        		}
+        		
+        	}
+        	public void onNothingSelected(AdapterView<?> arg0) {
+        		
+        	}
+		});
+        									  
+        
+       
+        
     }
     
     @Override

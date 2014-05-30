@@ -72,6 +72,7 @@ import java.util.List;
 // Monitor the phone's orientation sensor and plot the resulting azimuth pitch and roll values.
 // See: http://developer.android.com/reference/android/hardware/SensorEvent.html
 //@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class SensorPlot extends FragmentActivity implements ActionBar.TabListener
 {
     AppSectionsPagerAdapter mAppSectionsPagerAdapter;
@@ -535,7 +536,7 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
         public void onStart(){
         	super.onStart();
         	sensorMgr.unregisterListener(this);
-        	registerSensor();
+//        	registerSensor();
         }
         private void cleanup() {
             // unregister with the orientation sensor before exiting:
