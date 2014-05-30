@@ -308,8 +308,7 @@ public class ExperimentMasterActivity extends Activity {
     }
 	
     public void startExperimentButton(View view) {
-    	//write out fileIP
-    	//native function with port, filename, delay
+
     	String fileContent = "";
         for (ManagedIp p : boxAdapter.getBox()) {
 			if (p.selected){

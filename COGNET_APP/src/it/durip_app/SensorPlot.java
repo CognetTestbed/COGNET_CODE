@@ -48,6 +48,7 @@ import android.view.ViewGroup;
 //import android.widget.TextView;
 
 
+
 //import com.androidplot.series.XYSeries;
 //import com.androidplot.util.PlotStatistics;
 import com.androidplot.xy.*;
@@ -66,6 +67,7 @@ import java.text.ParsePosition;
 //import java.text.Format;
 //import java.text.ParsePosition;
 import java.util.Arrays;
+import java.util.List;
 
 // Monitor the phone's orientation sensor and plot the resulting azimuth pitch and roll values.
 // See: http://developer.android.com/reference/android/hardware/SensorEvent.html
@@ -126,18 +128,25 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
             }
         });
         
+        
+        managerSensor = (SensorManager)this.getSystemService(SENSOR_SERVICE);
+        List<Sensor> list = managerSensor.getSensorList(Sensor.TYPE_ALL);
+        for(Sensor sensor: list){
+        	System.out.println("NAME " + sensor.getName());
+        }
+        
         // For each of the sections in the app, add a tab to the action bar.
-        for (int ii = 0; ii < mAppSectionsPagerAdapter.getCount(); ii++) {
+        for (int ii = 1; ii <= mAppSectionsPagerAdapter.getCount(); ii++) {
             // Create a tab with text corresponding to the page title defined by the adapter.
             // Also specify this Activity object, which implements the TabListener interface, as the
             // listener for when this tab is selected.
-            actionBar.addTab(actionBar.newTab().setText(mAppSectionsPagerAdapter.getPageTitle(ii+1))
+            actionBar.addTab(actionBar.newTab().setText(mAppSectionsPagerAdapter.getPageTitle(ii))
                             .setTabListener(this));
             
         }
         // Show the Up button in the action bar.        
         
-        System.out.println("OnCreate \n");
+//        System.out.println("OnCreate \n");
 
 
     }
@@ -204,7 +213,7 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
     public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
     	
     	
-    	private final static int numberFrame = 12;
+    	private final static int numberFrame = 14;
     	
         public AppSectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -217,8 +226,8 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
             Bundle args = new Bundle();
 //            System.out.println(args.);
             //if (i < 6){
-                fragment = new AccelerometerFragment();
-                args.putInt(AccelerometerFragment.ARG_SECTION_NUMBER, i + 1);
+                fragment = new SensorFragment();
+                args.putInt(SensorFragment.ARG_SECTION_NUMBER, i + 1);
             //}
             fragment.setArguments(args);
             return fragment;
@@ -257,7 +266,10 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
         	case 12:
         		namePlot = "ORIENTATION VECT";
         		break;
-        	 
+        	case 13:
+        	case 14:
+        		namePlot = "LIGHT";
+        		break;
         	}
         	
             return namePlot;
@@ -303,7 +315,7 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
     /**
      * A dummy fragment representing a section of the app, but that simply displays dummy text.
      */
-    public static class AccelerometerFragment extends Fragment implements SensorEventListener {
+    public static class SensorFragment extends Fragment implements SensorEventListener {
         /**
          * A simple formatter to convert bar indexes into sensor names.
          */
@@ -401,7 +413,11 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
 	            case 12:
 		            labels = new String[] {"Y.Z tgGround East","tgGround North","PerpGround","Rotation Vector" , "TBD"};
 		            break;
-
+	            case 13:
+	            case 14:
+		            labels = new String[] {"Light","None","None","Light" , "Si"};
+		            break;
+		            
 	        }
  
             View rootView;
@@ -584,7 +600,15 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
 		                    orSensor = sensor;
 		                }
 		            }
-		            break;            
+		            break;
+	            case 13:
+	            case 14:
+		            for (Sensor sensor : sensorMgr.getSensorList(Sensor.TYPE_LIGHT)) {
+		                if (sensor.getType() == Sensor.TYPE_LIGHT) {
+		                    orSensor = sensor;
+		                }
+		            }
+		            break; 
             }
             
 
@@ -592,10 +616,9 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
             if (orSensor == null) {
                 System.out.println("Failed to attach to orSensor.");
                 cleanup();
+            }else{
+            	sensorMgr.registerListener(this, orSensor, SensorManager.SENSOR_DELAY_UI);
             }
-
-            sensorMgr.registerListener(this, orSensor, SensorManager.SENSOR_DELAY_UI);
-        	
         	
         }
 
@@ -608,27 +631,52 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
         public synchronized void onSensorChanged(SensorEvent sensorEvent) {
 
             // update instantaneous data:
-            Number[] series1Numbers = {sensorEvent.values[0], sensorEvent.values[1], sensorEvent.values[2]};
-            	
-            if (nr%2==0){
-            	//TO DRAW ON BAR PLOT
-            	aprLevelsSeries.setModel(Arrays.asList(series1Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
-            	// redraw the Plots:
-            	aprLevelsPlot.redraw();
-            }else{
-            	// get rid the oldest sample in history:
-            	if (rollHistorySeries.size() > HISTORY_SIZE) {
-            		rollHistorySeries.removeFirst();
-            		pitchHistorySeries.removeFirst();
-            		azimuthHistorySeries.removeFirst();
-            	}
+        	
+            
+            if(nr < 13){
+            	Number[] series1Numbers = {sensorEvent.values[0], sensorEvent.values[1], sensorEvent.values[2]};
+            	if (nr%2==0){
+            		//TO DRAW ON BAR PLOT
+            		aprLevelsSeries.setModel(Arrays.asList(series1Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+            		// redraw the Plots:
+            		aprLevelsPlot.redraw();
+            	}else{
+            		// get rid the oldest sample in history:
+            		if (rollHistorySeries.size() > HISTORY_SIZE) {
+            			rollHistorySeries.removeFirst();
+            			pitchHistorySeries.removeFirst();
+            			azimuthHistorySeries.removeFirst();
+            		}
 
-            	// add the latest history sample:
-            	azimuthHistorySeries.addLast(null, sensorEvent.values[0]);
-            	pitchHistorySeries.addLast(null, sensorEvent.values[1]);
-            	rollHistorySeries.addLast(null, sensorEvent.values[2]);
-            	aprHistoryPlot.redraw();
-            }
+            		// add the latest history sample:
+            		azimuthHistorySeries.addLast(null, sensorEvent.values[0]);
+            		pitchHistorySeries.addLast(null, sensorEvent.values[1]);
+            		rollHistorySeries.addLast(null, sensorEvent.values[2]);
+            		aprHistoryPlot.redraw();
+            	}
+        	}else{
+            	Number[] series1Numbers = {sensorEvent.values[0], 0, 0};
+            	if (nr%2==0){
+            		//TO DRAW ON BAR PLOT
+            		aprLevelsSeries.setModel(Arrays.asList(series1Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+            		// redraw the Plots:
+            		aprLevelsPlot.redraw();
+            	}else{
+            		// get rid the oldest sample in history:
+            		if (rollHistorySeries.size() > HISTORY_SIZE) {
+            			rollHistorySeries.removeFirst();
+            			pitchHistorySeries.removeFirst();
+            			azimuthHistorySeries.removeFirst();
+            		}
+
+            		// add the latest history sample:
+            		azimuthHistorySeries.addLast(null, sensorEvent.values[0]);
+            		pitchHistorySeries.addLast(null, 0);
+            		rollHistorySeries.addLast(null, 0);
+            		aprHistoryPlot.redraw();   
+            	}
+        	}
+            
         }
 
 
