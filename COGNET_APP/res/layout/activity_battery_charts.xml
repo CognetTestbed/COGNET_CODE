@@ -6,12 +6,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".SensorCharts" >
+    tools:context=".BatteryCharts" >
 
+    
     <com.androidplot.xy.XYPlot
-        android:id="@+id/timeserieChart"
+        android:id="@+id/timeserieBatteryChart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"        
-        title="A/P/R History" />
-    
+        title="Battery Discharge" />
 </RelativeLayout>

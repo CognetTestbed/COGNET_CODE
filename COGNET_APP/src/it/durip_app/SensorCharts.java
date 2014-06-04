@@ -42,11 +42,12 @@ public class SensorCharts extends Activity implements SensorEventListener{
     private Sensor orSensor = null;
 
     private XYPlot aprLevelsPlot = null;
+    private SimpleXYSeries aprLevelsSeries = null;
     private XYPlot aprHistoryPlot = null;
     private String[] labels;
 //    private CheckBox hwAcceleratedCb;
 //    private CheckBox showFpsCb;
-    private SimpleXYSeries aprLevelsSeries = null;
+    
     private SimpleXYSeries azimuthHistorySeries = null;
     private SimpleXYSeries pitchHistorySeries = null;
     private SimpleXYSeries rollHistorySeries = null;
@@ -151,12 +152,12 @@ public class SensorCharts extends Activity implements SensorEventListener{
         	registerSensor();
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.sensor_charts, menu);
-		return true;
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		// Inflate the menu; this adds items to the action bar if it is present.
+////		getMenuInflater().inflate(R.menu.sensor_charts, menu);
+//		return true;
+//	}
 
 	
 	

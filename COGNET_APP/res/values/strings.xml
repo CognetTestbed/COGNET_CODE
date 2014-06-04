@@ -113,5 +113,7 @@
     <string name="ping_label">Ping IP</string>
     <string name="net_stat_label">Net status</string>
     <string name="title_activity_sensor_charts">SensorCharts</string>
+    <string name="getBatteryStatus">Battery</string>
+    <string name="title_activity_battery_charts">BatteryCharts</string>
 
 </resources>

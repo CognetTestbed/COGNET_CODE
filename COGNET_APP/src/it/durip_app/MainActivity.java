@@ -29,11 +29,15 @@ import java.util.ArrayList;
 //import com.androidplot.Plot;
 
 
+
+
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.Menu;
@@ -141,7 +145,7 @@ public class MainActivity extends Activity {
         		this,
 	        	android.R.layout.simple_spinner_item,
 	        	new String[]{"Accelerometer","Gyroscope","Orientation","Accelerometer Fusion" , "Gravity", "Rotation",
-        				"Light"}
+        				"Light" ,"Battery"}
         		);
         spinner.setAdapter(adapter);
         
@@ -150,17 +154,29 @@ public class MainActivity extends Activity {
         	public void onItemSelected(AdapterView<?> adapter, View view,int pos, long id) {
         		if(checkOndemandSpinner){
 	        		String selected = (String)adapter.getItemAtPosition(pos);
-	        		System.out.println(selected);
+//	        		System.out.println(selected);
 	        		
-	        		Intent intentSensor = new Intent(MainActivity.this ,  SensorCharts.class);
-	                try{
-	                	intentSensor.putExtra("SensorName", pos+1);
-	                    startActivity(intentSensor); // make the request!
-	                }catch(Exception e){
-	            		Log.i("sensor err", e.toString());
+	        		
+	                if(pos < 7){
+	                	Intent intentSensor = new Intent(MainActivity.this ,  SensorCharts.class);
+	                	try{
+	                		intentSensor.putExtra("SensorName", pos+1);
+	                		startActivity(intentSensor); // make the request!
+	                	}catch(Exception e){
+	                		Log.i("sensor err", e.toString());
+	                	}
+	                }else{
+	                	try{
+	                		Intent intentSensor = new Intent(MainActivity.this ,  BatteryCharts.class);
+//	                		intentSensor.putExtra("SensorName", pos+1);
+	                		startActivity(intentSensor); // make the request!
+	                	}catch(Exception e){
+	                		Log.i("sensor err", e.toString());
+	                	}
 	                }
-	        		
         		}else{
+//        			adapter.setFocusable(true);
+//        			spinner.setFocusable(true);
         			checkOndemandSpinner = true;
         		}
         		
@@ -170,10 +186,30 @@ public class MainActivity extends Activity {
         	}
 		});
         									  
-        
+//        spinner.setFocusable(true);
+////        spinner.setFocusableInTouchMode(true);        
+//        spinner.requestFocus();
        
         
     }
+    
+    
+    public void getBatteryLevel() {
+        Intent batteryIntent = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+        // Error checking that probably isn't needed but I added just in case.
+//        if(level == -1 || scale == -1) {
+//            return 50.0f;
+//        }
+
+//        System.out.println("Battery: " + ((float)level / (float)scale) * 100.0f +"%");
+//        return ((float)level / (float)scale) * 100.0f; 
+    }
+    
+    
+    
     
     @Override
     public void onDestroy(){

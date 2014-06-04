@@ -145,6 +145,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/tcpLauncher"
         android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/buttonStatus"
         android:gravity="center_vertical"
         android:onClick="openMAC"
         android:text="@string/mac_graph_text" />
@@ -173,20 +174,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/radioGroup1"
+        android:layout_toLeftOf="@+id/OlsrdSettings"
         android:gravity="center_vertical"
         android:onClick="startReadMACParam"
         android:text="@string/network_setup_label" />
-
-    <Button
-        android:id="@+id/buttonSensor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/macLauncher"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/tcpLauncher"
-        android:gravity="center_vertical"
-        android:onClick="openSensor"
-        android:text="@string/sensor" />
 
     <TextView
         android:id="@+id/TextView02"
@@ -382,30 +373,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/launcher"
-        android:layout_alignRight="@+id/launcher"
+        android:layout_alignRight="@+id/start"
         android:layout_below="@+id/launcher" />
-
-    <Button
-        android:id="@+id/buttonStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/statusInfo"
-        android:layout_toRightOf="@+id/OlsrdSettings"
-        android:gravity="center_vertical"
-        android:onClick="updateStatus"
-        android:text="@string/net_stat_label" />
-
-    <Button
-        android:id="@+id/deviceswitch"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/OlsrdSettings"
-        android:layout_alignBottom="@+id/OlsrdSettings"
-        android:layout_alignRight="@+id/statusInfo"
-        android:layout_toRightOf="@+id/paramI"
-        android:onClick="openKiller"
-        android:text="@string/hosts" />
 
     <Button
         android:id="@+id/updateMac"
@@ -413,40 +382,10 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/iperfServer"
         android:layout_toLeftOf="@+id/deviceswitch"
+        android:layout_toRightOf="@+id/OlsrdSettings"
         android:gravity="center_vertical"
         android:onClick="updateMac"
         android:text="@string/update_mac_label" />
-
-    <Button
-        android:id="@+id/OlsrdSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/manageSensors"
-        android:layout_marginLeft="17dp"
-        android:layout_toRightOf="@+id/start"
-        android:gravity="center_vertical"
-        android:onClick="openOlsrdSettings"
-        android:text="@string/olsrdsettings" />
-
-    <EditText
-        android:id="@+id/paramOLSRfileLog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/paramOLSRLogTime"
-        android:layout_alignBottom="@+id/paramOLSRLogTime"
-        android:layout_alignRight="@+id/statusInfo"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/olsr_log_value" />
-
-    <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/macLauncher"
-        android:layout_alignBottom="@+id/macLauncher"
-        android:layout_alignLeft="@+id/OlsrdSettings"
-        android:text="@string/time_sample_olsrd_label" />
 
     <ToggleButton
         android:id="@+id/olsrLogButton"
@@ -455,21 +394,11 @@
         android:layout_alignBaseline="@+id/iperfServer"
         android:layout_alignBottom="@+id/iperfServer"
         android:layout_alignLeft="@+id/deviceswitch"
+        android:layout_toLeftOf="@+id/pingButton"
         android:gravity="center_vertical"
         android:onClick="manageOlsrdLog"
         android:textOff="OlsrdLogOff"
         android:textOn="OlsrdLogOn" />
-
-    <ToggleButton
-        android:id="@+id/iperfServer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/updateMac"
-        android:layout_below="@+id/deviceswitch"
-        android:gravity="center_vertical"
-        android:onClick="manageIperServer"
-        android:textOff="IperfServerOff"
-        android:textOn="IperServerOn" />
 
     <ToggleButton
         android:id="@+id/olsrd"
@@ -482,17 +411,6 @@
         android:textOff="OlsrdOff"
         android:textOn="OlsrdOn" />
 
-    <ToggleButton
-        android:id="@+id/manageSensors"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/start"
-        android:layout_toRightOf="@+id/tcpLauncher"
-        android:gravity="center_vertical"
-        android:onClick="manageSensors"
-        android:textOff="SensorsStart"
-        android:textOn="SensorsStop" />
-
     <EditText
         android:id="@+id/paramOLSRLogTime"
         android:layout_width="wrap_content"
@@ -503,4 +421,88 @@
         android:inputType="text"
         android:text="@string/sampletime_value" />
 
+    <Button
+        android:id="@+id/buttonStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/spinnerSensor"
+        android:layout_alignRight="@+id/start"
+        android:layout_below="@+id/spinnerSensor"
+        android:gravity="center_vertical"
+        android:onClick="updateStatus"
+        android:text="@string/net_stat_label" />
+
+    <Button
+        android:id="@+id/OlsrdSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tcpLauncher"
+        android:layout_toRightOf="@+id/start"
+        android:gravity="center_vertical"
+        android:onClick="openOlsrdSettings"
+        android:text="@string/olsrdsettings" />
+
+    <Button
+        android:id="@+id/deviceswitch"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/statusInfo"
+        android:layout_below="@+id/tcpLauncher"
+        android:layout_toRightOf="@+id/paramI"
+        android:onClick="openKiller"
+        android:text="@string/hosts" />
+
+    <ToggleButton
+        android:id="@+id/manageSensors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/start"
+        android:layout_toRightOf="@+id/iperf"
+        android:gravity="center_vertical"
+        android:onClick="manageSensors"
+        android:textOff="SensorsStart"
+        android:textOn="SensorsStop" />
+
+    <ToggleButton
+        android:id="@+id/iperfServer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/olsrd"
+        android:layout_alignBottom="@+id/olsrd"
+        android:layout_alignRight="@+id/updateMac"
+        android:gravity="center_vertical"
+        android:onClick="manageIperServer"
+        android:textOff="IperfServerOff"
+        android:textOn="IperServerOn" />
+
+    <EditText
+        android:id="@+id/paramOLSRfileLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/spinnerSensor"
+        android:layout_toRightOf="@+id/OlsrdSettings"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/olsr_log_value" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/paramOLSRLogTime"
+        android:layout_alignBottom="@+id/paramOLSRLogTime"
+        android:layout_toRightOf="@+id/TextView05"
+        android:text="@string/time_sample_olsrd_label" />
+
+        <Button
+            android:id="@+id/getBatteryStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/statusInfo"
+            android:layout_toLeftOf="@+id/statusInfo"
+            android:gravity="center_vertical"
+            android:onClick="getBatteryLevel"
+            android:text="@string/getBatteryStatus" />
+    
 </RelativeLayout>
