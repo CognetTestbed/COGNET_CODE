@@ -62,6 +62,7 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -99,7 +100,7 @@ public class Sensors extends Service implements SensorEventListener {
     
     
     
-    
+    private int  level;
 	private static OutputStream outAcceleration = null;
     private static OutputStream outGyroscope = null;    
     private static OutputStream outOrientation = null; 
@@ -135,7 +136,7 @@ public class Sensors extends Service implements SensorEventListener {
 //					System.out.println("Value " + getValueFromFile() + " " + getValueVoltageFromFile());
 					try {
 						writeBattery.append(formatTime.format(System.currentTimeMillis()) + 
-								" " +  getValueFromFile() + " " + getValueVoltageFromFile() + "\n");
+								" " +  getValueFromFile() + " " + getValueVoltageFromFile() + " " + level + "\n");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -249,7 +250,7 @@ public class Sensors extends Service implements SensorEventListener {
 
 	    play(loop);
 	    	   	    
-//			this.registerReceiver(this.mBatInfoReceiver,  new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+	    this.registerReceiver(this.mBatInfoReceiver,  new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 			
 			
                
@@ -267,7 +268,7 @@ public class Sensors extends Service implements SensorEventListener {
 	public void onDestroy() {
 	    stop();
 	    r.stopThread();
-//		this.unregisterReceiver(this.mBatInfoReceiver);
+		this.unregisterReceiver(this.mBatInfoReceiver);
 	}
 	  
 	@Override
@@ -279,7 +280,7 @@ public class Sensors extends Service implements SensorEventListener {
 
 	    if (!isPlaying) {
 	    	
-	    	System.out.println("TEST");
+//	    	System.out.println("TEST");
 	    	//THIS SENSOR REPORT ONLY THE FUSION VALUE
 	    	
 	        for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_ALL)) {
@@ -459,7 +460,7 @@ public class Sensors extends Service implements SensorEventListener {
 ////	        textView5.setText("USB Charging:"+usbCharge+" AC charging:"+acCharge);
 //	    	  int  health= intent.getIntExtra(BatteryManager.EXTRA_HEALTH,0);
 
-	    	  int  level= intent.getIntExtra(BatteryManager.EXTRA_LEVEL,0);
+	    	  level= intent.getIntExtra(BatteryManager.EXTRA_LEVEL,0);
 //	    	  int  plugged= intent.getIntExtra(BatteryManager.EXTRA_PLUGGED,0);
 	    	  boolean  present= intent.getExtras().getBoolean(BatteryManager.EXTRA_PRESENT); 
 //	    	  int  scale= intent.getIntExtra(BatteryManager.EXTRA_SCALE,0);
