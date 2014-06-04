@@ -32,7 +32,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package it.durip_app;
 
 //import java.io.BufferedReader;
+
+
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -52,18 +56,26 @@ import java.util.Calendar;
 
 import java.util.Locale;
 
+
+
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+
+import android.os.BatteryManager;
 import android.os.Environment;
+
 import android.os.IBinder;
 //import android.text.format.DateFormat;
 import android.util.Log;
 //import android.util.Log;
+
 
 public class Sensors extends Service implements SensorEventListener {
 	public Sensors() {
@@ -76,19 +88,90 @@ public class Sensors extends Service implements SensorEventListener {
 	/*
 	 * FILE NAME*/
 	private static final String PATH_SENSOR_FOLDER = "/local/SensorLog/";
+	
+	
 	private static final int TS_SENSOR = 1000; 
 	private boolean isPlaying=false;
 	private static SensorManager managerSensor = null;
-    private static Sensor orSensor3 = null;
-    private static Sensor orSensor2 = null;
-    private static Sensor orSensor1 = null;
+	private static Sensor logSensor [] = new Sensor[7];
+//	private static Sensor orSensor2 = null;
+//	private static Sensor orSensor3 = null;
+    
+    
+    
+    
+	private static OutputStream outAcceleration = null;
+    private static OutputStream outGyroscope = null;    
+    private static OutputStream outOrientation = null; 
     private static OutputStream outGravity = null;
-    private static OutputStream outLinear = null;
+    private static OutputStream outLinearAcceleration = null;
     private static OutputStream outRotation = null;
+    private static OutputStream outLigth = null;
+    private static OutputStream outBattery= null;
+    
+    
+    
+    private static Writer writeAcceleration;
+    private static Writer writeGyroscope;
+    private static Writer writeOrientation;
     private static Writer writeGravity;
-    private static Writer writeRotation;
-    private static Writer writeLinear;
-	  @Override
+    private static Writer writeLinearAcceleration;   
+    private static Writer writeRotation;    
+    private static Writer writeLigth;
+    private static Writer writeBattery;
+    
+    private runnableChart r;
+    private SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss.S" , Locale.ITALY);
+    
+    
+	private class runnableChart implements Runnable {
+		
+		private boolean doRun = true;		
+		@Override
+		public void run(){
+			
+			while(doRun){		            	
+				try {
+//					System.out.println("Value " + getValueFromFile() + " " + getValueVoltageFromFile());
+					try {
+						writeBattery.append(formatTime.format(System.currentTimeMillis()) + 
+								" " +  getValueFromFile() + " " + getValueVoltageFromFile() + "\n");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+//				}finally{
+//					try {
+					
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+				}
+		
+
+		}
+		public void stopThread(){
+			System.out.println("close");
+			doRun = false;	
+			try {
+				writeBattery.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		       
+	
+	}
+    
+    
+    @Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 	    boolean loop=intent.getBooleanExtra(LOOP, false);
 	    Calendar c = Calendar.getInstance();
@@ -106,45 +189,75 @@ public class Sensors extends Service implements SensorEventListener {
 	        }
 	    }
 	    
-	    String fileGravity =  Environment.getExternalStorageDirectory().getPath()+PATH_SENSOR_FOLDER +"logGravity_"+hh+"_"+mm+"_"+second+"_"+month+"_"+day;
-	    String fileAcceleration =  Environment.getExternalStorageDirectory().getPath()+PATH_SENSOR_FOLDER +"logAcceleration_"+hh+"_"+mm+"_"+second+"_"+month+"_"+day;
-	    String fileRotation =  Environment.getExternalStorageDirectory().getPath()+PATH_SENSOR_FOLDER +"logRotation_"+hh+"_"+mm+"_"+second+"_"+month+"_"+day;
-//	    System.out.println(Calendar.HOUR));
-//	    System.out.println(c.get(Calendar.MINUTE));
-//	    System.out.println(c.get(Calendar.SECOND));
-//	    System.out.println(c.get(Calendar.DAY_OF_MONTH));
-//	    System.out.println(c.get(Calendar.MONTH)+1);
+	    String fileAcceleration =  Environment.getExternalStorageDirectory().getPath()+PATH_SENSOR_FOLDER +
+	    		"logAcceleration_"+hh+"_"+mm+"_"+second+"_"+month+"_"+day;
+	    
+	    String fileGyroscope=  Environment.getExternalStorageDirectory().getPath()+PATH_SENSOR_FOLDER +
+	    		"logGyroscope_"+hh+"_"+mm+"_"+second+"_"+month+"_"+day;
+	    
+	    String fileOrientation=  Environment.getExternalStorageDirectory().getPath()+PATH_SENSOR_FOLDER +
+	    		"logOrientation_"+hh+"_"+mm+"_"+second+"_"+month+"_"+day;
+	    
+	    String fileLinearAcceleration =  Environment.getExternalStorageDirectory().getPath()+PATH_SENSOR_FOLDER +
+	    		"logLinearAcceleration_"+hh+"_"+mm+"_"+second+"_"+month+"_"+day;
+
+	    String fileGravity =  Environment.getExternalStorageDirectory().getPath()+PATH_SENSOR_FOLDER +
+	    		"logGravity_"+hh+"_"+mm+"_"+second+"_"+month+"_"+day;
+	    
+	    String fileRotation =  Environment.getExternalStorageDirectory().getPath()+PATH_SENSOR_FOLDER +
+	    		"logRotation_"+hh+"_"+mm+"_"+second+"_"+month+"_"+day;
+	    
+	    String fileLigth =  Environment.getExternalStorageDirectory().getPath()+PATH_SENSOR_FOLDER +
+	    		"logLigth_"+hh+"_"+mm+"_"+second+"_"+month+"_"+day;
+	    
+	    String fileBattery =  Environment.getExternalStorageDirectory().getPath()+PATH_SENSOR_FOLDER +
+	    		"logBattery_"+hh+"_"+mm+"_"+second+"_"+month+"_"+day;
 
 	    managerSensor = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
 		
         
-        try {			
-			outGravity = new FileOutputStream(fileGravity, true);
-			outLinear = new FileOutputStream(fileAcceleration, true);
+        try {
+        	outAcceleration = new FileOutputStream(fileAcceleration, true);
+        	outGyroscope = new FileOutputStream(fileGyroscope, true);
+        	outOrientation = new FileOutputStream(fileOrientation, true);
+        	outLinearAcceleration = new FileOutputStream(fileLinearAcceleration, true);        	
+			outGravity = new FileOutputStream(fileGravity, true);			
 			outRotation = new FileOutputStream(fileRotation, true);
+			outLigth = new FileOutputStream(fileLigth, true);
+			outBattery = new FileOutputStream(fileBattery, true);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block			
 			e.printStackTrace();
 		}
+        
+        
+        
         try {
+        	writeAcceleration= new OutputStreamWriter(outAcceleration, "UTF-8");
+        	writeGyroscope= new OutputStreamWriter(outGyroscope, "UTF-8");
+        	writeOrientation= new OutputStreamWriter(outOrientation, "UTF-8");
+			writeLinearAcceleration = new OutputStreamWriter(outLinearAcceleration, "UTF-8");
 			writeGravity = new OutputStreamWriter(outGravity, "UTF-8");
-			writeLinear = new OutputStreamWriter(outLinear, "UTF-8");
 			writeRotation = new OutputStreamWriter(outRotation, "UTF-8");
+			writeLigth = new OutputStreamWriter(outLigth, "UTF-8");
+			writeBattery= new OutputStreamWriter(outBattery, "UTF-8");
+			
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//    	try {
-//			writeGravity.append("TIME Xm/s2 Ym/s2 Zm/s2\n");
-//			writeLinear.append("TIME Xm/s2 Ym/s2 Zm/s2\n");
-//			writeRotation.append("TIME X Y Z\n");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+
 	    play(loop);
+	    	   	    
+//			this.registerReceiver(this.mBatInfoReceiver,  new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+			
+			
+               
+			
+
+			r = new runnableChart();
+			new Thread(r).start();
 	    
-	    //AGGIUNGO UN THREAD PER LA LETTURA DELLA BATTERIA!!
 	    
 	    
 	    return(START_NOT_STICKY);
@@ -153,6 +266,8 @@ public class Sensors extends Service implements SensorEventListener {
 	@Override
 	public void onDestroy() {
 	    stop();
+	    r.stopThread();
+//		this.unregisterReceiver(this.mBatInfoReceiver);
 	}
 	  
 	@Override
@@ -168,25 +283,39 @@ public class Sensors extends Service implements SensorEventListener {
 	    	//THIS SENSOR REPORT ONLY THE FUSION VALUE
 	    	
 	        for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_ALL)) {
-			    if (sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-			        orSensor1 = sensor;
-			    }
-			    if (sensor.getType() == Sensor.TYPE_GRAVITY) {
-			        orSensor2 = sensor;
-			    }
-			    if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-			        orSensor3 = sensor;
-			    }
+	        	
+	        	switch (sensor.getType()){
+//	        		case Sensor.TYPE_ACCELEROMETER:
+//	        			logSensor[0] = sensor;
+//				        managerSensor.registerListener(this, logSensor[0], TS_SENSOR);
+//	        			break;
+	        		case Sensor.TYPE_GYROSCOPE:
+	        			logSensor[1] = sensor;
+				        managerSensor.registerListener(this, logSensor[1], TS_SENSOR);
+	        			break;
+	        		case Sensor.TYPE_ORIENTATION:
+	        			logSensor[2] = sensor;
+				        managerSensor.registerListener(this, logSensor[2], TS_SENSOR);
+	        			break;
+	        		case Sensor.TYPE_LINEAR_ACCELERATION:
+	        			logSensor[3] = sensor;
+				        managerSensor.registerListener(this, logSensor[3], TS_SENSOR);
+	        			break;
+//	        		case Sensor.TYPE_GRAVITY:
+//	        			logSensor[4] = sensor;
+//				        managerSensor.registerListener(this, logSensor[4], TS_SENSOR);
+//	        			break;
+//	        		case Sensor.TYPE_ROTATION_VECTOR:
+//	        			logSensor[5] = sensor;
+//				        managerSensor.registerListener(this, logSensor[5], TS_SENSOR);
+//	        			break;
+	        		case Sensor.TYPE_LIGHT:
+	        			logSensor[6] = sensor;
+				        managerSensor.registerListener(this, logSensor[6], TS_SENSOR);
+	        			break;
+	        	}
 			}
 
-	        managerSensor.registerListener(this, orSensor1, TS_SENSOR);
-			managerSensor.registerListener(this, orSensor2, TS_SENSOR);
-			managerSensor.registerListener(this, orSensor3, TS_SENSOR);
-	        System.out.println("Us RATE:" + SensorManager.SENSOR_DELAY_NORMAL);
-//	        managerSensor.registerListener(this, orSensor1, SensorManager.SENSOR_DELAY_NORMAL);
-//			managerSensor.registerListener(this, orSensor2, SensorManager.SENSOR_DELAY_NORMAL);
-//			managerSensor.registerListener(this, orSensor3, SensorManager.SENSOR_DELAY_NORMAL);
-	        
 			
 	    	isPlaying=true;
 	    }
@@ -195,11 +324,13 @@ public class Sensors extends Service implements SensorEventListener {
 	private void stop() {
 	    if (isPlaying) {
 	    	try {
-	    		
+	    		writeAcceleration.close();
 				writeGravity.close();
 				writeRotation.close();
-				writeLinear.close();
-				
+				writeLinearAcceleration.close();
+		        writeGyroscope.close();
+		        writeOrientation.close();		          		            
+		        writeLigth.close();				
 				managerSensor.unregisterListener(this);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -213,34 +344,85 @@ public class Sensors extends Service implements SensorEventListener {
     // Called whenever a new orSensor reading is taken.
     @Override
     public synchronized void onSensorChanged(SensorEvent sensorEvent) {
-    	SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss.S" , Locale.ITALY);
-//    	formatTime.format(new Date());
-        // update instantaneous data:
-		//System.out.println(sensorEvent.sensor.getType() + " VALS: "+ sensorEvent.values[0] + " - " + sensorEvent.values[1] + " - "+sensorEvent.values[2]);
+    	
+    	//    	formatTime.format(new Date());
+    	// update instantaneous data:
+    	//System.out.println(sensorEvent.sensor.getType() + " VALS: "+ sensorEvent.values[0] + " - " + sensorEvent.values[1] + " - "+sensorEvent.values[2]);
     	if(isPlaying){
-    		if(sensorEvent.sensor.getType() == Sensor.TYPE_GRAVITY) {
+
+    		//metto uno switch
+
+    		switch (sensorEvent.sensor.getType()){
+    			case Sensor.TYPE_ACCELEROMETER:
+    				try {
+    					//    				writeAcceleration.append(formatTime.format(System.currentTimeMillis()) + " " 
+    					//    						+ sensorEvent.values[0] + " "+ sensorEvent.values[1] + " " + sensorEvent.values[2] +
+    					//    						sensorEvent.values[3] + " " + sensorEvent.values[4] + " " + sensorEvent.values[5] +"\n");
+    					writeLinearAcceleration.append(formatTime.format(System.currentTimeMillis()) + " " 
+    							+ sensorEvent.values[0] + " "+ sensorEvent.values[1] + " " + sensorEvent.values[2] + "\n"); //+
+    					//    						sensorEvent.values[3] + " " + sensorEvent.values[4] + " " + sensorEvent.values[5] +"\n")
+    				} catch (IOException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+    			break;
+    			case Sensor.TYPE_GYROSCOPE:
+    				try {
+    					writeGyroscope.append(formatTime.format(System.currentTimeMillis()) + 
+    							" " + sensorEvent.values[0] + " " + sensorEvent.values[1] + " " + sensorEvent.values[2] + "\n");
+    				}catch (IOException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+    				break;
+    		case Sensor.TYPE_ORIENTATION:
     			try {
-    				writeGravity.append(formatTime.format(System.currentTimeMillis()) + " " + sensorEvent.values[0] + " " + sensorEvent.values[1] + " " + sensorEvent.values[2] + "\n");
+    				writeOrientation.append(formatTime.format(System.currentTimeMillis()) + 
+    						" " + sensorEvent.values[0] + " " + sensorEvent.values[1] + " " + sensorEvent.values[2] + "\n");
+    			}catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    			break;
+    		case Sensor.TYPE_LINEAR_ACCELERATION:
+    			try {
+    				writeLinearAcceleration.append(formatTime.format(System.currentTimeMillis()) + " " 
+    						+ sensorEvent.values[0] + " "+ sensorEvent.values[1] + " " + sensorEvent.values[2] + "\n"); //+
+    				//    						sensorEvent.values[3] + " " + sensorEvent.values[4] + " " + sensorEvent.values[5] +"\n");
     			} catch (IOException e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
-    		}
-    		if(sensorEvent.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+    			break;
+    		case Sensor.TYPE_GRAVITY:
     			try {
-    				writeRotation.append(formatTime.format(System.currentTimeMillis()) + " " + sensorEvent.values[0] + " " + sensorEvent.values[1] + " " + sensorEvent.values[2] + "\n");
+    				writeGravity.append(formatTime.format(System.currentTimeMillis()) + 
+    						" " + sensorEvent.values[0] + " " + sensorEvent.values[1] + " " + sensorEvent.values[2] + "\n");
     			} catch (IOException e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
-    		}           	
-    		if(sensorEvent.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+    			break;
+    		case Sensor.TYPE_ROTATION_VECTOR:
     			try {
-    				writeLinear.append(formatTime.format(System.currentTimeMillis()) + " " + sensorEvent.values[0] + " " + sensorEvent.values[1] + " " + sensorEvent.values[2] + "\n");
+    				writeRotation.append(formatTime.format(System.currentTimeMillis()) + " " 
+    						+ sensorEvent.values[0] + " " + sensorEvent.values[1] + " " + sensorEvent.values[2] + "\n");
     			} catch (IOException e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
+    			break;
+    		case Sensor.TYPE_LIGHT:
+
+    			try {
+    				writeLigth.append(formatTime.format(System.currentTimeMillis()) + 
+    						" " + sensorEvent.values[0] +"\n");
+    			}catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+
+    			break;
     		}
     	}
     }
@@ -250,4 +432,127 @@ public class Sensors extends Service implements SensorEventListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	
+	
+	
+	private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver(){
+	      @Override
+	      public void onReceive(Context arg0, Intent intent) {
+	    	  
+	          //this will give you battery current status
+//	        int level = intent.getIntExtra("level", 0);
+//
+////	        contentTxt.setText(String.valueOf(level) + "%");
+//
+//	        int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+////	        textView2.setText("status:"+status);
+//	        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+//	                            status == BatteryManager.BATTERY_STATUS_FULL;
+////	        textView3.setText("is Charging:"+isCharging);
+//	        int chargePlug = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+////	        textView4.setText("is Charge plug:"+chargePlug);
+//	        boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+//
+//	        boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+////	        textView5.setText("USB Charging:"+usbCharge+" AC charging:"+acCharge);
+//	    	  int  health= intent.getIntExtra(BatteryManager.EXTRA_HEALTH,0);
+
+	    	  int  level= intent.getIntExtra(BatteryManager.EXTRA_LEVEL,0);
+//	    	  int  plugged= intent.getIntExtra(BatteryManager.EXTRA_PLUGGED,0);
+	    	  boolean  present= intent.getExtras().getBoolean(BatteryManager.EXTRA_PRESENT); 
+//	    	  int  scale= intent.getIntExtra(BatteryManager.EXTRA_SCALE,0);
+//	    	  int  status= intent.getIntExtra(BatteryManager.EXTRA_STATUS,0);
+//	    	  String  technology= intent.getExtras().getString(BatteryManager.EXTRA_TECHNOLOGY);
+	    	  int  temperature= intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE,0);
+//	    	  int  voltage= intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE,0);
+	    	  
+//	    	  textCharge.setText(level);
+//	    	  textVoltage.setText(voltage + "V");
+ 
+	      }
+	    };
+	
+	
+	private static Long getValueFromFile() {
+	    
+		String text = null;
+		File f = null; 
+		f = new File("/sys/class/power_supply/battery/current_now");
+		try {
+
+			FileInputStream fs = new FileInputStream(f);	      
+			DataInputStream ds = new DataInputStream(fs);
+
+			text = ds.readLine();
+
+			ds.close();    
+			fs.close();  
+
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		Long value = null;
+
+		if (text != null)
+		{
+			try
+			{
+				value = Long.parseLong(text);
+			}
+			catch (NumberFormatException nfe)
+			{
+				value = null;
+			}	    	      
+			value = value/1000; // convert to milliampere
+		}
+		return value;
+	}
+	
+	
+	
+	
+	
+	private static Long getValueVoltageFromFile() {
+	    
+		String text = null;
+		File f = null; 
+		f = new File("/sys/class/power_supply/battery/voltage_now");
+		try {
+
+			FileInputStream fs = new FileInputStream(f);	      
+			DataInputStream ds = new DataInputStream(fs);
+
+			text = ds.readLine();
+
+			ds.close();    
+			fs.close();  
+
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		Long value = null;
+
+		if (text != null)
+		{
+			try
+			{
+				value = Long.parseLong(text);
+			}
+			catch (NumberFormatException nfe)
+			{
+				value = null;
+			}	    	      	
+		}
+		return value/1000;
+	}
+	
+
+	
+	
 }
