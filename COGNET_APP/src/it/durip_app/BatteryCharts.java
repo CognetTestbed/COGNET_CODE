@@ -15,10 +15,14 @@ import com.androidplot.xy.XYStepMode;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.Menu;
 
 
@@ -55,8 +59,10 @@ public class BatteryCharts extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_battery_charts);
+		this.registerReceiver(this.mBatInfoReceiver,  new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 		
-		System.out.println("MATTEO " + getValueFromFile());
+		
+//		System.out.println("MATTEO " + getValueFromFile());
 		
         	// setup the APR History plot:
 		aprHistoryPlot = (XYPlot)findViewById(R.id.timeserieBatteryChart);
@@ -94,7 +100,7 @@ public class BatteryCharts extends Activity {
 		public void run(){
 			while(doRun){		            	
 				try {
-					System.out.println("Value +" + getValueFromFile());
+//					System.out.println("Value " + getValueFromFile());
 
 	        		if (xBattery.size() > HISTORY_SIZE) {
 	        			
@@ -113,19 +119,57 @@ public class BatteryCharts extends Activity {
 		}
 		public void stopThread(){
 			System.out.println("close");
-			doRun = false;
-
+			doRun = false;			
 		}
 		       
 	
 	}
-		
 
+	
+	private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver(){
+	      @Override
+	      public void onReceive(Context arg0, Intent intent) {
+	        // TODO Auto-generated method stub
+	          //this will give you battery current status
+//	        int level = intent.getIntExtra("level", 0);
+//
+////	        contentTxt.setText(String.valueOf(level) + "%");
+//
+//	        int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+////	        textView2.setText("status:"+status);
+//	        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+//	                            status == BatteryManager.BATTERY_STATUS_FULL;
+////	        textView3.setText("is Charging:"+isCharging);
+//	        int chargePlug = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+////	        textView4.setText("is Charge plug:"+chargePlug);
+//	        boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+//
+//	        boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+////	        textView5.setText("USB Charging:"+usbCharge+" AC charging:"+acCharge);
+//
+
+	    	  
+//	    	  int  health= intent.getIntExtra(BatteryManager.EXTRA_HEALTH,0);
+
+	    	  int  level= intent.getIntExtra(BatteryManager.EXTRA_LEVEL,0);
+//	    	  int  plugged= intent.getIntExtra(BatteryManager.EXTRA_PLUGGED,0);
+	    	  boolean  present= intent.getExtras().getBoolean(BatteryManager.EXTRA_PRESENT); 
+//	    	  int  scale= intent.getIntExtra(BatteryManager.EXTRA_SCALE,0);
+//	    	  int  status= intent.getIntExtra(BatteryManager.EXTRA_STATUS,0);
+//	    	  String  technology= intent.getExtras().getString(BatteryManager.EXTRA_TECHNOLOGY);
+	    	  int  temperature= intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE,0);
+	    	  int  voltage= intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE,0);
+
+	    	  System.out.println(voltage +" " + temperature + " " + level);  
+	    	  
+	      }
+	    };
 	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();		
 		r.stopThread();
+		this.unregisterReceiver(this.mBatInfoReceiver);
 	}
 	
 	
@@ -138,50 +182,42 @@ public class BatteryCharts extends Activity {
 	}
 	
 
-	
-	
-	
-	
 	private static Long getValueFromFile() {
 	    
-	    String text = null;
-	    File f = null; 
+		String text = null;
+		File f = null; 
 		f = new File("/sys/class/power_supply/battery/current_now");
-	    try {
-	      	    
-	      FileInputStream fs = new FileInputStream(f);	      
-	      DataInputStream ds = new DataInputStream(fs);
-	    
-	      text = ds.readLine();
-	      
-	      ds.close();    
-	      fs.close();  
-	      
-	    }
-	    catch (Exception ex) {
-	      ex.printStackTrace();
-	    }
-	    
-	    Long value = null;
-	    
-	    if (text != null)
-	    {
-	      try
-	      {
-	        value = Long.parseLong(text);
-	      }
-	      catch (NumberFormatException nfe)
-	      {
-	        value = null;
-	      }
-	      
-	      
-	        value = value/1000; // convert to milliampere
+		try {
 
-	    }
-	    
-	    return value;
-	  }
+			FileInputStream fs = new FileInputStream(f);	      
+			DataInputStream ds = new DataInputStream(fs);
+
+			text = ds.readLine();
+
+			ds.close();    
+			fs.close();  
+
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		Long value = null;
+
+		if (text != null)
+		{
+			try
+			{
+				value = Long.parseLong(text);
+			}
+			catch (NumberFormatException nfe)
+			{
+				value = null;
+			}	    	      
+			value = value/1000; // convert to milliampere
+		}
+		return value;
+	}
 	
 	
 }

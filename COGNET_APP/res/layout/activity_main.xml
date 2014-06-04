@@ -134,21 +134,10 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/start"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/macLauncher"
+        android:layout_alignRight="@+id/start"
         android:gravity="center_vertical"
         android:onClick="openTCP"
         android:text="@string/tcp_graph_text" />
-
-    <Button
-        android:id="@+id/macLauncher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tcpLauncher"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/buttonStatus"
-        android:gravity="center_vertical"
-        android:onClick="openMAC"
-        android:text="@string/mac_graph_text" />
 
     <TextView
         android:id="@+id/textView2"
@@ -422,17 +411,6 @@
         android:text="@string/sampletime_value" />
 
     <Button
-        android:id="@+id/buttonStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/spinnerSensor"
-        android:layout_alignRight="@+id/start"
-        android:layout_below="@+id/spinnerSensor"
-        android:gravity="center_vertical"
-        android:onClick="updateStatus"
-        android:text="@string/net_stat_label" />
-
-    <Button
         android:id="@+id/OlsrdSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -495,14 +473,27 @@
         android:layout_toRightOf="@+id/TextView05"
         android:text="@string/time_sample_olsrd_label" />
 
-        <Button
-            android:id="@+id/getBatteryStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/statusInfo"
-            android:layout_toLeftOf="@+id/statusInfo"
-            android:gravity="center_vertical"
-            android:onClick="getBatteryLevel"
-            android:text="@string/getBatteryStatus" />
+    <Button
+        android:id="@+id/macLauncher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tcpLauncher"
+        android:layout_alignBottom="@+id/tcpLauncher"
+        android:layout_alignLeft="@+id/OlsrdSettings"
+        android:layout_alignRight="@+id/OlsrdSettings"
+        android:gravity="center_vertical"
+        android:onClick="openMAC"
+        android:text="@string/mac_graph_text" />
+
+    <Button
+        android:id="@+id/buttonStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/paramOLSRLogTime"
+        android:layout_alignLeft="@+id/tcpLauncher"
+        android:layout_alignRight="@+id/tcpLauncher"
+        android:gravity="center_vertical"
+        android:onClick="updateStatus"
+        android:text="@string/net_stat_label" />
     
 </RelativeLayout>

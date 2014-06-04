@@ -9,7 +9,7 @@
 #include "serverThread.h"
 
 int ctrlFirst = 1;
-vdjhufdkhfdhjfdsadskj
+
 JNIEXPORT jint JNICALL Java_it_durip_1app_ServerSocketCmd_mainJNI(JNIEnv *env, jobject thisObj ,
 		jint n, jobjectArray stringArray){
 
@@ -82,7 +82,7 @@ JNIEXPORT jint JNICALL Java_it_durip_1app_ServerSocketCmd_mainJNI(JNIEnv *env, j
 	            break;
 	        }
 	     }
-	    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "IPADDRESS %s" , IP_ADDR);
+//	    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "IPADDRESS %s" , IP_ADDR);
 //	    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "IPADDRESS %d" , stringCount);
 //	    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "SUBNET %s" , IP_SUBNET);
 //	    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "NETMASK %s" , IP_NETMASK);
