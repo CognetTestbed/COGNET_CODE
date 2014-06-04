@@ -17,6 +17,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.BatteryManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -24,6 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.Menu;
+import android.widget.TextView;
 
 
 
@@ -45,7 +47,9 @@ public class BatteryCharts extends Activity {
     private XYPlot aprHistoryPlot = null;
     private String[] labels;
 
-    
+    private TextView textCharge;
+    private TextView textVoltage;
+    private TextView textTemp;
     private SimpleXYSeries xBattery = null;
     
     private Thread batteryChart;
@@ -62,6 +66,8 @@ public class BatteryCharts extends Activity {
 		this.registerReceiver(this.mBatInfoReceiver,  new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 		
 		
+   	 	textCharge = (TextView) findViewById(R.id.textvalueCharge);
+   	 	textTemp = (TextView) findViewById(R.id.textvalueTemp);
 //		System.out.println("MATTEO " + getValueFromFile());
 		
         	// setup the APR History plot:
@@ -82,7 +88,7 @@ public class BatteryCharts extends Activity {
 //		//	                
 		aprHistoryPlot.getDomainLabelWidget().pack();
 		aprHistoryPlot.getRangeLabelWidget().pack();	               
-
+		
 
 		r = new runnableChart();
 		new Thread(r).start();
@@ -96,8 +102,10 @@ public class BatteryCharts extends Activity {
 	private class runnableChart implements Runnable {
 		
 		private boolean doRun = true;
+		 Handler handler = new Handler();
 		@Override
 		public void run(){
+			textVoltage = (TextView) findViewById(R.id.textvalueVoltage);
 			while(doRun){		            	
 				try {
 //					System.out.println("Value " + getValueFromFile());
@@ -108,7 +116,15 @@ public class BatteryCharts extends Activity {
 	        		}
 	        		// add the latest history sample:
 	        		xBattery.addLast(null, getValueFromFile());	        	
+	        		
 	        		aprHistoryPlot.redraw();
+	        		
+					
+					handler.post(new Runnable(){
+						 public void run() {
+							 textVoltage.setText(getValueVoltageFromFile() + "mV");		 
+						 }
+					});
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -129,7 +145,7 @@ public class BatteryCharts extends Activity {
 	private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver(){
 	      @Override
 	      public void onReceive(Context arg0, Intent intent) {
-	        // TODO Auto-generated method stub
+	    	  
 	          //this will give you battery current status
 //	        int level = intent.getIntExtra("level", 0);
 //
@@ -146,9 +162,6 @@ public class BatteryCharts extends Activity {
 //
 //	        boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
 ////	        textView5.setText("USB Charging:"+usbCharge+" AC charging:"+acCharge);
-//
-
-	    	  
 //	    	  int  health= intent.getIntExtra(BatteryManager.EXTRA_HEALTH,0);
 
 	    	  int  level= intent.getIntExtra(BatteryManager.EXTRA_LEVEL,0);
@@ -158,9 +171,13 @@ public class BatteryCharts extends Activity {
 //	    	  int  status= intent.getIntExtra(BatteryManager.EXTRA_STATUS,0);
 //	    	  String  technology= intent.getExtras().getString(BatteryManager.EXTRA_TECHNOLOGY);
 	    	  int  temperature= intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE,0);
-	    	  int  voltage= intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE,0);
-
-	    	  System.out.println(voltage +" " + temperature + " " + level);  
+//	    	  int  voltage= intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE,0);
+	    	  
+//	    	  textCharge.setText(level);
+//	    	  textVoltage.setText(voltage + "V");
+	    	  textCharge.setText(level+"%");
+	    	  textTemp.setText(temperature/10+"C");
+//	    	  System.out.println(voltage +" " + temperature + " " + level);  
 	    	  
 	      }
 	    };
@@ -219,5 +236,44 @@ public class BatteryCharts extends Activity {
 		return value;
 	}
 	
+	private static Long getValueVoltageFromFile() {
+	    
+		String text = null;
+		File f = null; 
+		f = new File("/sys/class/power_supply/battery/voltage_now");
+		try {
+
+			FileInputStream fs = new FileInputStream(f);	      
+			DataInputStream ds = new DataInputStream(fs);
+
+			text = ds.readLine();
+
+			ds.close();    
+			fs.close();  
+
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		Long value = null;
+
+		if (text != null)
+		{
+			try
+			{
+				value = Long.parseLong(text);
+			}
+			catch (NumberFormatException nfe)
+			{
+				value = null;
+			}	    	      	
+		}
+		return value/1000;
+	}
 	
 }
+
+
+
+

@@ -77,10 +77,6 @@ public class Sensors extends Service implements SensorEventListener {
 	 * FILE NAME*/
 	private static final String PATH_SENSOR_FOLDER = "/local/SensorLog/";
 	private static final int TS_SENSOR = 1000; 
-
-	
-	
-	
 	private boolean isPlaying=false;
 	private static SensorManager managerSensor = null;
     private static Sensor orSensor3 = null;
@@ -147,6 +143,9 @@ public class Sensors extends Service implements SensorEventListener {
 //			e.printStackTrace();
 //		}
 	    play(loop);
+	    
+	    //AGGIUNGO UN THREAD PER LA LETTURA DELLA BATTERIA!!
+	    
 	    
 	    return(START_NOT_STICKY);
 	}
