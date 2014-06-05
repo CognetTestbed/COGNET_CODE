@@ -43,4 +43,43 @@
         android:layout_toRightOf="@+id/textvalueCharge"        
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <TextView
+        android:id="@+id/textvalueCPU0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textvalueVoltage"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/textvalueTemp"       
+        android:text="A" 
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <TextView
+        android:id="@+id/textvalueCPU1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textvalueVoltage"
+        android:layout_marginLeft="19dp"
+        android:layout_toRightOf="@+id/textvalueCPU0"  
+        android:text="B"      
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/textvalueCPU2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textvalueVoltage"
+        android:layout_marginLeft="19dp"
+        android:layout_toRightOf="@+id/textvalueCPU1"      
+        android:text="C"  
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/textvalueCPU3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textvalueVoltage"
+        android:layout_marginLeft="19dp"
+        android:layout_toRightOf="@+id/textvalueCPU2"   
+        android:text="D"     
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
 </RelativeLayout>

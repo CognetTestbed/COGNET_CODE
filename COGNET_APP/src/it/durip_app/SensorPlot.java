@@ -49,6 +49,8 @@ import android.view.ViewGroup;
 
 
 
+import android.widget.TextView;
+
 //import com.androidplot.series.XYSeries;
 //import com.androidplot.util.PlotStatistics;
 import com.androidplot.xy.*;
@@ -83,7 +85,7 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
      */
     ViewPager mViewPager;
     public static SensorManager managerSensor;
-
+    private static TextView textCharge;
     //private LinkedList<Number> azimuthHistory;
     //private LinkedList<Number> pitchHistory;
     //private LinkedList<Number> rollHistory;
@@ -100,7 +102,7 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensors);
         managerSensor = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
-        
+        textCharge = (TextView) findViewById(R.id.textvalueConsumption);
         // Create the adapter that will return a fragment for each of the three primary sections
         // of the app.
         mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
@@ -633,7 +635,8 @@ public class SensorPlot extends FragmentActivity implements ActionBar.TabListene
 
             // update instantaneous data:
         	
-            
+        	textCharge.setText(sensorEvent.sensor.getPower() + "mA");
+//            System.out.println(sensorEvent.sensor.getPower() + "mA");
             if(nr < 13){
             	Number[] series1Numbers = {sensorEvent.values[0], sensorEvent.values[1], sensorEvent.values[2]};
             	if (nr%2==0){

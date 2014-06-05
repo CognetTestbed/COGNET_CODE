@@ -58,25 +58,26 @@ import java.util.Locale;
 
 
 
+
+
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-
 import android.os.BatteryManager;
 import android.os.Environment;
-
 import android.os.IBinder;
 //import android.text.format.DateFormat;
 import android.util.Log;
 //import android.util.Log;
-
+import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.View;
 
 public class Sensors extends Service implements SensorEventListener {
 	public Sensors() {
@@ -123,7 +124,7 @@ public class Sensors extends Service implements SensorEventListener {
     
     private runnableChart r;
     private SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss.S" , Locale.ITALY);
-    
+   
     
 	private class runnableChart implements Runnable {
 		
@@ -176,12 +177,18 @@ public class Sensors extends Service implements SensorEventListener {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 	    boolean loop=intent.getBooleanExtra(LOOP, false);
 	    Calendar c = Calendar.getInstance();
+	    LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+	   
+	    		
+//	    		(TextView)findViewById(R.id.textvalueConsumption);
 	    
 	    int hh     = c.get(Calendar.HOUR);
 	    int mm     = c.get(Calendar.MINUTE);
 	    int second = c.get(Calendar.HOUR);
 	    int month  = c.get(Calendar.DAY_OF_MONTH);
 	    int day    = c.get(Calendar.MONTH)+1;
+	    
+	    
 	    
 	    File file = new File(Environment.getExternalStorageDirectory(), PATH_SENSOR_FOLDER);
 	    if (!file.exists()) {
@@ -256,8 +263,8 @@ public class Sensors extends Service implements SensorEventListener {
                
 			
 
-			r = new runnableChart();
-			new Thread(r).start();
+	    r = new runnableChart();
+	    new Thread(r).start();
 	    
 	    
 	    
@@ -351,8 +358,8 @@ public class Sensors extends Service implements SensorEventListener {
     	//System.out.println(sensorEvent.sensor.getType() + " VALS: "+ sensorEvent.values[0] + " - " + sensorEvent.values[1] + " - "+sensorEvent.values[2]);
     	if(isPlaying){
 
-    		//metto uno switch
 
+    
     		switch (sensorEvent.sensor.getType()){
     			case Sensor.TYPE_ACCELEROMETER:
     				try {

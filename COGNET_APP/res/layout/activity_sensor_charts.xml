@@ -11,7 +11,16 @@
     <com.androidplot.xy.XYPlot
         android:id="@+id/timeserieChart"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"        
-        title="A/P/R History" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="31dp"        
+        />
+    
+    
+    <TextView
+        android:id="@+id/textvalueConsumption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"            
+        android:text="A"       
+        android:textAppearance="?android:attr/textAppearanceLarge" />
     
 </RelativeLayout>

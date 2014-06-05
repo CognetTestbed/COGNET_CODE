@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import com.androidplot.xy.BarFormatter;
 import com.androidplot.xy.BarRenderer;
+import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.PointLabelFormatter;
 import com.androidplot.xy.SimpleXYSeries;
@@ -23,6 +24,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 //import android.view.LayoutInflater;
 import android.view.Menu;
+import android.widget.TextView;
 //import android.view.View;
 //import android.view.ViewGroup;
 //import android.hardware.Sensor;
@@ -52,16 +54,15 @@ public class SensorCharts extends Activity implements SensorEventListener{
     private SimpleXYSeries pitchHistorySeries = null;
     private SimpleXYSeries rollHistorySeries = null;
     
-    final String[] barLabel = new String[] {
-            "X","Y","Z"
-        };
+    final String[] barLabel = new String[] {"X","Y","Z"};
 
+    private Number [] boundRange = new Number[2];
     //Number to identify sensor to plot
     private int nr;
 	
 	
 	
-	
+    private static TextView textCharge;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +71,22 @@ public class SensorCharts extends Activity implements SensorEventListener{
 		setContentView(R.layout.activity_sensor_charts);
 		Intent myIntent = getIntent();
 		nr = myIntent.getIntExtra( "SensorName" ,1 );
-		
+		textCharge = (TextView) findViewById(R.id.textvalueConsumption);
 		System.out.println("NR value" + nr);
 		
 		            
         switch(nr){
             case 1:            
 	            labels = new String[] {"X","Y","Z","Accelerometer" , "m/s^2"};
+	            
+	            boundRange[0] =-20;
+	            boundRange[1] =20;
 	            break;
 
             case 2:       
 	            labels = new String[] {"X-axis","Y-axis","Z-axis","Gyroscope" , "rad/sec" };
+	            boundRange[0] =-15;
+	            boundRange[1] =15;
 	            break;
             case 3:
 	            labels = new String[] {"Azimuth","Pitch","Roll","Orientation" , "Deg"};
@@ -89,31 +95,28 @@ public class SensorCharts extends Activity implements SensorEventListener{
 //	            not including gravity. All values have units of m/s^2
             case 4:
 	            labels = new String[] {"X","Y","Z","Linear Acceleration" ,"m/s^2"};
+	            boundRange[0] =-20;
+	            boundRange[1] =20;
 	            break;
             case 5:
 	            labels = new String[] {"Z+X+Y/rad+Z/rad","Y+Z/rad+X/rad","Null->orientation","Gravity" , "m/s^2"};
+	            boundRange[0] =-20;
+	            boundRange[1] =20;
 	            break;
             case 6:
 	            labels = new String[] {"Y.Z tgGround East","tgGround North","PerpGround","Rotation Vector" , "TBD"};
+	            boundRange[0] =-20;
+	            boundRange[1] =20;
 	            break;
             case 7:
 	            labels = new String[] {"Light","None","None","Light" , "Si"};
+	            boundRange[0] =0;
+	            boundRange[1] =3000;
 	            break;
 	            
         }
 
-//        View rootView;
-//
-//        rootView = inflater.inflate(R.layout.sensors, container, false);
 
-        //                ((TextView) rootView.findViewById(R.id.texxt)).setText(
-        //                        getString(R.string.plotNr, nr));
-
-        //                hwAcceleratedCb = (CheckBox) rootView.findViewById(R.id.hwAccelerationCb);
-        //                showFpsCb = (CheckBox) rootView.findViewById(R.id.showFpsCb);
-
-
-        	// setup the APR History plot:
         	aprHistoryPlot = (XYPlot)findViewById(R.id.timeserieChart);
 
         	
@@ -126,16 +129,23 @@ public class SensorCharts extends Activity implements SensorEventListener{
         	rollHistorySeries = new SimpleXYSeries(labels[2]);
         	rollHistorySeries.useImplicitXVals();
 
-        	//	                aprHistoryPlot.setRangeBoundaries(-180, 359, BoundaryMode.AUTO);
+        	
         	//	                aprHistoryPlot.setDomainBoundaries(0, 300, BoundaryMode.AUTO);
-        	PointLabelFormatter point1 = new  PointLabelFormatter(Color.rgb(255, 255, 255)); 
-        	PointLabelFormatter point2 = new  PointLabelFormatter(Color.rgb(0, 0, 0)); 
-        	PointLabelFormatter point3 = new  PointLabelFormatter(Color.rgb(200, 100, 100)); 
+        	
+//        	PointLabelFormatter point1 = new  PointLabelFormatter(Color.rgb(255, 255, 255)); 
+//        	PointLabelFormatter point2 = new  PointLabelFormatter(Color.rgb(0, 0, 0)); 
+//        	PointLabelFormatter point3 = new  PointLabelFormatter(Color.rgb(200, 100, 100)); 
 //
-        	aprHistoryPlot.addSeries(azimuthHistorySeries, new LineAndPointFormatter(Color.rgb(100, 100, 200), Color.BLUE, null , point1));
-        	aprHistoryPlot.addSeries(pitchHistorySeries, new LineAndPointFormatter(Color.rgb(100, 200, 100), Color.BLACK, null , point2));
-        	aprHistoryPlot.addSeries(rollHistorySeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null , point3));
-
+        	
+        	if (nr < 7){
+        		aprHistoryPlot.setRangeBoundaries(boundRange[0], boundRange[1], BoundaryMode.FIXED);
+        		aprHistoryPlot.addSeries(azimuthHistorySeries, new LineAndPointFormatter(Color.rgb(100, 100, 200), Color.BLUE, null));
+        		aprHistoryPlot.addSeries(pitchHistorySeries, new LineAndPointFormatter(Color.rgb(100, 200, 100), Color.BLACK, null));
+        		aprHistoryPlot.addSeries(rollHistorySeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null ));
+        	}else{
+        		aprHistoryPlot.setRangeBoundaries(boundRange[0], boundRange[1], BoundaryMode.AUTO);
+        		aprHistoryPlot.addSeries(azimuthHistorySeries, new LineAndPointFormatter(Color.rgb(100, 100, 200), Color.BLUE, null));
+        	}
         	aprHistoryPlot.setDomainStep(XYStepMode.INCREMENT_BY_VAL ,5);
 
         	aprHistoryPlot.setTicksPerRangeLabel(3);
@@ -244,6 +254,10 @@ public class SensorCharts extends Activity implements SensorEventListener{
     // Called whenever a new orSensor reading is taken.
     @Override
     public synchronized void onSensorChanged(SensorEvent sensorEvent) {
+    	
+    	
+    	
+    	textCharge.setText(sensorEvent.sensor.getPower() + "mA");
         // update instantaneous data:
         if(nr < 7){
 //        	Number[] series1Numbers = {sensorEvent.values[0], sensorEvent.values[1], sensorEvent.values[2]};
@@ -275,16 +289,17 @@ public class SensorCharts extends Activity implements SensorEventListener{
 //        		aprLevelsPlot.redraw();
 //        	}else{
         		// get rid the oldest sample in history:
-        		if (rollHistorySeries.size() > HISTORY_SIZE) {
-        			rollHistorySeries.removeFirst();
-        			pitchHistorySeries.removeFirst();
+        		if (azimuthHistorySeries.size() > HISTORY_SIZE) {
+//        			rollHistorySeries.removeFirst();
+//        			pitchHistorySeries.removeFirst();
         			azimuthHistorySeries.removeFirst();
         		}
 
         		// add the latest history sample:
+//        		System.out.println(sensorEvent.values[0]);
         		azimuthHistorySeries.addLast(null, sensorEvent.values[0]);
-        		pitchHistorySeries.addLast(null, 0);
-        		rollHistorySeries.addLast(null, 0);
+//        		pitchHistorySeries.addLast(null, 0);
+//        		rollHistorySeries.addLast(null, 0);
         		aprHistoryPlot.redraw();   
 //        	}
     	}

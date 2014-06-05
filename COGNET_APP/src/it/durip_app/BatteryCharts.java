@@ -3,7 +3,7 @@ package it.durip_app;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
+//import java.io.IOException;
 
 import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
@@ -13,18 +13,18 @@ import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYStepMode;
 
 import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
+//import android.hardware.Sensor;
+//import android.hardware.SensorManager;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
+//import android.os.SystemClock;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.view.Menu;
+//import android.view.Menu;
 import android.widget.TextView;
 
 
@@ -45,14 +45,19 @@ public class BatteryCharts extends Activity {
     
     
     private XYPlot aprHistoryPlot = null;
-    private String[] labels;
+//    private String[] labels;
 
     private TextView textCharge;
     private TextView textVoltage;
     private TextView textTemp;
+    
+    private TextView textCPU0;
+    private TextView textCPU1;
+    private TextView textCPU2;
+    private TextView textCPU3;
     private SimpleXYSeries xBattery = null;
     
-    private Thread batteryChart;
+//    private Thread batteryChart;
     final String[] barLabel = new String[] {
             "X","Y","Z"
         };
@@ -77,7 +82,7 @@ public class BatteryCharts extends Activity {
 		xBattery.useImplicitXVals();
 		
 
-		aprHistoryPlot.setRangeBoundaries(-180, 359, BoundaryMode.AUTO);
+		aprHistoryPlot.setRangeBoundaries(-1000, 200, BoundaryMode.FIXED);
 		aprHistoryPlot.setDomainBoundaries(0, 300, BoundaryMode.AUTO);
 		PointLabelFormatter point1 = new  PointLabelFormatter(Color.rgb(255, 255, 255)); 
 		aprHistoryPlot.addSeries(xBattery, new LineAndPointFormatter(Color.rgb(100, 100, 200), Color.BLUE, null , point1));
@@ -89,7 +94,9 @@ public class BatteryCharts extends Activity {
 		aprHistoryPlot.getDomainLabelWidget().pack();
 		aprHistoryPlot.getRangeLabelWidget().pack();	               
 		
-
+		aprHistoryPlot.setTitle("Current Consumption");
+		aprHistoryPlot.setDomainLabel("[S]");
+		aprHistoryPlot.setRangeLabel("mA");
 		r = new runnableChart();
 		new Thread(r).start();
 	        
@@ -106,6 +113,10 @@ public class BatteryCharts extends Activity {
 		@Override
 		public void run(){
 			textVoltage = (TextView) findViewById(R.id.textvalueVoltage);
+			textCPU0 = (TextView) findViewById(R.id.textvalueCPU0);
+			textCPU1 = (TextView) findViewById(R.id.textvalueCPU1);
+			textCPU2 = (TextView) findViewById(R.id.textvalueCPU2);
+			textCPU3 = (TextView) findViewById(R.id.textvalueCPU3);
 			while(doRun){		            	
 				try {
 //					System.out.println("Value " + getValueFromFile());
@@ -115,14 +126,22 @@ public class BatteryCharts extends Activity {
 	        			xBattery.removeFirst();
 	        		}
 	        		// add the latest history sample:
-	        		xBattery.addLast(null, getValueFromFile());	        	
+	        		xBattery.addLast(null, getValueFromFile());
+//	        		System.out.println(getValueMHzCPUFile(0));
+//	        		System.out.println(getValueMHzCPUFile(1));
+//	        		System.out.println(getValueMHzCPUFile(2));
+//	        		System.out.println(getValueMHzCPUFile(3));
 	        		
 	        		aprHistoryPlot.redraw();
 	        		
 					
 					handler.post(new Runnable(){
 						 public void run() {
-							 textVoltage.setText(getValueVoltageFromFile() + "mV");		 
+							 textVoltage.setText(getValueVoltageFromFile() + "mV");
+							 textCPU0.setText(getValueMHzCPUFile(0) + "MHz");
+							 textCPU1.setText(getValueMHzCPUFile(1) + "MHz");
+							 textCPU2.setText(getValueMHzCPUFile(2) + "MHz");
+							 textCPU3.setText(getValueMHzCPUFile(3) + "MHz");
 						 }
 					});
 					Thread.sleep(1000);
@@ -272,8 +291,55 @@ public class BatteryCharts extends Activity {
 		return value/1000;
 	}
 	
+	private static Long getValueMHzCPUFile(int cpuNumber) {
+	    
+		String text = null;
+		File f = null; 
+		f = new File("/sys/devices/system/cpu/cpu"+cpuNumber+"/cpufreq/cpuinfo_cur_freq");
+		try {
+
+//			System.out.println("/sys/devices/system/cpu/cpu"+cpuNumber+"/cpufreq/cpuinfo_cur_freq");
+			FileInputStream fs = new FileInputStream(f);	      
+			DataInputStream ds = new DataInputStream(fs);
+
+			text = ds.readLine();
+
+			ds.close();    
+			fs.close();  
+
+			Long value = null;
+
+//			System.out.println(text);
+			if(Long.parseLong(text) > 1000)
+				return Long.parseLong(text)/1000;
+			else
+				return Long.parseLong(text);
+//			if (text != null)
+//			{
+//				try
+//				{
+////					value = Long.parseLong(text);
+//					System.out.println(text);
+//				}
+//				catch (NumberFormatException nfe)
+//				{
+//					value = null;
+//				}	    	      	
+//			}
+			
+			
+		}
+		catch (Exception ex) {
+		//	ex.printStackTrace();
+			return (long)0;
+		}
+
+
+		
+	}
 }
 
 
 
 
+	
