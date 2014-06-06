@@ -316,28 +316,11 @@ public class BatteryCharts extends Activity {
 				return Long.parseLong(text)/1000;
 			else
 				return Long.parseLong(text);
-//			if (text != null)
-//			{
-//				try
-//				{
-////					value = Long.parseLong(text);
-//					System.out.println(text);
-//				}
-//				catch (NumberFormatException nfe)
-//				{
-//					value = null;
-//				}	    	      	
-//			}
-			
-			
 		}
 		catch (Exception ex) {
 		//	ex.printStackTrace();
 			return (long)0;
 		}
-
-
-		
 	}
 }
 

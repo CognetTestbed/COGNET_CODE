@@ -137,7 +137,10 @@ public class Sensors extends Service implements SensorEventListener {
 //					System.out.println("Value " + getValueFromFile() + " " + getValueVoltageFromFile());
 					try {
 						writeBattery.append(formatTime.format(System.currentTimeMillis()) + 
-								" " +  getValueFromFile() + " " + getValueVoltageFromFile() + " " + level + "\n");
+								" " +  getValueFromFile() + " " + getValueVoltageFromFile() + " " + level + 
+								getValueMHzCPUFile(0) +" "+ getValueMHzCPUFile(1) +" " +
+								getValueMHzCPUFile(2) +" "+ getValueMHzCPUFile(3) +" " 
+								+"\n");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -560,7 +563,35 @@ public class Sensors extends Service implements SensorEventListener {
 		return value/1000;
 	}
 	
+	private static Long getValueMHzCPUFile(int cpuNumber) {
+	    
+		String text = null;
+		File f = null; 
+		f = new File("/sys/devices/system/cpu/cpu"+cpuNumber+"/cpufreq/cpuinfo_cur_freq");
+		try {
 
+//			System.out.println("/sys/devices/system/cpu/cpu"+cpuNumber+"/cpufreq/cpuinfo_cur_freq");
+			FileInputStream fs = new FileInputStream(f);	      
+			DataInputStream ds = new DataInputStream(fs);
+
+			text = ds.readLine();
+
+			ds.close();    
+			fs.close();  
+
+			Long value = null;
+
+//			System.out.println(text);
+			if(Long.parseLong(text) > 1000)
+				return Long.parseLong(text)/1000;
+			else
+				return Long.parseLong(text);
+		}
+		catch (Exception ex) {
+		//	ex.printStackTrace();
+			return (long)0;
+		}
+	}
 	
-	
+
 }
