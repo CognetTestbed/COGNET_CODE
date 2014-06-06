@@ -101,28 +101,12 @@
         android:inputType="text"
         android:text="@string/milcom" />
 
-    <EditText
-        android:id="@+id/statusInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/launcher"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/logPath"
-        android:layout_toRightOf="@+id/paramNetmask"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:ems="10"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:inputType="textMultiLine" />
-
     <ToggleButton
         android:id="@+id/iperf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/paramSubnet"
         android:gravity="center_vertical"
         android:onClick="manageIperf"
         android:textOff="IperfStart"
@@ -185,15 +169,6 @@
         android:layout_below="@+id/paramI"
         android:text="@string/mac_detected_label" />
 
-    <Spinner
-        android:id="@+id/mac_select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/iperfServer"
-        android:layout_below="@+id/TextView07"
-        android:layout_toLeftOf="@+id/pingButton"
-        android:entries="@array/mac_addresses" />
-
     <EditText
         android:id="@+id/paramSubnet"
         android:layout_width="wrap_content"
@@ -217,23 +192,10 @@
             android:text="@string/RadioButton2" />
 
         <RadioButton
-            android:id="@+id/radio0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/RadioButton1" />
-
-        <RadioButton
             android:id="@+id/radio3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/RadioButton4" />
-
-        <RadioButton
-            android:id="@+id/radio2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/RadioButton3" />
     </RadioGroup>
 
     <TextView
@@ -366,51 +328,6 @@
         android:layout_below="@+id/launcher" />
 
     <Button
-        android:id="@+id/updateMac"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/iperfServer"
-        android:layout_toLeftOf="@+id/deviceswitch"
-        android:layout_toRightOf="@+id/OlsrdSettings"
-        android:gravity="center_vertical"
-        android:onClick="updateMac"
-        android:text="@string/update_mac_label" />
-
-    <ToggleButton
-        android:id="@+id/olsrLogButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/iperfServer"
-        android:layout_alignBottom="@+id/iperfServer"
-        android:layout_alignLeft="@+id/deviceswitch"
-        android:layout_toLeftOf="@+id/pingButton"
-        android:gravity="center_vertical"
-        android:onClick="manageOlsrdLog"
-        android:textOff="OlsrdLogOff"
-        android:textOn="OlsrdLogOn" />
-
-    <ToggleButton
-        android:id="@+id/olsrd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/OlsrdSettings"
-        android:layout_below="@+id/OlsrdSettings"
-        android:gravity="center_vertical"
-        android:onClick="manageOlsrd"
-        android:textOff="OlsrdOff"
-        android:textOn="OlsrdOn" />
-
-    <EditText
-        android:id="@+id/paramOLSRLogTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/macLauncher"
-        android:layout_alignLeft="@+id/updateMac"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/sampletime_value" />
-
-    <Button
         android:id="@+id/OlsrdSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -419,59 +336,6 @@
         android:gravity="center_vertical"
         android:onClick="openOlsrdSettings"
         android:text="@string/olsrdsettings" />
-
-    <Button
-        android:id="@+id/deviceswitch"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/statusInfo"
-        android:layout_below="@+id/tcpLauncher"
-        android:layout_toRightOf="@+id/paramI"
-        android:onClick="openKiller"
-        android:text="@string/hosts" />
-
-    <ToggleButton
-        android:id="@+id/manageSensors"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/start"
-        android:layout_toRightOf="@+id/iperf"
-        android:gravity="center_vertical"
-        android:onClick="manageSensors"
-        android:textOff="SensorsStart"
-        android:textOn="SensorsStop" />
-
-    <ToggleButton
-        android:id="@+id/iperfServer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/olsrd"
-        android:layout_alignBottom="@+id/olsrd"
-        android:layout_alignRight="@+id/updateMac"
-        android:gravity="center_vertical"
-        android:onClick="manageIperServer"
-        android:textOff="IperfServerOff"
-        android:textOn="IperServerOn" />
-
-    <EditText
-        android:id="@+id/paramOLSRfileLog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/spinnerSensor"
-        android:layout_toRightOf="@+id/OlsrdSettings"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/olsr_log_value" />
-
-    <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/paramOLSRLogTime"
-        android:layout_alignBottom="@+id/paramOLSRLogTime"
-        android:layout_toRightOf="@+id/TextView05"
-        android:text="@string/time_sample_olsrd_label" />
 
     <Button
         android:id="@+id/macLauncher"
@@ -486,14 +350,189 @@
         android:text="@string/mac_graph_text" />
 
     <Button
+        android:id="@+id/updateMac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/OlsrdSettings"
+        android:layout_toRightOf="@+id/OlsrdSettings"
+        android:gravity="center_vertical"
+        android:onClick="updateMac"
+        android:text="@string/update_mac_label" />
+
+    <EditText
+        android:id="@+id/paramOLSRfileLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/OlsrdSettings"
+        android:layout_alignBottom="@+id/OlsrdSettings"
+        android:layout_alignLeft="@+id/updateMac"
+        android:layout_alignRight="@+id/updateMac"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/olsr_log_value" />
+
+    <ToggleButton
+        android:id="@+id/iperfServer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/iperf"
+        android:layout_alignBottom="@+id/iperf"
+        android:layout_toRightOf="@+id/iperf"
+        android:gravity="center_vertical"
+        android:onClick="manageIperServer"
+        android:textOff="IperfServerOff"
+        android:textOn="IperServerOn" />
+
+    <ToggleButton
+        android:id="@+id/olsrd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/OlsrdSettings"
+        android:layout_below="@+id/OlsrdSettings"
+        android:layout_toRightOf="@+id/iperfServer"
+        android:gravity="center_vertical"
+        android:onClick="manageOlsrd"
+        android:textOff="OlsrdOff"
+        android:textOn="OlsrdOn" />
+
+    <ToggleButton
+        android:id="@+id/olsrLogButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/paramOLSRfileLog"
+        android:layout_alignRight="@+id/paramOLSRfileLog"
+        android:layout_below="@+id/OlsrdSettings"
+        android:gravity="center_vertical"
+        android:onClick="manageOlsrdLog"
+        android:textOff="OlsrdLogOff"
+        android:textOn="OlsrdLogOn" />
+
+    <Button
         android:id="@+id/buttonStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/paramOLSRLogTime"
-        android:layout_alignLeft="@+id/tcpLauncher"
+        android:layout_above="@+id/deviceswitch"
+        android:layout_alignParentLeft="true"
         android:layout_alignRight="@+id/tcpLauncher"
         android:gravity="center_vertical"
         android:onClick="updateStatus"
         android:text="@string/net_stat_label" />
-    
+
+    <EditText
+        android:id="@+id/statusInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/logPath"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/TextView04"
+        android:layout_toRightOf="@+id/paramNetmask"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:inputType="textMultiLine" />
+
+    <RadioButton
+        android:id="@+id/radio0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/TextView04"
+        android:layout_alignTop="@+id/radioGroup1"
+        android:checked="true"
+        android:text="@string/RadioButton1" />
+
+    <ToggleButton
+        android:id="@+id/manageSensors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/spinnerSensor"
+        android:gravity="center_vertical"
+        android:onClick="manageSensors"
+        android:textOff="SensorsStart"
+        android:textOn="SensorsStop" />
+
+    <Button
+        android:id="@+id/deviceswitch"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/statusInfo"
+        android:layout_alignTop="@+id/updateMac"
+        android:layout_toRightOf="@+id/updateMac"
+        android:onClick="openKiller"
+        android:text="@string/hosts" />
+
+    <NumberPicker
+        android:id="@+id/numberPickerOlsr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView1"
+        android:layout_below="@+id/deviceswitch"
+        android:scaleX="0.9"
+        android:scaleY="0.9" />
+
+    <NumberPicker
+        android:id="@+id/numberpickerSensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/radio2"
+        android:layout_alignRight="@+id/TextView08"
+        android:layout_below="@+id/spinnerSensor"
+        android:orientation="horizontal"
+        android:scaleX="0.8"
+        android:scaleY="0.8" />
+
+    <com.androidplot.xy.XYPlot
+        android:id="@+id/timeserieChart2"
+        android:layout_width="200dp"
+        android:layout_height="400dp"
+        android:layout_alignBottom="@+id/buttonStatus"
+        android:layout_alignLeft="@+id/statusInfo"
+        android:layout_alignTop="@+id/paramNetmask"
+        android:layout_toLeftOf="@+id/pingButton" />
+
+    <Spinner
+        android:id="@+id/mac_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/statusInfo"
+        android:layout_alignRight="@+id/textView1"
+        android:layout_alignTop="@+id/statusInfo"
+        android:layout_marginLeft="17dp" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/radio0"
+        android:layout_below="@+id/numberpickerSensor" >
+    </RadioGroup>
+
+    <RadioButton
+        android:id="@+id/radio1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/paramSubnet"
+        android:layout_below="@+id/manageSensors"
+        android:text="RadioButton" />
+
+    <RadioButton
+        android:id="@+id/radio0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/radio1"
+        android:layout_toRightOf="@+id/manageSensors"
+        android:checked="true"
+        android:text="RadioButton" />
+
+    <RadioButton
+        android:id="@+id/radio2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/launcher"
+        android:layout_alignRight="@+id/radio0"
+        android:text="@string/RadioButton3" />
+
 </RelativeLayout>

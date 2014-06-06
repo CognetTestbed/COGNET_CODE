@@ -40,6 +40,7 @@ public class BatteryCharts extends Activity {
 //    private Sensor orSensor2 = null;
     
 
+    private int ts ;
 //    private XYPlot aprLevelsPlot = null;
 //    private SimpleXYSeries aprLevelsSeries = null;
     
@@ -73,9 +74,8 @@ public class BatteryCharts extends Activity {
 		
    	 	textCharge = (TextView) findViewById(R.id.textvalueCharge);
    	 	textTemp = (TextView) findViewById(R.id.textvalueTemp);
-//		System.out.println("MATTEO " + getValueFromFile());
-		
-        	// setup the APR History plot:
+
+   	 	Intent myIntent = getIntent();
 		aprHistoryPlot = (XYPlot)findViewById(R.id.timeserieBatteryChart);
 
 		xBattery = new SimpleXYSeries("Battery");
@@ -97,6 +97,8 @@ public class BatteryCharts extends Activity {
 		aprHistoryPlot.setTitle("Current Consumption");
 		aprHistoryPlot.setDomainLabel("[S]");
 		aprHistoryPlot.setRangeLabel("mA");
+		
+		ts = myIntent.getIntExtra( "timesample" ,1 );
 		r = new runnableChart();
 		new Thread(r).start();
 	        
@@ -144,7 +146,7 @@ public class BatteryCharts extends Activity {
 							 textCPU3.setText(getValueMHzCPUFile(3) + "MHz");
 						 }
 					});
-					Thread.sleep(1000);
+					Thread.sleep(ts * 1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

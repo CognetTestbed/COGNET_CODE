@@ -31,13 +31,14 @@ import java.util.ArrayList;
 
 
 
-import android.os.BatteryManager;
+
+
+
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.Menu;
@@ -46,6 +47,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 //import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 //import android.widget.TextView;
@@ -69,7 +71,10 @@ public class MainActivity extends Activity {
 	public static PowerManager.WakeLock wl = null;
 	public static PowerManager pm = null;
 	private boolean checkOndemandSpinner = false;
-	
+	private NumberPicker numberPickerOLSR ;
+	private NumberPicker numberPickerSensor;
+	private int ts;
+	private int tsOLSR;
 //	private void ping(String url) {
 //
 //		//String result="";
@@ -141,22 +146,54 @@ public class MainActivity extends Activity {
         
           
         Spinner spinner = (Spinner)findViewById(R.id.spinnerSensor);
+        
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
         		this,
 	        	android.R.layout.simple_spinner_item,
 	        	new String[]{"Accelerometer","Gyroscope","Orientation","Accelerometer Fusion" , "Gravity", "Rotation",
         				"Light" ,"Battery"}
         		);
+        
+        numberPickerSensor = (NumberPicker) findViewById(R.id.numberpickerSensor);
+        numberPickerSensor.setMaxValue(10);       
+        numberPickerSensor.setMinValue(1);      
+        numberPickerSensor.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                // do something here
+//                Log.d("OPEN", "Number of Nights change value.");
+            	ts = newVal;
+            }
+        });
+        
+        ts = numberPickerSensor.getValue();
+        
+        
+
+        
+        numberPickerOLSR = (NumberPicker) findViewById(R.id.numberPickerOlsr);
+        numberPickerOLSR.setMaxValue(10);       
+        numberPickerOLSR.setMinValue(1);         
+        
+        numberPickerOLSR.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                // do something here
+//                Log.d("OPEN", "Number of Nights change value.");
+            	tsOLSR = newVal;
+            }
+        });
+        
+        tsOLSR = numberPickerSensor.getValue();
+        
+        
+        
+        
         spinner.setAdapter(adapter);
         
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-        	
-        	public void onItemSelected(AdapterView<?> adapter, View view,int pos, long id) {
+        	public void onItemSelected(AdapterView<?> parent, View view,int pos, long id ) {
         		if(checkOndemandSpinner){
-	        		String selected = (String)adapter.getItemAtPosition(pos);
-//	        		System.out.println(selected);
-	        		
-	        		
 	                if(pos < 7){
 	                	Intent intentSensor = new Intent(MainActivity.this ,  SensorCharts.class);
 	                	try{
@@ -167,8 +204,10 @@ public class MainActivity extends Activity {
 	                	}
 	                }else{
 	                	try{
-	                		Intent intentSensor = new Intent(MainActivity.this ,  BatteryCharts.class);
-//	                		intentSensor.putExtra("SensorName", pos+1);
+	                		
+//	                		Log.i("OPEN" , +ts +"A");
+	                		Intent intentSensor = new Intent(MainActivity.this ,  BatteryCharts.class);	                		
+	                		intentSensor.putExtra("timesample",  ts);
 	                		startActivity(intentSensor); // make the request!
 	                	}catch(Exception e){
 	                		Log.i("sensor err", e.toString());
@@ -185,31 +224,7 @@ public class MainActivity extends Activity {
         		
         	}
 		});
-        									  
-//        spinner.setFocusable(true);
-////        spinner.setFocusableInTouchMode(true);        
-//        spinner.requestFocus();
-       
-        
     }
-    
-    
-    public void getBatteryLevel() {
-        Intent batteryIntent = registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-        int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-
-        // Error checking that probably isn't needed but I added just in case.
-//        if(level == -1 || scale == -1) {
-//            return 50.0f;
-//        }
-
-//        System.out.println("Battery: " + ((float)level / (float)scale) * 100.0f +"%");
-//        return ((float)level / (float)scale) * 100.0f; 
-    }
-    
-    
-    
     
     @Override
     public void onDestroy(){
@@ -329,8 +344,6 @@ public class MainActivity extends Activity {
 	public void startReadMACParam(View v){
 		
 		EditText mEdit;
-		//RadioGroup rg;
-//		RadioButton rb;
 		String s[];
 		s= new String[ServerSocketCmd.params];
 		Log.d("MAC READ", "STAR READ MAC");		
@@ -492,13 +505,13 @@ public class MainActivity extends Activity {
 			Log.i("OLSRD log launcher","Button trying to turn it on");
 	        try{
 	        	EditText OLSRfileLog = (EditText) findViewById(R.id.paramOLSRfileLog);
-	        	EditText OLSRSampletimelog = (EditText) findViewById(R.id.paramOLSRLogTime);
+	        	EditText OLSRSampletimelog = (EditText) findViewById(R.id.numberPickerOlsr);
 	        	Intent intentOlsrdLog = new Intent(this, olsrdLog.class);	        											
 	        	String filename = OLSRfileLog.getText().toString();
-	        	String sampletime = OLSRSampletimelog.getText().toString();
+//	        	String sampletime = OLSRSampletimelog.getText().toString();
 	        	
 	            intentOlsrdLog.putExtra(olsrdLog.FILENAME, filename);	            
-	            intentOlsrdLog.putExtra(olsrdLog.TIME, sampletime);
+	            intentOlsrdLog.putExtra(olsrdLog.TIME, tsOLSR);
 	            
 	        	startService(intentOlsrdLog); // make the request!
 	        }catch(Exception e){
