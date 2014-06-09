@@ -97,7 +97,7 @@
     <string name="wlan_label">wlan1</string>
     <string name="wlan_2_use_label">wlan to use</string>
     <string name="iperf_interval_label">iperf interval</string>
-    <string name="mac_detected_label">MAC addresses detected</string>
+    <string name="mac_detected_label">MAC</string>
     <string name="sampling_time_label">TS MAC [ms]</string>
     <string name="sampling_time_value">1000</string>
     <string name="ssid_label">SSID</string>
@@ -115,5 +115,6 @@
     <string name="title_activity_sensor_charts">SensorCharts</string>
     <string name="getBatteryStatus">Battery</string>
     <string name="title_activity_battery_charts">BatteryCharts</string>
-
+	<string name="label_radioPlot0">New </string>
+	<string name="label_radioPlot1">Current </string>
 </resources>

@@ -60,7 +60,7 @@ public class SensorCharts extends Activity implements SensorEventListener{
     //Number to identify sensor to plot
     private int nr;
 	
-	
+    
 	
     private static TextView textCharge;
 	

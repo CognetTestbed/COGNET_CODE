@@ -12,69 +12,69 @@
 JNIEXPORT jint JNICALL Java_it_durip_1app_ExperimentMasterActivity_mainJNI(JNIEnv *env, jobject thisObj ,
 		jint n, jobjectArray stringArray){
 
-	int ii;
-    char ss[100];
-    char IP_ADDR[15];
-    char WLAN[10];
-    char PHY[10];
-    char PORT[10];
-    char ESSID[25];
-    char **argv;
-	int stringCount = (*env)->GetArrayLength(env, stringArray);
-    
-    argv = (char **) malloc(sizeof( char *) * stringCount);
-
-	for(ii=0; ii < stringCount; ii++) {
-		jstring element = (*env)->GetObjectArrayElement(env, stringArray, ii);
-		const char * rawstring = (*env)->GetStringUTFChars(env, element, NULL);
-        switch (ii) {
-            case 0:
-                strcpy(IP_ADDR, rawstring);
-            break;
-
-            case 1:
-                strcpy(PORT, rawstring);
-                argv[0] = (char *)malloc(sizeof(char) * (strlen(rawstring)+1));
-                strcpy(argv[0] , PORT);
-            break;
-
-            case 2://FLAG WLAN
-                strcpy(WLAN, rawstring);
-                argv[4] = (char *)malloc(sizeof(char) * (strlen(rawstring)+1));
-                strcpy(argv[4] , WLAN);
-
-            break;
-
-            case 3://BOARD NAME
-                strcpy(PHY, rawstring);
-                argv[3] = (char *)malloc(sizeof(char) * (strlen(rawstring)+1));
-                strcpy(argv[3] , PHY);
-            break;
-
-            case 4://TIMESAMPLE MAC LAYER PARAMETERS
-            	argv[2] = (char *)malloc(sizeof(char) * (strlen(rawstring)+1));
-                strcpy(argv[2], rawstring);
-            break;
-            case 5://PRINT FILE A/O SCREEN
-            	argv[1] = (char *)malloc(sizeof(char) * (strlen(rawstring)+1));
-                strcpy(argv[1], rawstring);
-            break;
-            case 6:
-                strcpy(ESSID, rawstring);
-            break;
-
-            case 7://FOLDER
-            	argv[5] = (char *)malloc(sizeof(char) * (strlen(rawstring)+1));
-            	strcpy(argv[5], rawstring);
-            break;
-        }
-	 }
-    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "IPADDRESS %s" , IP_ADDR);
-    sprintf(ss, "su -c \"sh /system/bin/launcher.sh %s %s DURIP 0 %s %s\"" ,WLAN , IP_ADDR ,PHY, ESSID);
-    
-    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "MAIN %s" , ss);
-    system(ss);
-    mainReadMacServer(stringCount-1, argv);
+//	int ii;
+//    char ss[100];
+//    char IP_ADDR[15];
+//    char WLAN[10];
+//    char PHY[10];
+//    char PORT[10];
+//    char ESSID[25];
+//    char **argv;
+//	int stringCount = (*env)->GetArrayLength(env, stringArray);
+//
+//    argv = (char **) malloc(sizeof( char *) * stringCount);
+//
+//	for(ii=0; ii < stringCount; ii++) {
+//		jstring element = (*env)->GetObjectArrayElement(env, stringArray, ii);
+//		const char * rawstring = (*env)->GetStringUTFChars(env, element, NULL);
+//        switch (ii) {
+//            case 0:
+//                strcpy(IP_ADDR, rawstring);
+//            break;
+//
+//            case 1:
+//                strcpy(PORT, rawstring);
+//                argv[0] = (char *)malloc(sizeof(char) * (strlen(rawstring)+1));
+//                strcpy(argv[0] , PORT);
+//            break;
+//
+//            case 2://FLAG WLAN
+//                strcpy(WLAN, rawstring);
+//                argv[4] = (char *)malloc(sizeof(char) * (strlen(rawstring)+1));
+//                strcpy(argv[4] , WLAN);
+//
+//            break;
+//
+//            case 3://BOARD NAME
+//                strcpy(PHY, rawstring);
+//                argv[3] = (char *)malloc(sizeof(char) * (strlen(rawstring)+1));
+//                strcpy(argv[3] , PHY);
+//            break;
+//
+//            case 4://TIMESAMPLE MAC LAYER PARAMETERS
+//            	argv[2] = (char *)malloc(sizeof(char) * (strlen(rawstring)+1));
+//                strcpy(argv[2], rawstring);
+//            break;
+//            case 5://PRINT FILE A/O SCREEN
+//            	argv[1] = (char *)malloc(sizeof(char) * (strlen(rawstring)+1));
+//                strcpy(argv[1], rawstring);
+//            break;
+//            case 6:
+//                strcpy(ESSID, rawstring);
+//            break;
+//
+//            case 7://FOLDER
+//            	argv[5] = (char *)malloc(sizeof(char) * (strlen(rawstring)+1));
+//            	strcpy(argv[5], rawstring);
+//            break;
+//        }
+//	 }
+//    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "IPADDRESS %s" , IP_ADDR);
+//    sprintf(ss, "su -c \"sh /system/bin/launcher.sh %s %s DURIP 0 %s %s\"" ,WLAN , IP_ADDR ,PHY, ESSID);
+//
+//    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "MAIN %s" , ss);
+//    system(ss);
+//    mainReadMacServer(stringCount-1, argv);
 	return 1;
 }
 

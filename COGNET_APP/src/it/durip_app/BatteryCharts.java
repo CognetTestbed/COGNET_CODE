@@ -108,6 +108,7 @@ public class BatteryCharts extends Activity {
 		
 	
 	}
+	
 	private class runnableChart implements Runnable {
 		
 		private boolean doRun = true;

@@ -17,43 +17,60 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 package it.durip_app;
 
+//import it.durip_app.BatteryCharts.runnableChart;
+
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-//import java.util.Observable;
-//import java.util.Observer;
-//import java.util.regex.Matcher;
-//import java.util.regex.Pattern;
-
-//import com.androidplot.Plot;
 
 
 
-
-
-
+import com.androidplot.xy.BoundaryMode;
+import com.androidplot.xy.LineAndPointFormatter;
+import com.androidplot.xy.PointLabelFormatter;
+import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYPlot;
+import com.androidplot.xy.XYStepMode;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 //import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 //import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.widget.AdapterView.OnItemSelectedListener;
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SensorEventListener{
 
 	
 	public static final String SHELL_RESULTS = "it.durip_app.RESULTS"; 
@@ -75,55 +92,43 @@ public class MainActivity extends Activity {
 	private NumberPicker numberPickerSensor;
 	private int ts;
 	private int tsOLSR;
-//	private void ping(String url) {
-//
-//		//String result="";
-//	    try {
-//	        String inputLine, pingCmd = "ping -c 5 -l 3 " + url;
-//	        //Choose runtime or process builder, they are exactly the same!!
-//	        
-//	        Runtime r = Runtime.getRuntime();
-//	        Process p = r.exec(pingCmd);
-//	        
-//	        /*
-//			Process p = new ProcessBuilder()
-//		    .command("ping", "android.com")
-//		    .start();
-//			*/
-//	        BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-//	        
-//	        TextView t=(TextView)findViewById(R.id.statusInfo);
-//	        t.setText("Pinging....\n");
-//	        
-//	        // Create a Pattern object
-//	        Pattern dataPattern = Pattern.compile("^.*icmp_seq=(\\d+) ttl=(\\d+) time=(\\d+\\.?\\d?\\d?) ms.*$");
-//	        while ((inputLine = in.readLine()) != null) {
-//		        System.out.println(inputLine);
-//		        Matcher datas = dataPattern.matcher(inputLine);
-//		        if (datas.find( )) {
-//		        	t.append("\nicmp_seq: " + datas.group(1) + 
-//		        			" ttl: " + datas.group(2) + 
-//		        			" time: " + datas.group(3));
-//		         } else {
-//		            //t.append("\nBad ping");
-//		        	 System.out.println("NO MATCH");
-//		         }
-//		        t.invalidate();
-//		        //result += inputLine;
-//
-//		        //t.setText(result);
-//	        }
-//            t.append("\nPing done!");
-//        	in.close();
-//        }catch (IOException e) {
-//    		Log.i("read response", e.toString());
-//        }
-//	    //return result;
-//	}
+
+	//PLOT SECTION
+	private static SensorManager managerSensor;
+    private static final int HISTORY_SIZE = 50;            // number of points to plot in history
+//    private SensorManager sensorMgr = null;
+//    private Sensor orSensor3 = null;
+//    private Sensor orSensor2 = null;
+    private Sensor orSensor = null;
+
+    
+    private XYPlot aprHistoryPlot = null;
+    private String[] labels;
+//    private CheckBox hwAcceleratedCb;
+//    private CheckBox showFpsCb;
+    
+    private SimpleXYSeries azimuthHistorySeries = null;
+    private SimpleXYSeries pitchHistorySeries = null;
+    private SimpleXYSeries rollHistorySeries = null;      
+    private Number [] boundRange = new Number[2];
+    //Number to identify sensor to plot
+//    private int nr;
+    private int plotNumber;
+    private int ctrlPlotPage= 0 ;
+    
+    
+    
+    private SimpleXYSeries xBattery = null;
+    
+    private runnableChart r;
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Spinner macSpinner = (Spinner) findViewById(R.id.mac_select);
+        managerSensor = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
         
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         final int SUPERUSER_REQUEST = 2323; // arbitrary number of your choosing
@@ -153,7 +158,12 @@ public class MainActivity extends Activity {
 	        	new String[]{"Accelerometer","Gyroscope","Orientation","Accelerometer Fusion" , "Gravity", "Rotation",
         				"Light" ,"Battery"}
         		);
-        
+        ArrayAdapter<String> adapterMAC = new ArrayAdapter<String>(
+        		this,
+	        	android.R.layout.simple_spinner_item,
+	        	new String[]{"MAC address"}
+        		);
+        macSpinner.setAdapter(adapterMAC);
         numberPickerSensor = (NumberPicker) findViewById(R.id.numberpickerSensor);
         numberPickerSensor.setMaxValue(10);       
         numberPickerSensor.setMinValue(1);      
@@ -164,6 +174,7 @@ public class MainActivity extends Activity {
 //                Log.d("OPEN", "Number of Nights change value.");
             	ts = newVal;
             }
+
         });
         
         ts = numberPickerSensor.getValue();
@@ -185,38 +196,57 @@ public class MainActivity extends Activity {
         });
         
         tsOLSR = numberPickerSensor.getValue();
-        
-        
-        
-        
+
         spinner.setAdapter(adapter);
         
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
         	public void onItemSelected(AdapterView<?> parent, View view,int pos, long id ) {
+        		RadioGroup r1 = (RadioGroup) findViewById(R.id.radioGroup2);
+        		RadioButton rb = (RadioButton) findViewById(R.id.radioPlot0);
+        		int viewPlot = r1.getCheckedRadioButtonId();
+        		System.out.println(viewPlot + "Value" + rb.getId() );
         		if(checkOndemandSpinner){
-	                if(pos < 7){
-	                	Intent intentSensor = new Intent(MainActivity.this ,  SensorCharts.class);
-	                	try{
-	                		intentSensor.putExtra("SensorName", pos+1);
-	                		startActivity(intentSensor); // make the request!
-	                	}catch(Exception e){
-	                		Log.i("sensor err", e.toString());
-	                	}
-	                }else{
-	                	try{
-	                		
-//	                		Log.i("OPEN" , +ts +"A");
-	                		Intent intentSensor = new Intent(MainActivity.this ,  BatteryCharts.class);	                		
-	                		intentSensor.putExtra("timesample",  ts);
-	                		startActivity(intentSensor); // make the request!
-	                	}catch(Exception e){
-	                		Log.i("sensor err", e.toString());
-	                	}
-	                }
+        			if(rb.getId() == viewPlot ){
+        				if(pos < 7){
+        					Intent intentSensor = new Intent(MainActivity.this ,  SensorCharts.class);
+        					try{
+        						intentSensor.putExtra("SensorName", pos+1);
+        						startActivity(intentSensor); // make the request!
+        					}catch(Exception e){
+        						Log.i("sensor err", e.toString());
+        					}
+        				}else{
+        					try{
+
+        						//	                		Log.i("OPEN" , +ts +"A");
+        						Intent intentSensor = new Intent(MainActivity.this ,  BatteryCharts.class);	                		
+        						intentSensor.putExtra("timesample",  ts);
+        						startActivity(intentSensor); // make the request!
+        					}catch(Exception e){
+        						Log.i("sensor err", e.toString());
+        					}
+        				}
+        			}else{        		
+        				
+        				if(ctrlPlotPage == 1){
+        					//call stop register
+        					stopManager();
+        					aprHistoryPlot.clear();
+        					
+        				}
+        				ctrlPlotPage =1;
+        				if(pos < 7){        				
+        					onPlot(pos+1);
+        				}else{
+        					plotBattery(pos+1);
+        				}
+//        				System.out.println("Enter");
+        				
+        			}
         		}else{
 //        			adapter.setFocusable(true);
-//        			spinner.setFocusable(true);
-        			checkOndemandSpinner = true;
+        				//        			spinner.setFocusable(true);
+        				checkOndemandSpinner = true;
         		}
         		
         	}
@@ -224,6 +254,14 @@ public class MainActivity extends Activity {
         		
         	}
 		});
+    }
+    
+    private void stopManager(){
+    	
+    	
+    	
+    	
+    	managerSensor.unregisterListener(this);
     }
     
     @Override
@@ -284,17 +322,32 @@ public class MainActivity extends Activity {
     public void updateStatus(View view) {
         Process p;
         EditText statsInfo = (EditText)findViewById(R.id.statusInfo);
-        String inputLine = null, wlan = "wlan1";
+        EditText infoWlan = (EditText)findViewById(R.id.paramMyDevice);
+        String inputLine = null, wlan = infoWlan.getText().toString();
         StringBuilder infos = new StringBuilder();
-        
+        int countRow =0;
+        String []token ;
         Runtime r = Runtime.getRuntime();
         BufferedReader ls;
         
         try {
 			p = r.exec("iwconfig " + wlan);
 			ls = new BufferedReader(new InputStreamReader(p.getInputStream()));	
-			while ((inputLine = ls.readLine()) != null) 
-				infos.append(inputLine+ "\n");
+			while ((inputLine = ls.readLine()) != null){
+				
+				switch(countRow){
+					case 0:
+						token = inputLine.split(" ");
+						infos.append(token[8] + " ");
+					break;
+					case 1:
+						token = inputLine.split(" ");
+						infos.append(token[12] + " "+ "GHz" +"\n" + "Cell:" +token[16]+ "\n");
+						break;
+				}
+				countRow++;
+
+			}
 			statsInfo.setText(infos);
 			ls.close();
 			p.destroy();
@@ -685,5 +738,380 @@ public class MainActivity extends Activity {
         }
     }
     
+    
+    
+    
+    
+
+	
+
+  //PARTE DEL SENSORE
+    
+	protected void onPlot(int nr) {
+		
+		
+//		setContentView(R.layout.activity_sensor_charts);
+//		Intent myIntent = getIntent();
+//		nr = myIntent.getIntExtra( "SensorName" ,1 );
+		
+//		System.out.println("NR value" + nr);
+		
+		            
+        switch(nr){
+            case 1:            
+	            labels = new String[] {"X","Y","Z","Accelerometer" , "m/s^2"};	           
+	            boundRange[0] =-20;
+	            boundRange[1] =20;
+	            break;
+
+            case 2:       
+	            labels = new String[] {"X-axis","Y-axis","Z-axis","Gyroscope" , "rad/sec" };
+	            boundRange[0] =-15;
+	            boundRange[1] =15;
+	            break;
+            case 3:
+	            labels = new String[] {"Azimuth","Pitch","Roll","Orientation" , "Deg"};
+	            break;
+	            //A three dimensional vector indicating acceleration along each device axis, 
+//	            not including gravity. All values have units of m/s^2
+            case 4:
+	            labels = new String[] {"X","Y","Z","Linear Acceleration" ,"m/s^2"};
+	            boundRange[0] =-20;
+	            boundRange[1] =20;
+	            break;
+            case 5:
+	            labels = new String[] {"Z+X+Y/rad+Z/rad","Y+Z/rad+X/rad","Null->orientation","Gravity" , "m/s^2"};
+	            boundRange[0] =-20;
+	            boundRange[1] =20;
+	            break;
+            case 6:
+	            labels = new String[] {"Y.Z tgGround East","tgGround North","PerpGround","Rotation Vector" , "TBD"};
+	            boundRange[0] =-20;
+	            boundRange[1] =20;
+	            break;
+            case 7:
+	            labels = new String[] {"Light","None","None","Light" , "Si"};
+	            boundRange[0] =0;
+	            boundRange[1] =3000;
+	            break;
+	            
+        }
+
+
+        	aprHistoryPlot = (XYPlot)findViewById(R.id.timeserieChart2);
+        	
+        	
+        	azimuthHistorySeries = new SimpleXYSeries(labels[0]);
+        	azimuthHistorySeries.useImplicitXVals();
+        	pitchHistorySeries = new SimpleXYSeries(labels[1]);
+        	pitchHistorySeries.useImplicitXVals();
+        	rollHistorySeries = new SimpleXYSeries(labels[2]);
+        	rollHistorySeries.useImplicitXVals();
+
+        	        	
+        	if (nr < 7){
+        		aprHistoryPlot.setRangeBoundaries(boundRange[0], boundRange[1], BoundaryMode.FIXED);
+        		aprHistoryPlot.addSeries(azimuthHistorySeries, new LineAndPointFormatter(Color.rgb(100, 100, 200), Color.BLUE, null));
+        		aprHistoryPlot.addSeries(pitchHistorySeries, new LineAndPointFormatter(Color.rgb(100, 200, 100), Color.BLACK, null));
+        		aprHistoryPlot.addSeries(rollHistorySeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null ));
+        	}else{
+        		aprHistoryPlot.setRangeBoundaries(boundRange[0], boundRange[1], BoundaryMode.AUTO);
+        		aprHistoryPlot.addSeries(azimuthHistorySeries, new LineAndPointFormatter(Color.rgb(100, 100, 200), Color.BLUE, null));
+        	}
+        	aprHistoryPlot.setDomainStep(XYStepMode.INCREMENT_BY_VAL ,5);
+
+        	aprHistoryPlot.setTicksPerRangeLabel(3);
+        	//	                
+        	aprHistoryPlot.getDomainLabelWidget().pack();
+        	//	                aprHistoryPlot.getBackgroundPaint().setAlpha(0);
+        	//	                aprHistoryPlot.getGraphWidget().getBackgroundPaint().setAlpha(0);
+        	//	                aprHistoryPlot.getGraphWidget().getGridBackgroundPaint().setAlpha(0);
+        	aprHistoryPlot.setRangeLabel(labels[4]);
+        	aprHistoryPlot.setTitle(labels[3]);
+        	aprHistoryPlot.getRangeLabelWidget().pack();	               
+
+
+        	registerSensor(nr);
+	}
+    
+    
+    
+    private void registerSensor(int nr){
+        // register for orientation sensor events:
+//        sensorMgr = managerSensor;
+        System.out.println("REGISTER SENSOR");
+        plotNumber = nr;
+        switch(nr){
+            case 1:
+            
+	            for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_ACCELEROMETER)) {
+	                if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+	                    orSensor = sensor;
+	                }
+	            }
+	            break;
+            case 2:
+	            for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_GYROSCOPE)) {
+	                if (sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+	                    orSensor = sensor;
+	                }
+	            }
+	            break;
+            case 3:
+	            for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_ORIENTATION)) {
+	                if (sensor.getType() == Sensor.TYPE_ORIENTATION) {
+	                    orSensor = sensor;
+	                }
+	            }
+	            break;
+	            
+//FUSION VALUE		            
+            case 4:
+	            for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_LINEAR_ACCELERATION)) {
+	                if (sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+	                    orSensor = sensor;
+	                }
+	            }
+	            break;
+            case 5:
+	            for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_GRAVITY)) {
+	                if (sensor.getType() == Sensor.TYPE_GRAVITY) {
+	                    orSensor = sensor;
+	                }
+	            }
+	            break;
+            case 6:
+	            for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_ROTATION_VECTOR)) {
+	                if (sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+	                    orSensor = sensor;
+	                }
+	            }
+	            break;
+            case 7:
+	            for (Sensor sensor : managerSensor.getSensorList(Sensor.TYPE_LIGHT)) {
+	                if (sensor.getType() == Sensor.TYPE_LIGHT) {
+	                    orSensor = sensor;
+	                }
+	            }
+	            break; 
+        }
+        
+
+        // if we can't access the orientation sensor then exit:
+        if (orSensor == null) {
+            System.out.println("Failed to attach to orSensor.");
+            cleanup();
+        }else{
+        	managerSensor.registerListener(this, orSensor, SensorManager.SENSOR_DELAY_UI);
+        }
+    	
+    }
+
+    private void cleanup() {
+        // unregister with the orientation sensor before exiting:
+    	managerSensor.unregisterListener(this);
+        //finish();
+    }
+    
+    //TO CHECK
+    
+    // Called whenever a new orSensor reading is taken.
+    @Override
+    public synchronized void onSensorChanged(SensorEvent sensorEvent) {
+    	
+    	
+    	
+    	
+        // update instantaneous data:
+        if(plotNumber < 7){
+        		if (rollHistorySeries.size() > HISTORY_SIZE) {
+        			rollHistorySeries.removeFirst();
+        			pitchHistorySeries.removeFirst();
+        			azimuthHistorySeries.removeFirst();
+        		}
+
+        		// add the latest history sample:
+        		azimuthHistorySeries.addLast(null, sensorEvent.values[0]);
+        		pitchHistorySeries.addLast(null, sensorEvent.values[1]);
+        		rollHistorySeries.addLast(null, sensorEvent.values[2]);
+        		aprHistoryPlot.redraw();
+//        	}
+    	}else{
+        		if (azimuthHistorySeries.size() > HISTORY_SIZE) {
+//        			rollHistorySeries.removeFirst();
+//        			pitchHistorySeries.removeFirst();
+        			azimuthHistorySeries.removeFirst();
+        		}
+
+        		// add the latest history sample:
+//        		System.out.println(sensorEvent.values[0]);
+        		azimuthHistorySeries.addLast(null, sensorEvent.values[0]);
+//        		pitchHistorySeries.addLast(null, 0);
+//        		rollHistorySeries.addLast(null, 0);
+        		aprHistoryPlot.redraw();   
+//        	}
+    	}
+        
+    }
+
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+        // Not interested in this event
+    }
+//BATTERY PART
+private static Long getValueFromFile() {
+	    
+		String text = null;
+		File f = null; 
+		f = new File("/sys/class/power_supply/battery/current_now");
+		try {
+
+			FileInputStream fs = new FileInputStream(f);	      
+			DataInputStream ds = new DataInputStream(fs);
+
+			text = ds.readLine();
+
+			ds.close();    
+			fs.close();  
+
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		Long value = null;
+
+		if (text != null)
+		{
+			try
+			{
+				value = Long.parseLong(text);
+			}
+			catch (NumberFormatException nfe)
+			{
+				value = null;
+			}	    	      
+			value = value/1000; // convert to milliampere
+		}
+		return value;
+	}
+    
+
+
+
+
+
+private void plotBattery(int pos) {
+	//	super.onCreate(savedInstanceState);
+	//	setContentView(R.layout.activity_battery_charts);
+	//	this.registerReceiver(this.mBatInfoReceiver,  new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
+
+	//	 	textCharge = (TextView) findViewById(R.id.textvalueCharge);
+	//	 	textTemp = (TextView) findViewById(R.id.textvalueTemp);
+
+	plotNumber =pos;
+	aprHistoryPlot = (XYPlot)findViewById(R.id.timeserieChart2);
+
+	xBattery = new SimpleXYSeries("Battery");
+	xBattery.useImplicitXVals();
+
+
+	aprHistoryPlot.setRangeBoundaries(-1000, 200, BoundaryMode.FIXED);
+	aprHistoryPlot.setDomainBoundaries(0, 300, BoundaryMode.AUTO);
+	PointLabelFormatter point1 = new  PointLabelFormatter(Color.rgb(255, 255, 255)); 
+	aprHistoryPlot.addSeries(xBattery, new LineAndPointFormatter(Color.rgb(100, 100, 200), Color.BLUE, null , point1));
+	//
+	//
+	aprHistoryPlot.setDomainStep(XYStepMode.INCREMENT_BY_VAL ,5);
+	aprHistoryPlot.setTicksPerRangeLabel(3);
+	//	//	                
+	aprHistoryPlot.getDomainLabelWidget().pack();
+	aprHistoryPlot.getRangeLabelWidget().pack();	               
+
+	aprHistoryPlot.setTitle("Current Consumption");
+	aprHistoryPlot.setDomainLabel("[S]");
+	aprHistoryPlot.setRangeLabel("mA");
+
+	//	ts = myIntent.getIntExtra( "timesample" ,1 );
+	r = new runnableChart();
+	new Thread(r).start();
+
+}
+
+
+
+
+
+private class runnableChart implements Runnable {
+
+	private boolean doRun = true;
+	//	 Handler handler = new Handler();
+	@Override
+	public void run(){
+		//		textVoltage = (TextView) findViewById(R.id.textvalueVoltage);
+		//		textCPU0 = (TextView) findViewById(R.id.textvalueCPU0);
+		//		textCPU1 = (TextView) findViewById(R.id.textvalueCPU1);
+		//		textCPU2 = (TextView) findViewById(R.id.textvalueCPU2);
+		//		textCPU3 = (TextView) findViewById(R.id.textvalueCPU3);
+		while(doRun){		            	
+			try {
+				//				System.out.println("Value " + getValueFromFile());
+
+				if (xBattery.size() > HISTORY_SIZE) {
+
+					xBattery.removeFirst();
+				}
+				// add the latest history sample:
+				xBattery.addLast(null, getValueFromFile());
+				//        		System.out.println(getValueMHzCPUFile(0));
+				//        		System.out.println(getValueMHzCPUFile(1));
+				//        		System.out.println(getValueMHzCPUFile(2));
+				//        		System.out.println(getValueMHzCPUFile(3));
+
+				aprHistoryPlot.redraw();
+
+
+				//				handler.post(new Runnable(){
+				//					 public void run() {
+				//						 textVoltage.setText(getValueVoltageFromFile() + "mV");
+				//						 textCPU0.setText(getValueMHzCPUFile(0) + "MHz");
+				//						 textCPU1.setText(getValueMHzCPUFile(1) + "MHz");
+				//						 textCPU2.setText(getValueMHzCPUFile(2) + "MHz");
+				//						 textCPU3.setText(getValueMHzCPUFile(3) + "MHz");
+				//					 }
+				//				});
+				Thread.sleep(ts*1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	public void stopThread(){
+		System.out.println("close");
+		doRun = false;			
+	}
+
+
+}
+
+
+public void stopChart(View view) {
+	if (plotNumber <= 7){
+		cleanup();
+//		aprHistoryPlot.clear();
+		
+	}else{
+		
+//		aprHistoryPlot.clear();
+		r.stopThread();
+	}
+
+}
+
 }
 

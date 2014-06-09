@@ -18,3 +18,4 @@ echo "CHANGE PERMISSION"
 chmod -R 777 /sys/kernel/debug/ieee80211/$5/netdev:$1/stations/
 chmod -R 777 /sys/kernel/debug/ieee80211/$5/ath9k_htc/
 
+

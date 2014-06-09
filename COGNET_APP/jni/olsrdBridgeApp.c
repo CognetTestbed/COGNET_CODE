@@ -18,9 +18,9 @@
 JNIEXPORT jint JNICALL Java_it_durip_1app_Olsr_olsrdOn(JNIEnv *env, jobject thisObj ,
 		jint n){
 	char ss[128];
-	sprintf(ss, "su -c \"nohup /system/bin/olsrd -f /sdcard/COGNET_TESTBED/CONFIG/olsrdTABLET.conf > /dev/null &\"");
 
 
+	sprintf(ss, "su -c \"/system/bin/olsrd -f /sdcard/COGNET_TESTBED/CONFIG/olsrdTABLET.conf > /dev/null &\"");
 	system(ss);
 	return 1;
 }

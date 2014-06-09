@@ -161,14 +161,6 @@
         android:layout_toRightOf="@+id/paramMyIp"
         android:text="@string/ip_network_label" />
 
-    <TextView
-        android:id="@+id/TextView07"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/paramI"
-        android:layout_below="@+id/paramI"
-        android:text="@string/mac_detected_label" />
-
     <EditText
         android:id="@+id/paramSubnet"
         android:layout_width="wrap_content"
@@ -184,18 +176,38 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/paramSubnet" >
-
+<TableRow>
+        <RadioButton
+        android:id="@+id/radio0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"                       
+        android:checked="true"
+        android:text="@string/RadioButton1" />
+        
+        
         <RadioButton
             android:id="@+id/radio1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/RadioButton2" />
-
+            android:text="@string/RadioButton2" 
+            android:layout_below="@+id/paramNetmask"        	    
+		/>
+</TableRow>
+<TableRow>        
+        <RadioButton
+        android:id="@+id/radio2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/radioGroup1"
+        android:layout_alignRight="@+id/paramPortLabel"
+        android:text="@string/RadioButton3" />
+        
         <RadioButton
             android:id="@+id/radio3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/RadioButton4" />
+</TableRow>        
     </RadioGroup>
 
     <TextView
@@ -422,7 +434,7 @@
         android:id="@+id/statusInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/logPath"
+        android:layout_alignBottom="@+id/TextView05"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/TextView04"
         android:layout_toRightOf="@+id/paramNetmask"
@@ -432,15 +444,6 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:inputType="textMultiLine" />
-
-    <RadioButton
-        android:id="@+id/radio0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/TextView04"
-        android:layout_alignTop="@+id/radioGroup1"
-        android:checked="true"
-        android:text="@string/RadioButton1" />
 
     <ToggleButton
         android:id="@+id/manageSensors"
@@ -476,10 +479,9 @@
     <NumberPicker
         android:id="@+id/numberpickerSensor"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/radio2"
-        android:layout_alignRight="@+id/TextView08"
-        android:layout_below="@+id/spinnerSensor"
+        android:layout_height="wrap_content"        
+        android:layout_below="@+id/radioGroup1"
+        android:layout_toRightOf="@+id/spinnerSensor"
         android:orientation="horizontal"
         android:scaleX="0.8"
         android:scaleY="0.8" />
@@ -496,43 +498,45 @@
     <Spinner
         android:id="@+id/mac_select"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/statusInfo"
-        android:layout_alignRight="@+id/textView1"
-        android:layout_alignTop="@+id/statusInfo"
-        android:layout_marginLeft="17dp" />
+        android:layout_height="wrap_content"        
+        android:layout_toRightOf="@+id/TextView04"
+        android:layout_alignBottom="@+id/TextView04"
+        android:layout_marginLeft="17dp" 
 
+        />
+
+    
     <RadioGroup
         android:id="@+id/radioGroup2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/radio0"
-        android:layout_below="@+id/numberpickerSensor" >
-    </RadioGroup>
+        android:layout_height="wrap_content"       
+		android:orientation="horizontal"
+        android:layout_below="@+id/manageSensors" >
+
+    
 
     <RadioButton
-        android:id="@+id/radio1"
+        android:id="@+id/radioPlot1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/paramSubnet"
-        android:layout_below="@+id/manageSensors"
-        android:text="RadioButton" />
-
+        android:checked="true"       
+        android:text="@string/label_radioPlot1" />   
     <RadioButton
-        android:id="@+id/radio0"
+        android:id="@+id/radioPlot0"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/radio1"
-        android:layout_toRightOf="@+id/manageSensors"
-        android:checked="true"
-        android:text="RadioButton" />
+        android:layout_height="wrap_content"        
+        android:text="@string/label_radioPlot0" />
+ 
+</RadioGroup>
 
-    <RadioButton
-        android:id="@+id/radio2"
+    <Button
+        android:id="@+id/button1"
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/launcher"
-        android:layout_alignRight="@+id/radio0"
-        android:text="@string/RadioButton3" />
+        android:layout_toRightOf="@+id/buttonStatus"
+        android:layout_alignBottom="@+id/buttonStatus"
+        android:onClick="stopChart"
+        android:text="Stop Chart" />
 
 </RelativeLayout>

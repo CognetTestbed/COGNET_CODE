@@ -87,19 +87,18 @@ JNIEXPORT jint JNICALL Java_it_durip_1app_ServerSocketCmd_mainJNI(JNIEnv *env, j
 //	    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "SUBNET %s" , IP_SUBNET);
 //	    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "NETMASK %s" , IP_NETMASK);
 
-
+	    	    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "MATTEO");
     
-
+//	    sprintf(scriptToLaunch, "su -c \"sh /sdcard/COGNET_TESTBED/SCRIPT/launcher.sh %s %s DURIP 0 %s %s\"" ,WLAN , IP_ADDR ,PHY, ESSID);
+//	        	__android_log_print(ANDROID_LOG_DEBUG, "OPEN", "IPADDRESS %s" , scriptToLaunch);
+	sprintf(scriptToLaunch, "su -c \"sh /system/bin/launcher.sh %s %s DURIP 0 %s %s\"" ,WLAN , IP_ADDR ,PHY, ESSID);
+//	 _android_log_print(ANDROID_LOG_DEBUG, "OPEN", "%s " , scriptToLaunch);
+	system(scriptToLaunch);
     if(ctrlFirst == 1){
-    	sprintf(scriptToLaunch, "su -c \"sh /sdcard/COGNET_TESTBED/SCRIPT/launcher.sh %s %s DURIP 0 %s %s\"" ,WLAN , IP_ADDR ,PHY, ESSID);
-    	__android_log_print(ANDROID_LOG_DEBUG, "OPEN", "IPADDRESS %s" , scriptToLaunch);
-    	system(scriptToLaunch);
     	mainReadMacServer(stringCount-1, argv);
     	ctrlFirst = 0;
     }else{
-    	sprintf(scriptToLaunch, "su -c \"sh /sdcard/COGNET_TESTBED/SCRIPT/launcher.sh %s %s DURIP 0 %s %s\"" ,WLAN , IP_ADDR ,PHY, ESSID);
-    	__android_log_print(ANDROID_LOG_DEBUG, "OPEN", "IPADDRESS %s" , scriptToLaunch);
-    	system(scriptToLaunch);
+	    __android_log_print(ANDROID_LOG_DEBUG, "OPEN", "MATTEO222");
     }
 	return 1;
 }
