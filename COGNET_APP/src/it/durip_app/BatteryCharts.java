@@ -69,11 +69,12 @@ public class BatteryCharts extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_battery_charts);
+		textCharge = (TextView) findViewById(R.id.textvalueCharge);
+   	 	textTemp = (TextView) findViewById(R.id.textvalueTemp);
 		this.registerReceiver(this.mBatInfoReceiver,  new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 		
 		
-   	 	textCharge = (TextView) findViewById(R.id.textvalueCharge);
-   	 	textTemp = (TextView) findViewById(R.id.textvalueTemp);
+   	 	
 
    	 	Intent myIntent = getIntent();
 		aprHistoryPlot = (XYPlot)findViewById(R.id.timeserieBatteryChart);

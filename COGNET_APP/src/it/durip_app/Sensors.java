@@ -134,17 +134,17 @@ public class Sensors extends Service implements SensorEventListener {
 			
 			while(doRun){		            	
 				try {
-//					System.out.println("Value " + getValueFromFile() + " " + getValueVoltageFromFile());
 					try {
 						writeBattery.append(formatTime.format(System.currentTimeMillis()) + 
 								" " +  getValueFromFile() + " " + getValueVoltageFromFile() + " " + level + 
-								getValueMHzCPUFile(0) +" "+ getValueMHzCPUFile(1) +" " +
+								" "+getValueMHzCPUFile(0) +" "+ getValueMHzCPUFile(1) +" " +
 								getValueMHzCPUFile(2) +" "+ getValueMHzCPUFile(3) +" " 
 								+"\n");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					//DA PORTARE FUORI
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -588,7 +588,6 @@ public class Sensors extends Service implements SensorEventListener {
 				return Long.parseLong(text);
 		}
 		catch (Exception ex) {
-		//	ex.printStackTrace();
 			return (long)0;
 		}
 	}

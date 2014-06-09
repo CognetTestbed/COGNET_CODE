@@ -486,6 +486,73 @@
         android:scaleX="0.8"
         android:scaleY="0.8" />
 
+       <TextView
+        android:id="@+id/textvalueVoltage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/timeserieChart2"
+		android:layout_toRightOf="@+id/spinnerSensor"
+		android:layout_below= "@+id/statusInfo"
+        android:text="A"
+        android:layout_marginLeft="90dp"   
+        />
+    <TextView
+        android:id="@+id/textvalueCharge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/timeserieChart2"		
+		android:layout_below= "@+id/statusInfo"
+		android:layout_marginLeft="19dp"
+        android:layout_toRightOf="@+id/textvalueVoltage"               
+       />
+    <TextView
+        android:id="@+id/textvalueTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textvalueVoltage"
+        android:layout_marginLeft="19dp"
+        android:layout_toRightOf="@+id/textvalueCharge"        
+        />
+    
+        <TextView
+        android:id="@+id/textvalueCPU0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textvalueVoltage"
+        android:layout_marginLeft="5dp"        
+        android:layout_toRightOf="@+id/textvalueTemp"       
+        android:text="A" 
+        />
+    <TextView
+        android:id="@+id/textvalueCPU1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textvalueVoltage"
+        android:layout_marginLeft="19dp"
+        android:layout_toRightOf="@+id/textvalueCPU0"  
+        android:text="B"      
+       />
+    
+    <TextView
+        android:id="@+id/textvalueCPU2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textvalueCPU0"
+        android:layout_toRightOf="@+id/spinnerSensor"
+        android:layout_marginLeft="200dp"             
+        android:text="C"  
+        />
+    
+    <TextView
+        android:id="@+id/textvalueCPU3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"        
+        android:layout_below="@+id/textvalueCPU0"
+        android:layout_toRightOf="@+id/textvalueCPU2"  
+        android:layout_marginLeft="19dp" 
+        android:text="D"     
+        />
+        
     <com.androidplot.xy.XYPlot
         android:id="@+id/timeserieChart2"
         android:layout_width="200dp"

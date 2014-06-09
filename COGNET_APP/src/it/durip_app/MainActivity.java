@@ -36,10 +36,12 @@ import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYStepMode;
 
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -90,12 +92,15 @@ public class MainActivity extends Activity implements SensorEventListener{
 	private boolean checkOndemandSpinner = false;
 	private NumberPicker numberPickerOLSR ;
 	private NumberPicker numberPickerSensor;
+	
+	
+	
 	private int ts;
 	private int tsOLSR;
 
 	//PLOT SECTION
 	private static SensorManager managerSensor;
-    private static final int HISTORY_SIZE = 50;            // number of points to plot in history
+    private static final int HISTORY_SIZE = 10;            // number of points to plot in history
 //    private SensorManager sensorMgr = null;
 //    private Sensor orSensor3 = null;
 //    private Sensor orSensor2 = null;
@@ -117,11 +122,35 @@ public class MainActivity extends Activity implements SensorEventListener{
     private int ctrlPlotPage= 0 ;
     
     
+    private int ctrlFirstSetup = 1;
     
     private SimpleXYSeries xBattery = null;
     
     private runnableChart r;
+    private TextView textCharge;
+    private TextView textVoltage;
+    private TextView textTemp;
     
+    private TextView textCPU0;
+    private TextView textCPU1;
+    private TextView textCPU2;
+    private TextView textCPU3;
+    
+    private BroadcastReceiver mBatInfoReceiverMain = new BroadcastReceiver(){
+        @Override
+        public void onReceive(Context arg0, Intent intent) {
+      	  
+     
+      	  int  level= intent.getIntExtra(BatteryManager.EXTRA_LEVEL,0);
+      	  int  temperature= intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE,0);
+
+      	  if(plotNumber == 8){
+      		  textCharge.setText(level+"% ");
+      		  textTemp.setText(temperature/10+"C ");
+      	  }
+      	  
+        }
+      };
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +158,10 @@ public class MainActivity extends Activity implements SensorEventListener{
         setContentView(R.layout.activity_main);
         Spinner macSpinner = (Spinner) findViewById(R.id.mac_select);
         managerSensor = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
-        
+        textCharge = (TextView) findViewById(R.id.textvalueCharge);
+   	 	textTemp = (TextView) findViewById(R.id.textvalueTemp);
+        registerReceiver(mBatInfoReceiverMain,  new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+     
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         final int SUPERUSER_REQUEST = 2323; // arbitrary number of your choosing
         Intent intent = new Intent("android.intent.action.superuser"); // superuser request
@@ -437,7 +469,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 			s[5]="3";
 		}
 	
-		Log.d("MAC READ", "Launch Server MAC READ");			
+//		Log.d("MAC READ", "Launch Server MAC READ");			
 		
         Intent intentSocket = new Intent(this, ServerSocketCmd.class);
         intentSocket.putExtra(ServerSocketCmd.DESTINATION, s[0]);
@@ -450,13 +482,27 @@ public class MainActivity extends Activity implements SensorEventListener{
         intentSocket.putExtra(ServerSocketCmd.PATH, s[7]);
         intentSocket.putExtra(ServerSocketCmd.SUBNET, s[8]);
         intentSocket.putExtra(ServerSocketCmd.NETMASK, s[9]);
-        //if (IPAddressUtil.isIPv4LiteralAddress(s[0]))
-        try{
-        	//ServerSocketCmd.java
-        	startService(intentSocket); // make the request!
-        }catch(Exception e){
-    		Log.i("superusering err", e.toString());
+        
+        if(ctrlFirstSetup == 1){
+        	//if (IPAddressUtil.isIPv4LiteralAddress(s[0]))
+            try{
+            	//ServerSocketCmd.java
+            	Log.d("MAC READ", "ENTRO QUA?? ");
+            	startService(intentSocket); // make the request!
+            	ctrlFirstSetup = 0;
+            }catch(Exception e){
+        		Log.i("superusering err", e.toString());
+            }	
+        
+        }else{
+        	
+//            intentSocket.putExtra(ServerSocketCmd.DEVICE, s[2]);
+//            intentSocket.putExtra(ServerSocketCmd.PHY, s[3]);            
+//            intentSocket.putExtra(ServerSocketCmd.ESSID, s[6]);
+            
+        	Log.d("MAC READ", "Already run");
         }
+        
         
 	}
 	
@@ -1003,13 +1049,7 @@ private static Long getValueFromFile() {
 
 
 private void plotBattery(int pos) {
-	//	super.onCreate(savedInstanceState);
-	//	setContentView(R.layout.activity_battery_charts);
-	//	this.registerReceiver(this.mBatInfoReceiver,  new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
-
-	//	 	textCharge = (TextView) findViewById(R.id.textvalueCharge);
-	//	 	textTemp = (TextView) findViewById(R.id.textvalueTemp);
 
 	plotNumber =pos;
 	aprHistoryPlot = (XYPlot)findViewById(R.id.timeserieChart2);
@@ -1034,27 +1074,91 @@ private void plotBattery(int pos) {
 	aprHistoryPlot.setDomainLabel("[S]");
 	aprHistoryPlot.setRangeLabel("mA");
 
-	//	ts = myIntent.getIntExtra( "timesample" ,1 );
+
 	r = new runnableChart();
 	new Thread(r).start();
 
 }
 
 
+private static Long getValueVoltageFromFile() {
+    
+	String text = null;
+	File f = null; 
+	f = new File("/sys/class/power_supply/battery/voltage_now");
+	try {
 
+		FileInputStream fs = new FileInputStream(f);	      
+		DataInputStream ds = new DataInputStream(fs);
+
+		text = ds.readLine();
+
+		ds.close();    
+		fs.close();  
+
+	}
+	catch (Exception ex) {
+		ex.printStackTrace();
+	}
+
+	Long value = null;
+
+	if (text != null)
+	{
+		try
+		{
+			value = Long.parseLong(text);
+		}
+		catch (NumberFormatException nfe)
+		{
+			value = null;
+		}	    	      	
+	}
+	return value/1000;
+}
+
+private static Long getValueMHzCPUFile(int cpuNumber) {
+    
+	String text = null;
+	File f = null; 
+	f = new File("/sys/devices/system/cpu/cpu"+cpuNumber+"/cpufreq/cpuinfo_cur_freq");
+	try {
+
+
+		FileInputStream fs = new FileInputStream(f);	      
+		DataInputStream ds = new DataInputStream(fs);
+
+		text = ds.readLine();
+
+		ds.close();    
+		fs.close();  
+
+		Long value = null;
+
+//		System.out.println(text);
+		if(Long.parseLong(text) > 1000)
+			return Long.parseLong(text)/1000;
+		else
+			return Long.parseLong(text);
+	}
+	catch (Exception ex) {
+	//	ex.printStackTrace();
+		return (long)0;
+	}
+}
 
 
 private class runnableChart implements Runnable {
 
 	private boolean doRun = true;
-	//	 Handler handler = new Handler();
+		 Handler handler = new Handler();
 	@Override
 	public void run(){
-		//		textVoltage = (TextView) findViewById(R.id.textvalueVoltage);
-		//		textCPU0 = (TextView) findViewById(R.id.textvalueCPU0);
-		//		textCPU1 = (TextView) findViewById(R.id.textvalueCPU1);
-		//		textCPU2 = (TextView) findViewById(R.id.textvalueCPU2);
-		//		textCPU3 = (TextView) findViewById(R.id.textvalueCPU3);
+				textVoltage = (TextView) findViewById(R.id.textvalueVoltage);
+				textCPU0 = (TextView) findViewById(R.id.textvalueCPU0);
+				textCPU1 = (TextView) findViewById(R.id.textvalueCPU1);
+				textCPU2 = (TextView) findViewById(R.id.textvalueCPU2);
+				textCPU3 = (TextView) findViewById(R.id.textvalueCPU3);
 		while(doRun){		            	
 			try {
 				//				System.out.println("Value " + getValueFromFile());
@@ -1073,15 +1177,15 @@ private class runnableChart implements Runnable {
 				aprHistoryPlot.redraw();
 
 
-				//				handler.post(new Runnable(){
-				//					 public void run() {
-				//						 textVoltage.setText(getValueVoltageFromFile() + "mV");
-				//						 textCPU0.setText(getValueMHzCPUFile(0) + "MHz");
-				//						 textCPU1.setText(getValueMHzCPUFile(1) + "MHz");
-				//						 textCPU2.setText(getValueMHzCPUFile(2) + "MHz");
-				//						 textCPU3.setText(getValueMHzCPUFile(3) + "MHz");
-				//					 }
-				//				});
+								handler.post(new Runnable(){
+									 public void run() {
+										 textVoltage.setText(getValueVoltageFromFile() + "mV");
+										 textCPU0.setText(getValueMHzCPUFile(0) + "MHz");
+										 textCPU1.setText(getValueMHzCPUFile(1) + "MHz");
+										 textCPU2.setText(getValueMHzCPUFile(2) + "MHz");
+										 textCPU3.setText(getValueMHzCPUFile(3) + "MHz");
+									 }
+								});
 				Thread.sleep(ts*1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -1109,9 +1213,12 @@ public void stopChart(View view) {
 		
 //		aprHistoryPlot.clear();
 		r.stopThread();
+		this.unregisterReceiver(this.mBatInfoReceiverMain);
 	}
 
 }
+
+
 
 }
 

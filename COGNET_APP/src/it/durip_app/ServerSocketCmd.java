@@ -17,15 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 package it.durip_app;
 
-//import java.io.BufferedReader;
-//import java.io.DataOutputStream;
-//import java.io.IOException;
-//import java.io.InputStreamReader;
-//import java.io.UnsupportedEncodingException;
-//import java.net.InetSocketAddress;
-//import java.net.ServerSocket;
-//import java.net.Socket;
-//import java.net.SocketAddress;
+
 
 import android.app.Service;
 import android.content.Intent;
@@ -71,7 +63,7 @@ public class ServerSocketCmd extends Service implements Runnable{
 	public static final String ESSID="ESSID";
 	public static final String PATH="PATH";
 	public static final String SUBNET="SUBNET";
-	public static final String NETMASK="NETMASK";
+	public static final String NETMASK="NETMASK";	
 	public static final int params=10;
 	private boolean isPlaying=false;
 	public static String s[];
@@ -84,7 +76,7 @@ public class ServerSocketCmd extends Service implements Runnable{
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d("MAC SERVERSOCKET", "Launched");
 		s = new String[params];
-//	    boolean loop=intent.getBooleanExtra(LOOP, false);
+
 	    JniHook = new JniCall();
 	    s[0] = intent.getStringExtra(DESTINATION);
 	    s[1] = intent.getStringExtra(PORT);
@@ -95,9 +87,8 @@ public class ServerSocketCmd extends Service implements Runnable{
 	    s[6] = intent.getStringExtra(ESSID);
 	    s[7] = intent.getStringExtra(PATH);
 	    s[8] = intent.getStringExtra(SUBNET);
-	    s[9] = intent.getStringExtra(NETMASK);
-
-	    this.run();
+	    s[9] = intent.getStringExtra(NETMASK);	    
+ 	    this.run();
 	    return(START_NOT_STICKY);
 	}
 	  
