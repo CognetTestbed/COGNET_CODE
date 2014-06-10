@@ -173,6 +173,14 @@ public class MainActivity extends Activity implements SensorEventListener{
     		Log.i("superusering err", e.toString());
         }
         
+        
+        textVoltage = (TextView) findViewById(R.id.textvalueVoltage);
+		textCPU0 = (TextView) findViewById(R.id.textvalueCPU0);
+		textCPU1 = (TextView) findViewById(R.id.textvalueCPU1);
+		textCPU2 = (TextView) findViewById(R.id.textvalueCPU2);
+		textCPU3 = (TextView) findViewById(R.id.textvalueCPU3);
+        
+        
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		wl = pm.newWakeLock(
 		            PowerManager.PARTIAL_WAKE_LOCK
@@ -286,6 +294,88 @@ public class MainActivity extends Activity implements SensorEventListener{
         		
         	}
 		});
+        
+        //NEW PART TO MANAGE MULTIPLE ROW RADIO BUTTONS
+        
+//        RadioGroup r1 = (RadioGroup) findViewById(R.id.radioGroup1);
+        
+        RadioButton r0 = (RadioButton) findViewById(R.id.radio0);
+        r0.setOnClickListener(new OnClickListener(){
+        
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				RadioButton rb0 = (RadioButton) findViewById(R.id.radio0);
+				RadioButton rb1 = (RadioButton) findViewById(R.id.radio1);
+				RadioButton rb2 = (RadioButton) findViewById(R.id.radio2);
+				RadioButton rb3 = (RadioButton) findViewById(R.id.radio3);
+				rb0.setChecked(true);
+				rb1.setChecked(false);
+				rb2.setChecked(false);
+				rb3.setChecked(false);
+			}
+        	
+        });
+        
+        RadioButton r1 = (RadioButton) findViewById(R.id.radio1);
+        r1.setOnClickListener(new OnClickListener(){
+        
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				RadioButton rb0 = (RadioButton) findViewById(R.id.radio0);
+				RadioButton rb1 = (RadioButton) findViewById(R.id.radio1);
+				RadioButton rb2 = (RadioButton) findViewById(R.id.radio2);
+				RadioButton rb3 = (RadioButton) findViewById(R.id.radio3);
+				rb0.setChecked(false);
+				rb1.setChecked(true);
+				rb2.setChecked(false);
+				rb3.setChecked(false);
+			}
+        	
+        });
+
+        
+        RadioButton r2 = (RadioButton) findViewById(R.id.radio2);
+        r2.setOnClickListener(new OnClickListener(){
+        
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				RadioButton rb0 = (RadioButton) findViewById(R.id.radio0);
+				RadioButton rb1 = (RadioButton) findViewById(R.id.radio1);
+				RadioButton rb2 = (RadioButton) findViewById(R.id.radio2);
+				RadioButton rb3 = (RadioButton) findViewById(R.id.radio3);
+				rb0.setChecked(false);
+				rb1.setChecked(false);
+				rb2.setChecked(true);
+				rb3.setChecked(false);
+			}
+        	
+        });
+        
+        RadioButton r3 = (RadioButton) findViewById(R.id.radio3);
+        r3.setOnClickListener(new OnClickListener(){
+       
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				RadioButton rb0 = (RadioButton) findViewById(R.id.radio0);
+				RadioButton rb1 = (RadioButton) findViewById(R.id.radio1);
+				RadioButton rb2 = (RadioButton) findViewById(R.id.radio2);
+				RadioButton rb3 = (RadioButton) findViewById(R.id.radio3);
+				rb0.setChecked(false);
+				rb1.setChecked(false);
+				rb2.setChecked(false);
+				rb3.setChecked(true);
+			}
+        	
+        });
+        
+        
+        
     }
     
     private void stopManager(){
@@ -980,6 +1070,15 @@ public class MainActivity extends Activity implements SensorEventListener{
         		azimuthHistorySeries.addLast(null, sensorEvent.values[0]);
         		pitchHistorySeries.addLast(null, sensorEvent.values[1]);
         		rollHistorySeries.addLast(null, sensorEvent.values[2]);
+        		
+        		
+        		textVoltage.setText("X" + sensorEvent.values[0]);
+				textCPU0.setText("Y" + sensorEvent.values[1]);
+				textCPU1.setText("Z" + sensorEvent.values[2]);
+				 
+        		
+        		
+        		
         		aprHistoryPlot.redraw();
 //        	}
     	}else{
@@ -988,7 +1087,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 //        			pitchHistorySeries.removeFirst();
         			azimuthHistorySeries.removeFirst();
         		}
-
+        		textVoltage.setText("Light" + sensorEvent.values[0]);
         		// add the latest history sample:
 //        		System.out.println(sensorEvent.values[0]);
         		azimuthHistorySeries.addLast(null, sensorEvent.values[0]);
@@ -1133,7 +1232,7 @@ private static Long getValueMHzCPUFile(int cpuNumber) {
 		ds.close();    
 		fs.close();  
 
-		Long value = null;
+//		Long value = null;
 
 //		System.out.println(text);
 		if(Long.parseLong(text) > 1000)
@@ -1154,11 +1253,7 @@ private class runnableChart implements Runnable {
 		 Handler handler = new Handler();
 	@Override
 	public void run(){
-				textVoltage = (TextView) findViewById(R.id.textvalueVoltage);
-				textCPU0 = (TextView) findViewById(R.id.textvalueCPU0);
-				textCPU1 = (TextView) findViewById(R.id.textvalueCPU1);
-				textCPU2 = (TextView) findViewById(R.id.textvalueCPU2);
-				textCPU3 = (TextView) findViewById(R.id.textvalueCPU3);
+				
 		while(doRun){		            	
 			try {
 				//				System.out.println("Value " + getValueFromFile());

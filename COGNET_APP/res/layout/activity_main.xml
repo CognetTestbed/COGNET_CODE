@@ -170,14 +170,15 @@
         android:inputType="text"
         android:text="@string/subnet_label" />
 
-    <RadioGroup
+ 
+
+ <RadioGroup
         android:id="@+id/radioGroup1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/paramSubnet" >
-<TableRow>
-        <RadioButton
+     <RadioButton
         android:id="@+id/radio0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"                       
@@ -189,26 +190,33 @@
             android:id="@+id/radio1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/RadioButton2" 
-            android:layout_below="@+id/paramNetmask"        	    
+            android:text="@string/RadioButton2"         	    
 		/>
-</TableRow>
-<TableRow>        
+        </RadioGroup>
+<RadioGroup
+        android:id="@+id/radioGroup3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/radioGroup1"
+        
+        android:layout_below="@+id/paramSubnet" > 
+        
         <RadioButton
         android:id="@+id/radio2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/radioGroup1"
-        android:layout_alignRight="@+id/paramPortLabel"
-        android:text="@string/RadioButton3" />
+        android:text="@string/RadioButton3"
+        android:checked="false"
+         />
         
         <RadioButton
             android:id="@+id/radio3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/RadioButton4" />
-</TableRow>        
-    </RadioGroup>
+            android:text="@string/RadioButton4"
+            android:checked="false" />
+       
+</RadioGroup>   
 
     <TextView
         android:id="@+id/paramUrlLabel"
