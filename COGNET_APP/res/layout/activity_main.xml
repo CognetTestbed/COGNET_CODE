@@ -398,11 +398,13 @@
         android:layout_alignBaseline="@+id/iperf"
         android:layout_alignBottom="@+id/iperf"
         android:layout_toRightOf="@+id/iperf"
-        android:gravity="center_vertical"
-        android:onClick="manageIperServer"
+        android:gravity="center_vertical"        
         android:textOff="IperfServerOff"
-        android:textOn="IperServerOn" />
+        android:textOn="IperServerOn"
+        android:onClick="manageIperfServer"
+         />
 
+    <!-- android:onClick="manageIperServer" -->
     <ToggleButton
         android:id="@+id/olsrd"
         android:layout_width="wrap_content"
@@ -501,7 +503,6 @@
         android:layout_above="@+id/timeserieChart2"
 		android:layout_toRightOf="@+id/spinnerSensor"
 		android:layout_below= "@+id/statusInfo"
-        android:text="A"
         android:layout_marginLeft="90dp"   
         />
     <TextView
@@ -528,8 +529,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textvalueVoltage"
         android:layout_marginLeft="5dp"        
-        android:layout_toRightOf="@+id/textvalueTemp"       
-        android:text="A" 
+        android:layout_toRightOf="@+id/textvalueTemp"               
         />
     <TextView
         android:id="@+id/textvalueCPU1"
@@ -537,8 +537,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textvalueVoltage"
         android:layout_marginLeft="19dp"
-        android:layout_toRightOf="@+id/textvalueCPU0"  
-        android:text="B"      
+        android:layout_toRightOf="@+id/textvalueCPU0"         
        />
     
     <TextView
@@ -547,8 +546,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textvalueCPU0"
         android:layout_toRightOf="@+id/spinnerSensor"
-        android:layout_marginLeft="200dp"             
-        android:text="C"  
+        android:layout_marginLeft="200dp"                     
         />
     
     <TextView
@@ -557,8 +555,7 @@
         android:layout_height="wrap_content"        
         android:layout_below="@+id/textvalueCPU0"
         android:layout_toRightOf="@+id/textvalueCPU2"  
-        android:layout_marginLeft="19dp" 
-        android:text="D"     
+        android:layout_marginLeft="19dp"   
         />
         
     <com.androidplot.xy.XYPlot
@@ -587,9 +584,6 @@
         android:layout_height="wrap_content"       
 		android:orientation="horizontal"
         android:layout_below="@+id/manageSensors" >
-
-    
-
     <RadioButton
         android:id="@+id/radioPlot1"
         android:layout_width="wrap_content"
@@ -612,6 +606,15 @@
         android:layout_toRightOf="@+id/buttonStatus"
         android:layout_alignBottom="@+id/buttonStatus"
         android:onClick="stopChart"
-        android:text="Stop Chart" />
+        android:text="@string/button_chart"/>
+
+    <ToggleButton
+        android:id="@+id/toggleButtonMove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button1"
+        android:layout_alignRight="@+id/radioGroup3"
+     	android:text="@string/button_move"         
+         />
 
 </RelativeLayout>

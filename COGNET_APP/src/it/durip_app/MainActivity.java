@@ -96,7 +96,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 	
 	
 	private int ts;
-	private int tsOLSR;
+//	private int tsOLSR;
 
 	//PLOT SECTION
 	private static SensorManager managerSensor;
@@ -207,17 +207,17 @@ public class MainActivity extends Activity implements SensorEventListener{
         numberPickerSensor = (NumberPicker) findViewById(R.id.numberpickerSensor);
         numberPickerSensor.setMaxValue(10);       
         numberPickerSensor.setMinValue(1);      
-        numberPickerSensor.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                // do something here
-//                Log.d("OPEN", "Number of Nights change value.");
-            	ts = newVal;
-            }
-
-        });
+//        numberPickerSensor.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+//            @Override
+//            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+//                // do something here
+////                Log.d("OPEN", "Number of Nights change value.");
+//            	ts = newVal;
+//            }
+//
+//        });
         
-        ts = numberPickerSensor.getValue();
+//        ts = numberPickerSensor.getValue();
         
         
 
@@ -226,16 +226,16 @@ public class MainActivity extends Activity implements SensorEventListener{
         numberPickerOLSR.setMaxValue(10);       
         numberPickerOLSR.setMinValue(1);         
         
-        numberPickerOLSR.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                // do something here
-//                Log.d("OPEN", "Number of Nights change value.");
-            	tsOLSR = newVal;
-            }
-        });
+//        numberPickerOLSR.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+//            @Override
+//            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+//                // do something here
+////                Log.d("OPEN", "Number of Nights change value.");
+////            	tsOLSR = newVal;
+//            }
+//        });
         
-        tsOLSR = numberPickerSensor.getValue();
+//        tsOLSR = numberPickerSensor.getValue();
 
         spinner.setAdapter(adapter);
         
@@ -258,9 +258,8 @@ public class MainActivity extends Activity implements SensorEventListener{
         				}else{
         					try{
 
-        						//	                		Log.i("OPEN" , +ts +"A");
         						Intent intentSensor = new Intent(MainActivity.this ,  BatteryCharts.class);	                		
-        						intentSensor.putExtra("timesample",  ts);
+        						intentSensor.putExtra("timesample",  numberPickerSensor.getValue());
         						startActivity(intentSensor); // make the request!
         					}catch(Exception e){
         						Log.i("sensor err", e.toString());
@@ -317,8 +316,13 @@ public class MainActivity extends Activity implements SensorEventListener{
 			}
         	
         });
-        
-        RadioButton r1 = (RadioButton) findViewById(R.id.radio1);
+               
+        arrangeRadioButtonGroupGrid();
+    }
+    
+    
+    private void arrangeRadioButtonGroupGrid(){
+    	RadioButton r1 = (RadioButton) findViewById(R.id.radio1);
         r1.setOnClickListener(new OnClickListener(){
         
 
@@ -373,16 +377,10 @@ public class MainActivity extends Activity implements SensorEventListener{
 			}
         	
         });
-        
-        
-        
     }
     
+    
     private void stopManager(){
-    	
-    	
-    	
-    	
     	managerSensor.unregisterListener(this);
     }
     
@@ -393,6 +391,8 @@ public class MainActivity extends Activity implements SensorEventListener{
     	((ToggleButton) this.findViewById(R.id.manageSensors)).setChecked(false);
     	manageSensors(((ToggleButton) this.findViewById(R.id.manageSensors)));
     	wl.release();
+    	
+    	unregisterReceiver(this.mBatInfoReceiverMain);
     }
 
 
@@ -559,7 +559,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 			s[5]="3";
 		}
 	
-//		Log.d("MAC READ", "Launch Server MAC READ");			
+//					
 		
         Intent intentSocket = new Intent(this, ServerSocketCmd.class);
         intentSocket.putExtra(ServerSocketCmd.DESTINATION, s[0]);
@@ -694,13 +694,13 @@ public class MainActivity extends Activity implements SensorEventListener{
 			Log.i("OLSRD log launcher","Button trying to turn it on");
 	        try{
 	        	EditText OLSRfileLog = (EditText) findViewById(R.id.paramOLSRfileLog);
-	        	EditText OLSRSampletimelog = (EditText) findViewById(R.id.numberPickerOlsr);
+	        	NumberPicker OLSRSampletimelog = (NumberPicker) findViewById(R.id.numberPickerOlsr);
 	        	Intent intentOlsrdLog = new Intent(this, olsrdLog.class);	        											
 	        	String filename = OLSRfileLog.getText().toString();
-//	        	String sampletime = OLSRSampletimelog.getText().toString();
+	        	String sampletime = Integer.toString(OLSRSampletimelog.getValue());
 	        	
 	            intentOlsrdLog.putExtra(olsrdLog.FILENAME, filename);	            
-	            intentOlsrdLog.putExtra(olsrdLog.TIME, tsOLSR);
+	            intentOlsrdLog.putExtra(olsrdLog.TIME, sampletime);
 	            
 	        	startService(intentOlsrdLog); // make the request!
 	        }catch(Exception e){
@@ -1049,15 +1049,12 @@ public class MainActivity extends Activity implements SensorEventListener{
         //finish();
     }
     
-    //TO CHECK
+
     
     // Called whenever a new orSensor reading is taken.
     @Override
     public synchronized void onSensorChanged(SensorEvent sensorEvent) {
-    	
-    	
-    	
-    	
+
         // update instantaneous data:
         if(plotNumber < 7){
         		if (rollHistorySeries.size() > HISTORY_SIZE) {
@@ -1161,11 +1158,10 @@ private void plotBattery(int pos) {
 	aprHistoryPlot.setDomainBoundaries(0, 300, BoundaryMode.AUTO);
 	PointLabelFormatter point1 = new  PointLabelFormatter(Color.rgb(255, 255, 255)); 
 	aprHistoryPlot.addSeries(xBattery, new LineAndPointFormatter(Color.rgb(100, 100, 200), Color.BLUE, null , point1));
-	//
-	//
+
 	aprHistoryPlot.setDomainStep(XYStepMode.INCREMENT_BY_VAL ,5);
 	aprHistoryPlot.setTicksPerRangeLabel(3);
-	//	//	                
+	                
 	aprHistoryPlot.getDomainLabelWidget().pack();
 	aprHistoryPlot.getRangeLabelWidget().pack();	               
 
@@ -1312,6 +1308,14 @@ public void stopChart(View view) {
 	}
 
 }
+
+
+//public void saveLogMove(View view){
+//	boolean on = ((ToggleButton) view).isChecked();
+//	
+//	
+//	
+//}
 
 
 

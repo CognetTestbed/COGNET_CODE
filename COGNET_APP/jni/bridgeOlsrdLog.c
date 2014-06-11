@@ -29,19 +29,23 @@ JNIEXPORT jint JNICALL Java_it_durip_1app_olsrdLog_olsrdLogOn(JNIEnv *env, jobje
 	        const char * rawstring = (*env)->GetStringUTFChars(env, element, NULL);
 	        switch (ii) {
 	            case 0:
+
 	                strcpy(filename, rawstring);
+	                __android_log_print(ANDROID_LOG_DEBUG, "OLSRD LOG",filename);
 	            break;
 
 	            case 1:
 	                strcpy(sampletime, rawstring);
+	                __android_log_print(ANDROID_LOG_DEBUG, "OLSRD LOG",sampletime);
 	            break;
 	        }
 	     }
 
 //	    sprintf(ss, "su -c \"nohup sh /sdcard/COGNET_TESTBED/SCRIPT/scriptOLSRD_OUTPUT.sh %s %s & echo $! > PID.txt  \"", filename , sampletime );
 //	    sprintf(ss, "sh /sdcard/COGNET_TESTBED/SCRIPT/scriptOLSRD_OUTPUT.sh %s %s & echo $! > PID.txt  ", filename , sampletime );
-	    sprintf(ss, "sh /sdcard/COGNET_TESTBED/SCRIPT/scriptStartLog.sh %s %s", filename , sampletime );
-//	    __android_log_print(ANDROID_LOG_DEBUG, "OLSRD LOG",ss);
+	    
+	    sprintf(ss, "sh /sdcard/COGNET_TESTBED/SCRIPT/scriptOLSRD_OUTPUT.sh %s %d &", filename ,  1000 * atoi(sampletime) );
+	    __android_log_print(ANDROID_LOG_DEBUG, "OLSRD LOG",ss);
 	    system(ss);
 //	    system("echo $! > /sdcard/COGNET_TESTBED/SCRIPT/PID.txt");
 	    return 1;

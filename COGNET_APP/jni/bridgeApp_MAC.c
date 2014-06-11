@@ -91,9 +91,9 @@ JNIEXPORT jint JNICALL Java_it_durip_1app_ServerSocketCmd_mainJNI(JNIEnv *env, j
 
 	
     
-//	    sprintf(scriptToLaunch, "su -c \"sh /sdcard/COGNET_TESTBED/SCRIPT/launcher.sh %s %s DURIP 0 %s %s\"" ,WLAN , IP_ADDR ,PHY, ESSID);
-//	        	__android_log_print(ANDROID_LOG_DEBUG, "OPEN", "IPADDRESS %s" , scriptToLaunch);
-	sprintf(scriptToLaunch, "su -c \"sh /system/bin/launcher.sh %s %s DURIP 0 %s %s\"" ,WLAN , IP_ADDR ,PHY, ESSID);
+	    sprintf(scriptToLaunch, "su -c \"sh /sdcard/COGNET_TESTBED/SCRIPT/launcher.sh %s %s DURIP 0 %s %s\"" ,WLAN , IP_ADDR ,PHY, ESSID);
+	        	__android_log_print(ANDROID_LOG_DEBUG, "OPEN", "IPADDRESS %s" , scriptToLaunch);
+	// sprintf(scriptToLaunch, "su -c \"sh /system/bin/launcher.sh %s %s DURIP 0 %s %s\"" ,WLAN , IP_ADDR ,PHY, ESSID);
 //	 _android_log_print(ANDROID_LOG_DEBUG, "OPEN", "%s " , scriptToLaunch);
 	system(scriptToLaunch);
     // if(ctrlFirst == 1){

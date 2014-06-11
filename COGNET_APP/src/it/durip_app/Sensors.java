@@ -76,6 +76,7 @@ import android.os.IBinder;
 import android.util.Log;
 //import android.util.Log;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -110,7 +111,7 @@ public class Sensors extends Service implements SensorEventListener {
     private static OutputStream outRotation = null;
     private static OutputStream outLigth = null;
     private static OutputStream outBattery= null;
-    
+    private static OutputStream outMove= null;
     
     
     private static Writer writeAcceleration;
@@ -121,11 +122,12 @@ public class Sensors extends Service implements SensorEventListener {
     private static Writer writeRotation;    
     private static Writer writeLigth;
     private static Writer writeBattery;
+    private static Writer writeMove;
     
     private runnableChart r;
     private SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss.S" , Locale.ITALY);
    
-    
+    private ToggleButton tb;
 	private class runnableChart implements Runnable {
 		
 		private boolean doRun = true;		
@@ -135,11 +137,14 @@ public class Sensors extends Service implements SensorEventListener {
 			while(doRun){		            	
 				try {
 					try {
+
 						writeBattery.append(formatTime.format(System.currentTimeMillis()) + 
 								" " +  getValueFromFile() + " " + getValueVoltageFromFile() + " " + level + 
 								" "+getValueMHzCPUFile(0) +" "+ getValueMHzCPUFile(1) +" " +
 								getValueMHzCPUFile(2) +" "+ getValueMHzCPUFile(3) +" " 
 								+"\n");
+						
+						writeMove.append(formatTime.format(System.currentTimeMillis()) + " "+ tb.isChecked() +"\n");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -166,6 +171,7 @@ public class Sensors extends Service implements SensorEventListener {
 			doRun = false;	
 			try {
 				writeBattery.close();
+				writeMove.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -180,7 +186,7 @@ public class Sensors extends Service implements SensorEventListener {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 	    boolean loop=intent.getBooleanExtra(LOOP, false);
 	    Calendar c = Calendar.getInstance();
-	    LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+//	    LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 	   
 	    		
 //	    		(TextView)findViewById(R.id.textvalueConsumption);
@@ -190,9 +196,11 @@ public class Sensors extends Service implements SensorEventListener {
 	    int second = c.get(Calendar.HOUR);
 	    int month  = c.get(Calendar.DAY_OF_MONTH);
 	    int day    = c.get(Calendar.MONTH)+1;
+	    LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 	    
 	    
-	    
+	    View layout =inflater.inflate(R.layout.activity_main , null);
+	    tb = (ToggleButton) layout.findViewById(R.id.toggleButtonMove);
 	    File file = new File(Environment.getExternalStorageDirectory(), PATH_SENSOR_FOLDER);
 	    if (!file.exists()) {
 	        if (!file.mkdirs()) {
@@ -224,6 +232,9 @@ public class Sensors extends Service implements SensorEventListener {
 	    String fileBattery =  Environment.getExternalStorageDirectory().getPath()+PATH_SENSOR_FOLDER +
 	    		"logBattery_"+hh+"_"+mm+"_"+second+"_"+month+"_"+day;
 
+	    String fileLogMove =  Environment.getExternalStorageDirectory().getPath()+PATH_SENSOR_FOLDER +
+	    		"logMove_"+hh+"_"+mm+"_"+second+"_"+month+"_"+day;
+	    
 	    managerSensor = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
 		
         
@@ -236,6 +247,8 @@ public class Sensors extends Service implements SensorEventListener {
 			outRotation = new FileOutputStream(fileRotation, true);
 			outLigth = new FileOutputStream(fileLigth, true);
 			outBattery = new FileOutputStream(fileBattery, true);
+			outMove = new FileOutputStream(fileLogMove, true);
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block			
 			e.printStackTrace();
@@ -252,6 +265,7 @@ public class Sensors extends Service implements SensorEventListener {
 			writeRotation = new OutputStreamWriter(outRotation, "UTF-8");
 			writeLigth = new OutputStreamWriter(outLigth, "UTF-8");
 			writeBattery= new OutputStreamWriter(outBattery, "UTF-8");
+			writeMove= new OutputStreamWriter(outMove, "UTF-8");
 			
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
@@ -452,36 +466,12 @@ public class Sensors extends Service implements SensorEventListener {
 	      @Override
 	      public void onReceive(Context arg0, Intent intent) {
 	    	  
-	          //this will give you battery current status
-//	        int level = intent.getIntExtra("level", 0);
-//
-////	        contentTxt.setText(String.valueOf(level) + "%");
-//
-//	        int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-////	        textView2.setText("status:"+status);
-//	        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-//	                            status == BatteryManager.BATTERY_STATUS_FULL;
-////	        textView3.setText("is Charging:"+isCharging);
-//	        int chargePlug = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-////	        textView4.setText("is Charge plug:"+chargePlug);
-//	        boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
-//
-//	        boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
-////	        textView5.setText("USB Charging:"+usbCharge+" AC charging:"+acCharge);
-//	    	  int  health= intent.getIntExtra(BatteryManager.EXTRA_HEALTH,0);
+	
 
 	    	  level= intent.getIntExtra(BatteryManager.EXTRA_LEVEL,0);
-//	    	  int  plugged= intent.getIntExtra(BatteryManager.EXTRA_PLUGGED,0);
 	    	  boolean  present= intent.getExtras().getBoolean(BatteryManager.EXTRA_PRESENT); 
-//	    	  int  scale= intent.getIntExtra(BatteryManager.EXTRA_SCALE,0);
-//	    	  int  status= intent.getIntExtra(BatteryManager.EXTRA_STATUS,0);
-//	    	  String  technology= intent.getExtras().getString(BatteryManager.EXTRA_TECHNOLOGY);
 	    	  int  temperature= intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE,0);
-//	    	  int  voltage= intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE,0);
-	    	  
-//	    	  textCharge.setText(level);
-//	    	  textVoltage.setText(voltage + "V");
- 
+
 	      }
 	    };
 	

@@ -8,6 +8,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.IBinder;
 //import android.util.Log;
+import android.util.Log;
 
 public class olsrdLog extends IntentService {
 
@@ -40,7 +41,8 @@ public class olsrdLog extends IntentService {
 	  s = new String[2];
 	  
 	  s[0]=intent.getStringExtra(FILENAME);
-	  s[1]=intent.getStringExtra(TIME);    	  	  
+	  s[1]=intent.getStringExtra(TIME); 
+	  Log.i("LOG","VALUE "+ s[1]);
 	  play(s);
     
 	  return(START_NOT_STICKY);

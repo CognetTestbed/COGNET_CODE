@@ -60,8 +60,8 @@ public class ExperimentMasterActivity extends Activity {
 	public native int stopExperiment(int n, String []s);
 	private static String[] s;
     ArrayList<ManagedIp> managedIps = new ArrayList<ManagedIp>();
-    private static final String fileIPExperiment = Environment.getExternalStorageDirectory().getPath()+"fileIP";
-    private static final String fileIPExperimentStop= Environment.getExternalStorageDirectory().getPath()+"fileIPKill";
+    private static final String fileIPExperiment = Environment.getExternalStorageDirectory().getPath()+"/fileIP";
+    private static final String fileIPExperimentStop= Environment.getExternalStorageDirectory().getPath()+"/fileIPKill";
     IpListAdapter boxAdapter;
 	//private static int params=3;
 	
@@ -113,16 +113,16 @@ public class ExperimentMasterActivity extends Activity {
 		NumberPicker ip3 = (NumberPicker) findViewById(R.id.ip3);
 		NumberPicker ip4 = (NumberPicker) findViewById(R.id.ip4);
 	    ip1.setMinValue(0);
-	    ip1.setMaxValue(255);
+	    ip1.setMaxValue(254);
 	    ip1.setWrapSelectorWheel(true); 
 	    ip2.setMinValue(0);
-	    ip2.setMaxValue(255);
+	    ip2.setMaxValue(254);
 	    ip2.setWrapSelectorWheel(true); 
 	    ip3.setMinValue(0);
-	    ip3.setMaxValue(255);
+	    ip3.setMaxValue(254);
 	    ip3.setWrapSelectorWheel(true); 
 	    ip4.setMinValue(0);
-	    ip4.setMaxValue(255);
+	    ip4.setMaxValue(254);
 	    ip4.setWrapSelectorWheel(true);
 	    
 	    BufferedReader br;
@@ -136,7 +136,7 @@ public class ExperimentMasterActivity extends Activity {
 				if(managedIps.contains(new ManagedIp(newIp, newIp,true))) 
 					addme = false;
 				
-				Log.d("manager", "writing");
+				Log.d("managermanager", "writing");
 				if(addme){
 					managedIps.add(new ManagedIp(newIp, newIp,true));
 				}
@@ -315,7 +315,7 @@ public class ExperimentMasterActivity extends Activity {
 				fileContent += p.name+"\n";
 			}
         }
-        Log.d("manager", "got file content " + fileContent);
+        Log.d("managermanagermanagermanager", "got file content " + fileContent);
         PrintWriter out;
 		try {
 			out = new PrintWriter(fileIPExperiment);

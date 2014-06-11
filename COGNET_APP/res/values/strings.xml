@@ -117,4 +117,6 @@
     <string name="title_activity_battery_charts">BatteryCharts</string>
 	<string name="label_radioPlot0">New </string>
 	<string name="label_radioPlot1">Current </string>
+	<string name="button_move">Move</string>
+	<string name="button_chart">Stop Chart2</string>
 </resources>
