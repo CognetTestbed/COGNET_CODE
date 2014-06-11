@@ -1,6 +1,0 @@
-Graph of network parameters, video streaming for testing purposes, MAC/TCP graphs, path tracking with accelerometer and gyroscopes
-
-App for monitoring of Durip module.
-
-RSSI
-An Atheros based card will return an RSSI value of 0 to 127
