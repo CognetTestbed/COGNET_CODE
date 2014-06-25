@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define printMAC
 #ifdef __ANDROID__
 #include <android/log.h>
-// #define ATH9K_HTC
+
 #endif
 
 

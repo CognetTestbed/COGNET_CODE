@@ -74,6 +74,7 @@ typedef struct wl_info{
     int arrayQueues[NUM_QUEUE_PARAMS];
     // int bitrate;
 }wl_info_t;
+
 #else
 
 typedef struct wl_info{

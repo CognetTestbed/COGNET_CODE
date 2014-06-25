@@ -24,6 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 extern int ctrlLoopGlobal;
 extern int ctrlPrintGlobal;
 extern float ctrlTSGlobal;
+
+extern char folder[32];
+
 extern pthread_mutex_t lock;
 
 

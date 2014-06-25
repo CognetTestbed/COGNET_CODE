@@ -53,10 +53,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <android/log.h>
 #endif
 
+
+
+
+//TO ADD A GLOBAL VARIABLE TO STORE THE FOLDER NAME
+
+
+
+
 //VARIABILI GLOBALI PER LA GESTIONE DEI THREAD
 int ctrlLoopGlobal = 1;
 int ctrlPrintGlobal;
 float ctrlTSGlobal;
+
+
+char folder[32];
+
 //int ctrlLoopTmp = 1;
 pthread_mutex_t lock;
 
@@ -171,31 +183,43 @@ int main(int argc, char *argv[])
     listen(sockfdMain, 5);
     clilen = sizeof (cli_addr);
 
-    
+    // folder= malloc(32 * sizeof(char));
     
     while (keepRunning) {
+        if(*folder){                   
+                strcpy(argv2[5], folder );
+                printf("FOLDER %s\n" , argv2[5]);     
+                functionCreateFolder(folder);        
+        }
+        ctrlLoopGlobal = 1;
         newsockfdMain = accept(sockfdMain, (struct sockaddr *) &cli_addr, &clilen);
         if (newsockfdMain < 0){
           break;
         }else{
-          pid = fork();
-          if (pid < 0)
-              error("ERROR on fork");
+          // pid = fork();
+          // if (pid < 0)
+          //     error("ERROR on fork");
 
-          if (pid == 0) {
-              //CHILD PROCESS
-              close(sockfdMain);
+          // if (pid == 0) {
+          //     //CHILD PROCESS
+          //     close(sockfdMain);
+
+              
+              // else{
+              //   printf("FOLDER %s\n" , folder);             
+              // }
+
 #ifdef __ANDROID__
               manageThreadsAPP(newsockfdMain, argc, argv);
 #else
               manageThreadsAPP(newsockfdMain, argc, argv2);
 #endif        
               //RETURN VALUE  
-              exit(0);
-          } else {
+          //     exit(0);
+          // } else {
               close(newsockfdMain);
           }
-      }
+      // }
     } /* end of while */
 
 
@@ -211,7 +235,7 @@ int main(int argc, char *argv[])
 #endif
 
 
-    // close(sockfd);
+    close(sockfdMain);
     //     #endif
     return 0; /* we never get here */
 }
@@ -220,8 +244,6 @@ int main(int argc, char *argv[])
 
 /*
 */
-
-
 
 int manageThreadsAPP(int sock, int argc, char *argv[]) {
 
@@ -335,8 +357,14 @@ int manageThreadsAPP(int sock, int argc, char *argv[]) {
         return -1;
   }
 
+/*
 
+*/
   sleep(second);
+
+/*
+THREAD OBSERVATION
+*/
 
   if (pthread_create(&threadOBSERVETCP, NULL, tcpObservation, &paramThreadTCP) != 0) {
       printf("Error to create thread\n");
@@ -357,25 +385,39 @@ CLOSE THREAD
   if (pthread_join(threadOBSERVEMAC , NULL)) {
       fprintf(stderr, "Error joining thread\n");
       return -4;
+  }else{
+    printf("MAC THREAD DOWN\n");
   }  
+
+  // strcpy(folderLocal , folder);
+  // printf("FOLDER LOCAL %s\n" , folderLocal);
 
   if (pthread_join(handleReadDURIP_v , NULL)) {
       fprintf(stderr, "Error joining thread READ\n");
       return -4;
-  }
+  }else{
+    printf("HANLDE DURIP DOWN\n");
+  }  
 
   
   shutdown(sockfdCommDurip,SHUT_RDWR);
   if (pthread_join(handleCommDURIP_v , NULL)) {
       fprintf(stderr, "Error joining thread HANDLE COMM\n");
       return -4;
-  }
+  }else{
+    printf("HANDLE COMM DOWN\n");
+  }  
 
-  pthread_kill(threadOBSERVETCP, SIGINT);
+  printf("BEFORE TO DROP DOWN TCP THREAD\n");
+  
+  // pthread_kill(threadOBSERVETCP, SIGINT);
+  pthread_kill(threadOBSERVETCP, SIGTERM);
   // shutdown(sock_fd_rcv,SHUT_RDWR);
   if (pthread_join(threadOBSERVETCP , NULL)) {
       fprintf(stderr, "Error joining thread TCP\n");
       return -4;
+  }else{
+    printf("TCP DOWN\n");    
   }
   
   printf("END %s\n" , __FUNCTION__);
@@ -388,7 +430,7 @@ CLOSE THREAD
       //  error("SYSTEM CALL ERROR");
             
 #endif
-  printf("CLOSE FORK\n");  
-  close(sock);
+  // printf("CLOSE FORK\n");  
+  // close(sock);
   return 0;
 }

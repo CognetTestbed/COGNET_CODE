@@ -47,7 +47,7 @@ int main(int argc, char *argv[]){
     char buffer[32];
     char *sleepingTime;
     char *cmd;
-    int channel;
+    int channel, tx;
     if (argc < 2) {
             fprintf(stderr,"usage %s {start,manageMAC,manageWifi}\n", argv[0]);
             exit(0);
@@ -171,11 +171,32 @@ int main(int argc, char *argv[]){
                                 cmd  = (char *)malloc(sizeof(char) * strlen(buffer));
                                 sprintf(cmd,"1:2:1:3:%d" , channel);
                                 manageWifi(portno , filename , cmd);
-//                                stopDurip( portno , filename , STOP_CMD);                            
-                            
-                            }else{    
-                                fprintf(stderr,"usage %s {start,manageMAC,manageWifi}\n", argv[0]);
-                                exit(0);
+                           
+                            }else{
+                                if(strcmp(argv[1] , "changeTX")== 0 ){
+                                    portno = atoi(argv[2]);
+                                    strcpy(filename,argv[3]);                            
+                                    tx = atoi(argv[4]);
+                                    cmd  = (char *)malloc(sizeof(char) * strlen(buffer));
+                                    sprintf(cmd,"1:2:1:1:%d" , tx);
+                                    manageWifi(portno , filename , cmd);
+
+
+                                }else{    
+                                    if(strcmp(argv[1] , "changeNameFolder")== 0 ){
+                                    
+                                        portno = atoi(argv[2]);
+                                        strcpy(filename,argv[3]);                            
+                                        // channel = atoi(argv[4]);
+                                        cmd  = (char *)malloc(sizeof(char) * strlen(buffer));
+                                        sprintf(cmd,"2:%s" , argv[4]);
+                                        manageWifi(portno , filename , cmd);
+
+                                    }else{
+                                        fprintf(stderr,"usage %s {start,manageMAC,manageWifi,startContinue, stopContinue, changeChannel, changeTX , changeNameFolder}\n", argv[0]);
+                                        exit(0);
+                                    }
+                                }
                             }
                         }
                     }

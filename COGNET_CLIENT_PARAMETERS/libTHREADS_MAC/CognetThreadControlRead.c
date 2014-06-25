@@ -35,6 +35,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <assert.h>
 
+
+
 char * itoa(int value){    
     char *s;
     s=(char *)malloc(sizeof(char)*256);
@@ -99,7 +101,7 @@ void * handleReadDURIP(void * arg)
     while (ctrlLoopThreadSocket == 1) {
 
         newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
-         
+        
         if (newsockfd < 0){
 #ifdef __ANDROID__
             __android_log_print(ANDROID_LOG_DEBUG, "CONTROLREAD", "ERROR on accept ");
@@ -121,9 +123,19 @@ void * handleReadDURIP(void * arg)
 
 
     tofree = string = strdup(buffer);
+
+    printf("STRING CMD:%s\n" , string);
     assert(string != NULL);
+    count = 0;
     while ((token = strsep(&string, ":")) != NULL){
+
         words[count]    = atoi(token);   
+        if(count == 0 && words[count] == 2){
+            printf("CHANGE FOLDER");
+            token = strsep(&string, ":");
+            strcpy(folder , token );
+            break;  
+        }        
         count++;
     }    
     free(tofree);
@@ -133,12 +145,12 @@ void * handleReadDURIP(void * arg)
 #endif
         
          
-        pthread_mutex_lock(&lock);
-         
+        pthread_mutex_lock(&lock);         
         switch(words[0]){
             case 0:
                 ctrlLoopGlobal = words[0];         
                 ctrlLoopThreadSocket = 0;
+                printf("STOP\n");
                 n=write(newsockfd,"STOP MACREADER",strlen("STOP MACREADER"));
                 pthread_mutex_unlock(&lock);
                 break;
@@ -161,11 +173,13 @@ void * handleReadDURIP(void * arg)
                         //CASE to get/set wifi parameters like TX POWER TX CHANNEL TX FREQ
                         case 2:
                                 pthread_mutex_unlock(&lock);
-                                ctrlWiFi = words[2];                                                                
-                                switch(ctrlWiFi){                                    
+                                ctrlWiFi = words[2];    
+                                printf("GET/SET\n");                                                            
+                                switch(ctrlWiFi){        
+                                    //GET                            
                                     case 0:
                                         ctrlWiFiInfo = words[3];
-
+                                        printf("GET\n");                                                            
                                         switch(ctrlWiFiInfo){                                            
                                             case 1:
                                                 returnValue = getTXpower(param->ifname);
@@ -186,8 +200,11 @@ void * handleReadDURIP(void * arg)
                                         }
                                                 
                                         n=write(newsockfd,itoa(returnValue),strlen(itoa(returnValue)));
+                                  
                                         break;
+                                    //SET
                                     case 1:
+                                        printf("SET\n");                                                            
                                         ctrlWiFiInfo = words[3];
                                         valueChange = words[4];                                        
                                         switch(ctrlWiFiInfo){
@@ -207,21 +224,25 @@ void * handleReadDURIP(void * arg)
 #endif
                                                 printf("ERROR COMMAND SET WIFI  \n");
                                         }
+
                                         if (returnValue == 0)
                                                 n=write(newsockfd,"CHANGE OK",strlen("CHANGE OK"));
                                         else
                                                 n=write(newsockfd,"ERROR TO CHANGE",strlen("ERROR TO CHANGE"));
                                         break;
-                                        
+                                        // pthread_mutex_unlock(&lock);
                                     default:
 #ifdef __ANDROID__
                                         __android_log_print(ANDROID_LOG_DEBUG, "CONTROLREAD", "ERROR COMMAND WIFI  ");
 #endif
-                                                printf("ERROR COMMAND WIFI  \n");
+                                        printf("ERROR COMMAND WIFI  \n");
                                         
                                 }
                                 
                                 break;
+
+                                
+
                         default:
 #ifdef __ANDROID__
                         __android_log_print(ANDROID_LOG_DEBUG, "CONTROLREAD", "ERROR COMMAND MAC DURIP");
@@ -230,6 +251,17 @@ void * handleReadDURIP(void * arg)
                 }
                 
                 break;
+
+                case 2:
+                    pthread_mutex_unlock(&lock);
+                    // printf("CREATE NEW FOLDER\n");
+                    //TO CREATE FOLDER 
+                    
+                    // functionCreateFolder(folder);
+                    //I NEED TO SAVE THE VARIABLE
+
+                break;
+
              default:
 #ifdef __ANDROID__
                 __android_log_print(ANDROID_LOG_DEBUG, "CONTROLREAD", "COMMAND ERROR THREAD CTRL");
@@ -237,8 +269,8 @@ void * handleReadDURIP(void * arg)
                 printf("COMMAND ERROR THREAD CTRL \n");
          }
          
-         
-        // free(words);
+        // printf("CLOSE ACCEPT\n");
+        bzero(words , 6);
         bzero(buffer,256);
         close(newsockfd);
 

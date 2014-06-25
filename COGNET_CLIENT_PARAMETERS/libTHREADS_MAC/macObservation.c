@@ -183,7 +183,7 @@ int if_getstat(char *ifname, wl_info_t *wlinfo){
    return 0;
 }
 
-
+#if ATH9K_HTC == 1
 
 int if_getstat_ATH9K_HTC( wl_info_t *wlinfo , char *path){
     FILE    *fd;
@@ -223,6 +223,8 @@ int if_getstat_ATH9K_HTC( wl_info_t *wlinfo , char *path){
    return 0;
 }
 
+
+#endif
 
 
 
@@ -305,8 +307,8 @@ void * macObservation(void * param)
     
     memset(&wlinfo,0,sizeof(wl_info_t));        
    
-     #ifdef ATH9K_HTC
-    sprintf(path_ATH9K_HTC , PATH_MAC_ATH9K_HTC , argv[3] );
+     #if ATH9K_HTC == 1
+        sprintf(path_ATH9K_HTC , PATH_MAC_ATH9K_HTC , argv[3] );
     #endif
 //  signal(SIGINT, stopLoop);
 	
@@ -423,10 +425,13 @@ void * macObservation(void * param)
         /*END SECTION FILE                                         */
         /********************************************************/
 
-        if_getstat(ifname, &wlinfo);
+        
         
 #if ATH9K_HTC == 1
         if_getstat_ATH9K_HTC(&wlinfo, path_ATH9K_HTC);
+
+#else
+        if_getstat(ifname, &wlinfo);
 #endif
 
 

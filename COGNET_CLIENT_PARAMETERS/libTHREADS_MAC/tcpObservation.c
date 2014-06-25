@@ -132,11 +132,15 @@ void createDestAddr(struct sockaddr_nl * dest_addr){
     
 }
 
-//int ctrlLoopTmp = 1;
-//int ctrlLoop = 1;
-int keepRunning =1;
+
+
+
+
+
+
+int keepRunningTCP =1;
 void closeThread(int ii) {
-    keepRunning = 0;
+    keepRunningTCP = 0;
     // close(sockfdMain);   
     printf("CLOSE THREAD TCP \n");
     close(sock_fd_rcv);     
@@ -215,7 +219,9 @@ void * tcpObservation(void * param){
     sprintf(absolutePathFile , "%s%s/%s%s" ,STRING_PATH_DIR, nameExperiment , STRING_PATH_TCP , nameFile );                                    
     
 
-    signal(SIGINT,closeThread);
+    // signal(SIGINT,closeThread);
+// SIGTERM
+    signal(SIGTERM,closeThread);
 	printf("THREAD STARTED %s\n" , __FUNCTION__);
     if((fp = fopen(absolutePathFile, "w")) == NULL){
 		printf("ERROR TO OPEN LOG FILE %s\n" , absolutePathFile);
@@ -408,10 +414,10 @@ LE:0:CWRSE:0:AS:0:ANS:0:FRE:0:REORD:0:TCPSTATE:" ,tm->tm_hour, tm->tm_min, tm->t
         else
         {  
         
-             if(keepRunning == 1){
+             if(keepRunningTCP == 1){
                  error("ERROR socket NETLINK");
              }else{
-                 printf("EXIT\n");      
+                 printf("EXIT TCPOBSERVATION\n");      
                  ctrlLoopLocal = 0;
                  break;
              }
@@ -422,12 +428,13 @@ LE:0:CWRSE:0:AS:0:ANS:0:FRE:0:REORD:0:TCPSTATE:" ,tm->tm_hour, tm->tm_min, tm->t
 #endif
 
 
-    printf("CLOSE TCP OBSERVATION\n");
+    
     fclose(fp);
     close(sock_fd_snd);
     free(nlh_snd);
     free(nlh_rcv);
     free(absolutePathFile);
+    printf("CLOSE TCP OBSERVATION\n");
     return 0;
 }
 

@@ -13,7 +13,7 @@ pc:
 	    ./libTHREADS_MAC/printMACvalue.c ./libTHREADS_MAC/commonFunction.c \
 	    ./libTHREADS_MAC/CognetThreadControlRead.c ./libTHREADS_MAC/macChangeParams.c\
 	    ./libTHREADS_MAC/tcpObservation.c ./libTHREADS_MAC/macThreadComm.c ./libTHREADS_MAC/get_station.c -lrt -lm -lpthread $(LIBS)  $(CFLAGS) -DATH9K_HTC=0 \
-	-L ../libnl-3/OUTPUT_NL_3_64bit/lib -lnl-genl-3 -lnl-3 -I../libnl-3/OUTPUT_NL_3_64bit/include/libnl3
+	-L ../LIB_NETLINK/libnl-3/OUTPUT_NL_3_64bit/lib -lnl-genl-3 -lnl-3 -I../LIB_NETLINK/libnl-3/OUTPUT_NL_3_64bit/include/libnl3
 		
 
 
@@ -22,7 +22,7 @@ alix:
 	    ./libTHREADS_MAC/printMACvalue.c ./libTHREADS_MAC/commonFunction.c \
 	    ./libTHREADS_MAC/CognetThreadControlRead.c ./libTHREADS_MAC/macChangeParams.c\
 	    ./libTHREADS_MAC/tcpObservation.c ./libTHREADS_MAC/macThreadComm.c ./libTHREADS_MAC/get_station.c -lrt -lm -lpthread $(LIBS)  $(CFLAGS) -DATH9K_HTC=0 \
-	-L ../libnl-3/OUTPUT_NL_3_32bit/lib -lnl-genl-3 -lnl-3 -I../libnl-3/OUTPUT_NL_3_32bit/include/libnl3
+	-L ../LIB_NETLINK/libnl-3/OUTPUT_NL_3_32bit/lib -lnl-genl-3 -lnl-3 -I../LIB_NETLINK/libnl-3/OUTPUT_NL_3_32bit/include/libnl3
 
 
 
@@ -31,7 +31,7 @@ pcDoongle:
 	    ./libTHREADS_MAC/printMACvalue.c ./libTHREADS_MAC/commonFunction.c \
 	    ./libTHREADS_MAC/CognetThreadControlRead.c ./libTHREADS_MAC/macChangeParams.c\
 	    ./libTHREADS_MAC/tcpObservation.c ./libTHREADS_MAC/macThreadComm.c ./libTHREADS_MAC/get_station.c -lrt -lm -lpthread $(LIBS)  $(CFLAGS) -DATH9K_HTC=1 \
-	-L ../libnl-3/OUTPUT_NL_3_64bit/lib -lnl-genl-3 -lnl-3 -I../libnl-3/OUTPUT_NL_3_64bit/include/libnl3
+	-L ../LIB_NETLINK/libnl-3/OUTPUT_NL_3_64bit/lib -lnl-genl-3 -lnl-3 -I../LIB_NETLINK/libnl-3/OUTPUT_NL_3_64bit/include/libnl3
 
 
 
@@ -40,7 +40,7 @@ alixDoongle:
 	    ./libTHREADS_MAC/printMACvalue.c ./libTHREADS_MAC/commonFunction.c \
 	    ./libTHREADS_MAC/CognetThreadControlRead.c ./libTHREADS_MAC/macChangeParams.c\
 	    ./libTHREADS_MAC/tcpObservation.c ./libTHREADS_MAC/macThreadComm.c ./libTHREADS_MAC/get_station.c -lrt -lm -lpthread $(LIBS)  $(CFLAGS) -DATH9K_HTC=1 \
-	-L ../libnl-3/OUTPUT_NL_3_32bit/lib -lnl-genl-3 -lnl-3 -I../libnl-3/OUTPUT_NL_3_32bit/include/libnl3 
+	-L ../LIB_NETLINK/libnl-3/OUTPUT_NL_3_32bit/lib -lnl-genl-3 -lnl-3 -I../LIB_NETLINK/libnl-3/OUTPUT_NL_3_32bit/include/libnl3 
 	
 	
 
