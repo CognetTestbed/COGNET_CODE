@@ -187,11 +187,9 @@ int main(int argc, char *argv[]){
                                     
                                         portno = atoi(argv[2]);
                                         strcpy(filename,argv[3]);                            
-                                        // channel = atoi(argv[4]);
-                                        cmd  = (char *)malloc(sizeof(char) * strlen(buffer));
-                                        sprintf(cmd,"2:%s" , argv[4]);
-                                        manageWifi(portno , filename , cmd);
-
+                                        cmd  = (char *)malloc(sizeof(char) * (2*strlen(argv[4])));                                        
+                                        sprintf(cmd,"2:%s" , argv[4]);                                        
+                                        startFunction( portno , filename , cmd);
                                     }else{
                                         fprintf(stderr,"usage %s {start,manageMAC,manageWifi,startContinue, stopContinue, changeChannel, changeTX , changeNameFolder}\n", argv[0]);
                                         exit(0);
@@ -216,6 +214,7 @@ int stopDurip( int portno , char *filename , char *cmd){
 
 
 int manageWifi( int portno , char *filename , char *cmd){
+    printf("CMD:%s\n" , cmd);
     startFunction( portno , filename , cmd);
     return 0;    
 }
@@ -241,6 +240,7 @@ int startFunction( int portno , char *filename , char *sleepingTime)
         int countIP=0;    
         char *workingDir =getcwd(NULL, 0);                   
         printf("Open File:%s %s\n", filename , workingDir);
+        printf("VALUE:%s" , sleepingTime);
         if ((fd = fopen(filename, "r")) == NULL) {
 //                printf("fatal error: cannot open %s\n" , filename);
                 error("ERROR opening file");
@@ -293,8 +293,11 @@ int startFunction( int portno , char *filename , char *sleepingTime)
                 if (connect(sockfd[ii],(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
                         error("ERROR connecting");
 
-                //SEND SLEEPING TIME
-                n = write(sockfd[ii],sleepingTime,strlen(sleepingTime));
+
+
+
+                // SEND SLEEPING TIME
+                n = write(sockfd[ii], sleepingTime, strlen(sleepingTime));
                 
                 if (n < 0) 
                         error("ERROR writing to socket");
