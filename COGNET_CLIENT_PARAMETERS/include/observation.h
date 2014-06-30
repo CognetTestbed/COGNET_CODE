@@ -30,9 +30,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define NUM_QUEUE_PARAMS 8
 
-#define PATH_MAC_ATH9K_HTC "/sys/kernel/debug/ieee80211/%s/ath9k_htc/"
-#define PATH_MAC "/sys/kernel/debug/ieee80211/%s/netdev:%s/stations/"
+#if ATH9K_HTC == 1
+    #define PATH_MAC_ATH9K_HTC "/sys/kernel/debug/ieee80211/%s/ath9k_htc/"
+#else
+    #define PATH_MAC_ATH9K "/sys/kernel/debug/ieee80211/%s/ath9k/"    
+#endif
 
+
+#define PATH_MAC "/sys/kernel/debug/ieee80211/%s/netdev:%s/stations/"
 
 // #if MATTEO==1
 // #define ATH9K_HTC
@@ -84,7 +89,7 @@ typedef struct wl_info{
     short txpower;
     unsigned long long Tot_rx_packets, Tot_tx_packets;
     unsigned long long Tot_rx_bytes, Tot_tx_bytes;
-        
+    int arrayQueues[NUM_QUEUE_PARAMS];        
     // int bitrate;
 }wl_info_t;
 

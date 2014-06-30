@@ -7,7 +7,7 @@ CFLAGS=-Os -W -Wall -I .
 
 
 all: 
-	gcc -o manageNodeDurip.out manageNodeDurip.c -lm   $(CFLAGS) 
+	gcc -o managerNodeDurip.out manageNodeDurip.c -lm   $(CFLAGS) 
 
 alix: 
 	gcc -m32 -o managerCognetAlix.out manageNodeDurip.c -lm   $(CFLAGS) 

@@ -101,7 +101,8 @@ int mainReadMacServer(int argc, char *argv[])
 int main(int argc, char *argv[])
 #endif
 {
-    int newsockfdMain, portno, pid , ii;
+    int newsockfdMain, portno,  ii;
+    // int pid ;
     socklen_t clilen;
     struct sockaddr_in serv_addr, cli_addr;
     char **argv2;
@@ -366,10 +367,10 @@ int manageThreadsAPP(int sock, int argc, char *argv[]) {
 THREAD OBSERVATION
 */
 
-  if (pthread_create(&threadOBSERVETCP, NULL, tcpObservation, &paramThreadTCP) != 0) {
-      printf("Error to create thread\n");
-      return -2;
-  }
+  // if (pthread_create(&threadOBSERVETCP, NULL, tcpObservation, &paramThreadTCP) != 0) {
+  //     printf("Error to create thread\n");
+  //     return -2;
+  // }
 
     
   if (pthread_create(&threadOBSERVEMAC, NULL, macObservation, &paramMacObser) != 0) {
@@ -410,15 +411,15 @@ CLOSE THREAD
 
   printf("BEFORE TO DROP DOWN TCP THREAD\n");
   
-  // pthread_kill(threadOBSERVETCP, SIGINT);
-  pthread_kill(threadOBSERVETCP, SIGTERM);
-  // shutdown(sock_fd_rcv,SHUT_RDWR);
-  if (pthread_join(threadOBSERVETCP , NULL)) {
-      fprintf(stderr, "Error joining thread TCP\n");
-      return -4;
-  }else{
-    printf("TCP DOWN\n");    
-  }
+  
+  // pthread_kill(threadOBSERVETCP, SIGTERM);
+  // // shutdown(sock_fd_rcv,SHUT_RDWR);
+  // if (pthread_join(threadOBSERVETCP , NULL)) {
+  //     fprintf(stderr, "Error joining thread TCP\n");
+  //     return -4;
+  // }else{
+  //   printf("TCP DOWN\n");    
+  // }
   
   printf("END %s\n" , __FUNCTION__);
   pthread_mutex_destroy(&lock);

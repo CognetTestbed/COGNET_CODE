@@ -57,15 +57,16 @@ char * printGlobalValueMac(FILE * fpTot , int ctrlPrintLocal , struct timespec t
 
 #else
 
-char * printGlobalValueMac(FILE * fpTot , int ctrlPrintLocal , struct timespec tv, unsigned long long *TOT_PKT, unsigned long long *TOT_BYTE){
+char * printGlobalValueMac(FILE * fpTot , int ctrlPrintLocal , struct timespec tv, unsigned long long *TOT_PKT, unsigned long long *TOT_BYTE,
+                            int *arrayQueues){
     
     char * outputMacAll ;
     outputMacAll = (char *)malloc(sizeof(char) * 1024);
-    
+    // BE:%d:BK:%d:VI:%d:VO:%d
 
-    sprintf(outputMacAll, "%lu.%lu:RXPACK:%llu:RXB:%llu:TXPACK:%llu:TXB:%llu",
+    sprintf(outputMacAll, "%lu.%lu:RXPACK:%llu:RXB:%llu:TXPACK:%llu:TXB:%llu:VO:%d:%d:VI:%d:%d:BE:%d:%d:BK:%d:%d",
                     (unsigned long) tv.tv_sec,(unsigned long) tv.tv_nsec, TOT_PKT[1], TOT_BYTE[1], TOT_PKT[0],
-                    TOT_BYTE[0]);
+                    TOT_BYTE[0],arrayQueues[0],arrayQueues[1],arrayQueues[2],arrayQueues[3],arrayQueues[4],arrayQueues[5],arrayQueues[6],arrayQueues[7]);
     switch (ctrlPrintLocal) {
         case 1:      
             printf("%s\n", outputMacAll);            

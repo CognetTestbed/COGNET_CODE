@@ -33,7 +33,8 @@ char *printGlobalValueMac(FILE * fpTot , int ctrlPrintLocal , struct timespec tv
     
 #else
 
-char * printGlobalValueMac(FILE * fpTot , int ctrlPrintLocal , struct timespec tv, unsigned long long *TOT_PKT, unsigned long long *TOT_BYTE);
+char * printGlobalValueMac(FILE * fpTot , int ctrlPrintLocal , struct timespec tv, unsigned long long *TOT_PKT, unsigned long long *TOT_BYTE
+						, int *arrayQueues );
 
 #endif
 

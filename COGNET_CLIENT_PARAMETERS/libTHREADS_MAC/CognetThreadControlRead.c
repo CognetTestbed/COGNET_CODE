@@ -254,12 +254,7 @@ void * handleReadDURIP(void * arg)
 
                 case 2:
                     pthread_mutex_unlock(&lock);
-                    // printf("CREATE NEW FOLDER\n");
-                    //TO CREATE FOLDER 
                     
-                    // functionCreateFolder(folder);
-                    //I NEED TO SAVE THE VARIABLE
-
                 break;
 
              default:

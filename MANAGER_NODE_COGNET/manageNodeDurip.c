@@ -49,7 +49,7 @@ int main(int argc, char *argv[]){
     char *cmd;
     int channel, tx;
     if (argc < 2) {
-            fprintf(stderr,"usage %s {start,manageMAC,manageWifi}\n", argv[0]);
+            fprintf(stderr,"usage %s {start,manageMAC,manageWifi,startContinue, stopContinue, changeChannel, changeTX , changeNameFolder}\n", argv[0]);
             exit(0);
     }
     

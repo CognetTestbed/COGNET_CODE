@@ -81,7 +81,7 @@ PROTOTYPE
 */
 
 
-int if_getstat(char *ifname, wl_info_t *wlinfo);
+int if_getstat(char *ifname, wl_info_t *wlinfo , char * path);
 int setInfo(void);
 
 
@@ -155,11 +155,12 @@ int setInfo(void);
 /*
 STATISTICS FROM /proc/net/dev
 */
-int if_getstat(char *ifname, wl_info_t *wlinfo){
+int if_getstat(char *ifname, wl_info_t *wlinfo , char *path){
     FILE    *fd;
     char    tmp[0x100];
     char    *lp;
     unsigned long d;
+    char filename[128];
     if ((fd = fopen("/proc/net/dev", "r")) ==NULL) {
         printf("fatal error: cannot open /proc/net/dev\n");
                 return -1;
@@ -179,6 +180,73 @@ int if_getstat(char *ifname, wl_info_t *wlinfo){
 
    }
 
+    fclose(fd);
+
+    sprintf(filename, "%squeues" , path);
+    if ((fd = fopen(filename, "r")) ==NULL) {
+        printf("fatal error: cannot open %s\n" , path);
+                return -1;
+    }
+    int count;
+    int count2;
+    char * token, *token2;
+    // char *tokenData;
+    int countQueue=0;
+    while (fgets(tmp, 0x100, fd)) {
+        // lp = tmp + strspn(tmp, " ");
+        count = 0;
+
+        lp = strdup(tmp);
+        while ((token = strsep(&lp, ":")) != NULL)
+        {
+            switch (count){
+                case 0:
+                    printf("%s\n", token);
+                    break;
+                case 3:
+                    count2=0;
+                    // printf("%s\n", token);    
+                    while ((token2 = strsep(&token," ")) != NULL)                        
+                    {
+                        if (strlen(token2)!=0 && strcmp(token2, "ampdu-depth") !=0){
+                            wlinfo->arrayQueues[countQueue] = atoi(token2);
+                            countQueue++;
+                        }
+                            
+                         count2++;
+                    }
+                    free(token2);
+                    break;
+                case 5:
+                    count2=0;                    
+                    while ((token2 = strsep(&token," ")) != NULL)                        
+                    {
+                        if (strlen(token2)!=0 && strcmp(token2, "stopped") !=0){
+                                wlinfo->arrayQueues[countQueue] = atoi(token2);
+                                countQueue++;                        
+                        }
+
+                         count2++;
+                    }
+                    free(token2);
+                    break;
+                                      
+            }
+            count++;
+        }
+        free(lp);
+        free(token);
+        // printf("%s\n", lp);
+        // sscanf(lp, "%u %u %u %u %u %u %u %u", &wlinfo->arrayQueues[0] , &wlinfo->arrayQueues[1],&wlinfo->arrayQueues[2],&wlinfo->arrayQueues[3],
+        //     &wlinfo->arrayQueues[4],&wlinfo->arrayQueues[5],&wlinfo->arrayQueues[6],&wlinfo->arrayQueues[7]);
+   }
+   
+   
+
+
+   //HERE I AM GOING TO ADD QUEUE
+
+
    fclose(fd);
    return 0;
 }
@@ -189,7 +257,7 @@ int if_getstat_ATH9K_HTC( wl_info_t *wlinfo , char *path){
     FILE    *fd;
     char    tmp[0x100];
     char    *lp;
-    char filename[100];
+    char filename[128];
     
     sprintf(filename, "%s%s" , path,FILE_LIST_ATH9K_HTC[0]);
     if ((fd = fopen(filename, "r")) ==NULL) {
@@ -228,7 +296,7 @@ int if_getstat_ATH9K_HTC( wl_info_t *wlinfo , char *path){
 
 
 
-int counter=0;
+// int counter=0;
 
 void * macObservation(void * param)
 {
@@ -266,11 +334,13 @@ void * macObservation(void * param)
     // int OFFSET_COLLISION ;
 
 	#if ATH9K_HTC==1
-	char path_ATH9K_HTC[150];
+	char path_ATH9K_HTC[128];
 	// int OFFSET_xretries ;
 	int OFFSET_short_retry ;
 	int OFFSET_long_retry ;
 	int OFFSET_totretries ;
+    #else
+    char path_ATH9K[128];
 	#endif
 	
 	int * returnValue=(int *)malloc(sizeof(int) * 1);
@@ -278,7 +348,7 @@ void * macObservation(void * param)
 
 	// tcp_event_info  current_TCP_EVENT;
 	// tcp_event_info  previous_TCP_EVENT;
- //    tcp_event_info  diff_TCP_EVENT;
+    // tcp_event_info  diff_TCP_EVENT;
     
     
     argv = ((paramThread_MACREAD *)param)->argv;
@@ -307,8 +377,10 @@ void * macObservation(void * param)
     
     memset(&wlinfo,0,sizeof(wl_info_t));        
    
-     #if ATH9K_HTC == 1
+    #if ATH9K_HTC == 1
         sprintf(path_ATH9K_HTC , PATH_MAC_ATH9K_HTC , argv[3] );
+    #else
+        sprintf(path_ATH9K , PATH_MAC_ATH9K , argv[3] );
     #endif
 //  signal(SIGINT, stopLoop);
 	
@@ -336,10 +408,10 @@ void * macObservation(void * param)
         // printf("===================================\n");
         // printf("COUNTER:%d\n" , counter);
         // printf("===================================\n");
-        if(counter < INT_MAX)
-            counter++;
-        else
-            counter = 0;
+        // if(counter < INT_MAX)
+        //     counter++;
+        // else
+        //     counter = 0;
 // #ifdef __ANDROID__
 //         __android_log_print(ANDROID_LOG_DEBUG, "MACOBSERVATION", "WHILE");
 // #endif
@@ -431,7 +503,7 @@ void * macObservation(void * param)
         if_getstat_ATH9K_HTC(&wlinfo, path_ATH9K_HTC);
 
 #else
-        if_getstat(ifname, &wlinfo);
+        if_getstat(ifname, &wlinfo , path_ATH9K );
 #endif
 
 
@@ -465,7 +537,7 @@ void * macObservation(void * param)
                                 OFFSET_short_retry, OFFSET_long_retry, OFFSET_totretries, wlinfo.arrayQueues);
 
 #else
-            value  = printGlobalValueMac(fpTot, ctrlPrintLocal , infoGetStation.gettime_now, OFFSET_TOT_PKT, OFFSET_TOT_BYTE);
+            value  = printGlobalValueMac(fpTot, ctrlPrintLocal , infoGetStation.gettime_now, OFFSET_TOT_PKT, OFFSET_TOT_BYTE, wlinfo.arrayQueues);
 #endif
     
 
@@ -538,7 +610,7 @@ void * macObservation(void * param)
             
             
 #else
-            value  = printGlobalValueMac(fpTot , ctrlPrintLocal , infoGetStation.gettime_now, TOT_PKT, TOT_BYTE);
+            value  = printGlobalValueMac(fpTot , ctrlPrintLocal , infoGetStation.gettime_now, TOT_PKT, TOT_BYTE, wlinfo.arrayQueues);
 #endif
             
   

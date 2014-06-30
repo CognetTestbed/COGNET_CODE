@@ -218,7 +218,7 @@ void prepareStationToPrint(wl_info_t_station *tmpStationParam , wl_info_t_statio
                 tmpStationParam->tx_packets         = tmpStationParam->tx_packets       - prevStatParam.tx_packets;
                 break;
             case 10:
-#if ATH9K_HTC == 1
+#if ATH9K_HTC == 0
                 tmpStationParam->tx_retry_count     = tmpStationParam->tx_retry_count   - prevStatParam.tx_retry_count;
 #else
 				tmpStationParam->tx_retry_count     = 0;
@@ -264,8 +264,8 @@ int if_getstatStation(struct nlattr **sinfo ,wl_info_t_station *wlinfo , char *p
         wlinfo->tx_packets = nla_get_u32(sinfo[NL80211_STA_INFO_TX_PACKETS]);
     }
 #if ATH9K_HTC == 0
-	if (sinfo[NL80211_STA_INFO_TX_RETRIES]){           
-        wlinfo->tx_retry_count = nla_get_u32(sinfo[NL80211_STA_INFO_TX_RETRIES]);
+	if (sinfo[NL80211_STA_INFO_TX_RETRIES]){   
+        wlinfo->tx_retry_count = nla_get_u32(sinfo[NL80211_STA_INFO_TX_RETRIES]);        
     }
 	if (sinfo[NL80211_STA_INFO_TX_FAILED]){
         wlinfo->tx_retry_failed = 	nla_get_u32(sinfo[NL80211_STA_INFO_TX_FAILED]);
