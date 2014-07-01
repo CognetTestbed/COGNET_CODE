@@ -380,7 +380,7 @@ LE:%u:CWRSE:%u:AS:%u:ANS:%u:FRE:%u:REORD:%u:TCPSTATE:%u",
 RTO:0:FLIGHT:0:PO:0:PL:0:RO:0:PRRDEV:0:PRROUT:0:TR:0:BA:0:\
 PKTACKED:0:MSS:0:BK:0:FC:0:SO:0:ACKN:0:SNDUNA:0:SNDNXT:0:\
 LDS:0:LAR:0:LDR:0:\
-LE:0:CWRSE:0:AS:0:ANS:0:FRE:0:REORD:0:TCPSTATE:" ,tm->tm_hour, tm->tm_min, tm->tm_sec, tv.tv_usec );
+LE:0:CWRSE:0:AS:0:ANS:0:FRE:0:REORD:0:TCPSTATE:0\n" ,tm->tm_hour, tm->tm_min, tm->tm_sec, tv.tv_usec );
 
                         }
 

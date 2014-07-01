@@ -200,9 +200,9 @@ int if_getstat(char *ifname, wl_info_t *wlinfo , char *path){
         while ((token = strsep(&lp, ":")) != NULL)
         {
             switch (count){
-                case 0:
-                    printf("%s\n", token);
-                    break;
+//                case 0:
+//                    printf("%s\n", token);
+//                    break;
                 case 3:
                     count2=0;
                     // printf("%s\n", token);    
