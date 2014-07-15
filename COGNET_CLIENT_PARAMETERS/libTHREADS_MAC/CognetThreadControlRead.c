@@ -131,7 +131,9 @@ void * handleReadDURIP(void * arg)
 
         words[count]    = atoi(token);   
         if(count == 0 && words[count] == 2){
+            
             printf("CHANGE FOLDER");
+
             token = strsep(&string, ":");
             strcpy(folder , token );
             break;  

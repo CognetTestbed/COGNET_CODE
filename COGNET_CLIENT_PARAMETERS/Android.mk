@@ -17,7 +17,7 @@
 
 LOCAL_PATH:=$(call my-dir)
 	
-MY_LOCAL_PATH_NL:=../libnl-3-android-nogit
+MY_LOCAL_PATH_NL:=../LIB_NETLINK/libnl-3-android-nogit
 $(warning $(MY_LOCAL_PATH_NL))
 include $(CLEAR_VARS)
 LOCAL_MODULE := nl-3
