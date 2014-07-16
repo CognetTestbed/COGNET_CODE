@@ -18,3 +18,5 @@ LIB_NETLINK/libnl-3/src/lib/Makefile
 LIB_NETLINK/libnl-3/tests/.deps/
 LIB_NETLINK/libnl-3/tests/Makefile
 LIB_NETLINK/libnl-3/OUTPUT_NL_3_64bit/
+COGNET_APP/obj/
+COGNET_APP/libs/

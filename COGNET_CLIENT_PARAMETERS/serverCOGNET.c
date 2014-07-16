@@ -203,6 +203,7 @@ int main(int argc, char *argv[])
           __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "FOLDER VALUE: %s" , argv[5]);
           functionCreateFolder(argv[5]);
 #else
+          realloc(arg2[5],(strlen(folder)+1)*sizeof (char));
           strcpy(argv2[5], folder );
           functionCreateFolder(argv2[5]);
     
