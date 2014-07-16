@@ -410,13 +410,13 @@ public class MainActivity extends Activity implements SensorEventListener{
         BufferedReader ls;
         
         try {
-			p = r.exec("ls sys/kernel/debug/ieee80211/");
+			p = r.exec("ls /sys/kernel/debug/ieee80211/");
 			ls = new BufferedReader(new InputStreamReader(p.getInputStream()));	
 			while ((inputLine = ls.readLine()) != null) 
 				phy = inputLine;
 			ls.close();
 			p.destroy();
-			p = r.exec("ls sys/kernel/debug/ieee80211/"+phy+"/netdev:wlan1/stations");
+			p = r.exec("ls /sys/kernel/debug/ieee80211/"+phy+"/netdev:wlan1/stations");
 			ls = new BufferedReader(new InputStreamReader(p.getInputStream()));	
 			while ((inputLine = ls.readLine()) != null) 
 				stringArrayList.add(inputLine);

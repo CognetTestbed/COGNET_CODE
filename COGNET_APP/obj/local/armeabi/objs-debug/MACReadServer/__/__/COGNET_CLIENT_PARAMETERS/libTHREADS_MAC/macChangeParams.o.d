@@ -58,7 +58,13 @@
  /locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/pathconf.h \
  /locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/linux/wireless.h \
  ../../LIB_NETLINK/libnl-3-android-nogit/include/linux/if.h \
- /locale/REPO_GIT/COGNET_CODE/COGNET_APP/jni/../../COGNET_CLIENT_PARAMETERS/libTHREADS_MAC/../include/macChangeParams.h
+ /locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/errno.h \
+ /locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/linux/errno.h \
+ /locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/asm/errno.h \
+ /locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/asm-generic/errno.h \
+ /locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/asm-generic/errno-base.h \
+ /locale/REPO_GIT/COGNET_CODE/COGNET_APP/jni/../../COGNET_CLIENT_PARAMETERS/libTHREADS_MAC/../include/macChangeParams.h \
+ /locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/android/log.h
 
 /locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/sys/types.h:
 
@@ -176,4 +182,16 @@
 
 ../../LIB_NETLINK/libnl-3-android-nogit/include/linux/if.h:
 
+/locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/errno.h:
+
+/locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/linux/errno.h:
+
+/locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/asm/errno.h:
+
+/locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/asm-generic/errno.h:
+
+/locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/asm-generic/errno-base.h:
+
 /locale/REPO_GIT/COGNET_CODE/COGNET_APP/jni/../../COGNET_CLIENT_PARAMETERS/libTHREADS_MAC/../include/macChangeParams.h:
+
+/locale/ANDROID/android-ndk-r8e/platforms/android-14/arch-arm/usr/include/android/log.h:

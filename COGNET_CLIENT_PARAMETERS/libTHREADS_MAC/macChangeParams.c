@@ -25,11 +25,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <unistd.h>
 //#include <time.h>
 #include <linux/wireless.h>
-
+#include <errno.h>
 //#define IW_NAME "wlan1"
 #include "../include/macChangeParams.h"
 
-
+#ifdef __ANDROID__
+#include <android/log.h>
+#endif
 
 float dbm2mw(float in){
     return((float)pow(10.0, in / 10.0));
@@ -174,7 +176,7 @@ int getTXfrequency(char *name){
 
 int setTXpower(char *name, int new_txpower){
 
-
+char errorString[128];
 	int sockfd;
 	struct iw_statistics stats;
 	struct iwreq req = {
@@ -194,15 +196,27 @@ int setTXpower(char *name, int new_txpower){
 	}
 	req.u.data.length = sizeof(stats);
     strcpy(req.ifr_ifrn.ifrn_name, name);
-        if (ioctl(sockfd, SIOCGIWTXPOW, &req) >= 0) {
-                req.u.txpower.value = new_txpower;
-                if (ioctl(sockfd, SIOCSIWTXPOW, &req) >= 0) {
-                        close(sockfd);
-                        return 0;      
-                }else
-                    perror("IOCTL\n");
-        }   
+    if (ioctl(sockfd, SIOCGIWTXPOW, &req) >= 0) {
+    	#ifdef __ANDROID__
+        __android_log_print(ANDROID_LOG_DEBUG, "CONTROLREAD", "IOCTL %d" , req.u.txpower.value);
+    	#endif        
+            req.u.txpower.value = new_txpower;
+    
+            if (ioctl(sockfd, SIOCSIWTXPOW, &req) >= 0) {
+                    close(sockfd);
+                    return 0;      
+            }else{
+	#ifdef __ANDROID__
         
+        	sprintf(errorString, "%s\n", strerror(errno));
+        	__android_log_print(ANDROID_LOG_DEBUG, "CONTROLREAD", "ERROR SET  %s" , errorString);
+    #endif
+                perror("IOCTL\n");
+            }
+    }   
+    #ifdef __ANDROID__
+        __android_log_print(ANDROID_LOG_DEBUG, "CONTROLREAD", "ERROR SET");
+    #endif
 	close(sockfd);
 	return -1;
 }

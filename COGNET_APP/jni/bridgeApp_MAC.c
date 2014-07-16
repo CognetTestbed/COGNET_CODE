@@ -97,6 +97,8 @@ JNIEXPORT jint JNICALL Java_it_durip_1app_ServerSocketCmd_mainJNI(JNIEnv *env, j
 //	 _android_log_print(ANDROID_LOG_DEBUG, "OPEN", "%s " , scriptToLaunch);
 	system(scriptToLaunch);
     // if(ctrlFirst == 1){
+
+	//ABSLUTLILY RUN AS ROOT
     	mainReadMacServer(stringCount-2, argv);    	
     // }
 	return 1;

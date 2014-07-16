@@ -107,6 +107,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in serv_addr, cli_addr;
     char **argv2;
 #ifdef __ANDROID__
+
     __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "PORT:%s", argv[0]);
     __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "PRINT: %s", argv[1]);
     __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "TIME: %s", argv[2]);
@@ -156,6 +157,8 @@ int main(int argc, char *argv[])
     portno = atoi(argv2[0]);
 #endif
 
+
+
     
 #ifdef __ANDROID__
     checkParameterAppAndroid(argv);
@@ -187,11 +190,29 @@ int main(int argc, char *argv[])
     // folder= malloc(32 * sizeof(char));
     
     while (keepRunning) {
+
         if(*folder){                   
-                strcpy(argv2[5], folder );
-                printf("FOLDER %s\n" , argv2[5]);     
-                functionCreateFolder(folder);        
+
+#ifdef __ANDROID__
+        // checkParameterAppAndroid(argv);
+          // 
+
+          __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "FOLDER VALUE: %s" , folder);
+           realloc(argv[5],(strlen(folder)+1)*sizeof (char));
+          strcpy(argv[5], folder );
+          __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "FOLDER VALUE: %s" , argv[5]);
+          functionCreateFolder(argv[5]);
+#else
+          strcpy(argv2[5], folder );
+          functionCreateFolder(argv2[5]);
+    
+#endif
+
         }
+
+
+
+
         ctrlLoopGlobal = 1;
         newsockfdMain = accept(sockfdMain, (struct sockaddr *) &cli_addr, &clilen);
         if (newsockfdMain < 0){
@@ -225,18 +246,18 @@ int main(int argc, char *argv[])
 
 
 
-#ifdef __ANDROID__
-    for(ii=0;ii<argc-1;ii++)
-      free(argv[ii]);
-    free(argv);
-#else
-    for(ii=0;ii<argc-1;ii++)
-      free(argv2[ii]);
-    free(argv2);
-#endif
+// #ifdef __ANDROID__
+//     for(ii=0;ii<argc-1;ii++)
+//       free(argv[ii]);
+//     free(argv);
+// #else
+//     for(ii=0;ii<argc-1;ii++)
+//       free(argv2[ii]);
+//     free(argv2);
+// #endif
 
 
-    close(sockfdMain);
+    // close(sockfdMain);
     //     #endif
     return 0; /* we never get here */
 }

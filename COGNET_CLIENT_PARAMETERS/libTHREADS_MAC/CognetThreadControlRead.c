@@ -127,12 +127,23 @@ void * handleReadDURIP(void * arg)
     printf("STRING CMD:%s\n" , string);
     assert(string != NULL);
     count = 0;
+
+#ifdef __ANDROID__
+        __android_log_print(ANDROID_LOG_DEBUG, "CONTROLREAD", "RECEIVED CMD: %s" , buffer);
+#endif
+
     while ((token = strsep(&string, ":")) != NULL){
 
         words[count]    = atoi(token);   
         if(count == 0 && words[count] == 2){
-            
-            printf("CHANGE FOLDER");
+      
+#ifdef __ANDROID__
+        __android_log_print(ANDROID_LOG_DEBUG, "CONTROLREAD", "CHANGE FOLDER" );
+#else
+        printf("CHANGE FOLDER");        
+#endif
+
+
 
             token = strsep(&string, ":");
             strcpy(folder , token );
@@ -142,9 +153,7 @@ void * handleReadDURIP(void * arg)
     }    
     free(tofree);
         
-#ifdef __ANDROID__
-        __android_log_print(ANDROID_LOG_DEBUG, "CONTROLREAD", "RECEIVED CMD: %s" , buffer);
-#endif
+
         
          
         pthread_mutex_lock(&lock);         
@@ -181,7 +190,9 @@ void * handleReadDURIP(void * arg)
                                     //GET                            
                                     case 0:
                                         ctrlWiFiInfo = words[3];
-                                        printf("GET\n");                                                            
+                                        
+                                        printf("GET\n");  
+
                                         switch(ctrlWiFiInfo){                                            
                                             case 1:
                                                 returnValue = getTXpower(param->ifname);
@@ -211,7 +222,11 @@ void * handleReadDURIP(void * arg)
                                         valueChange = words[4];                                        
                                         switch(ctrlWiFiInfo){
                                             case 1:
+                  #ifdef __ANDROID__                                      
+                                                        __android_log_print(ANDROID_LOG_DEBUG, "CONTROLREAD", "VALUE TX POWER %d " , valueChange);                                      
+                #endif                    
                                                         returnValue = setTXpower(param->ifname, valueChange);
+
                                                 break;
                                             case 2:
                                                         returnValue = setTXfrequency(param->ifname, valueChange);
@@ -255,6 +270,12 @@ void * handleReadDURIP(void * arg)
                 break;
 
                 case 2:
+                    #ifdef __ANDROID__
+                        __android_log_print(ANDROID_LOG_DEBUG, "CONTROLREAD", "CREATE FOLDER");
+                    #else
+                        printf("CREATE FOLDER \n");                
+                    #endif
+                        
                     pthread_mutex_unlock(&lock);
                     
                 break;
@@ -274,6 +295,12 @@ void * handleReadDURIP(void * arg)
      } /* end of while */
      
     close(sockfd);
-    printf("CLOSE COGNET MANAGER \n");    
+#ifdef __ANDROID__
+                __android_log_print(ANDROID_LOG_DEBUG, "CONTROLREAD", "CLOSE COGNET MANAGER");
+#else
+    printf("CLOSE COGNET MANAGER \n");                
+#endif
+
+    
     return 0; /* we never get here */
 }

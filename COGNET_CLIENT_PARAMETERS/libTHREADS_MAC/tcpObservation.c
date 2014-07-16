@@ -423,18 +423,21 @@ LE:0:CWRSE:0:AS:0:ANS:0:FRE:0:REORD:0:TCPSTATE:0\n" ,tm->tm_hour, tm->tm_min, tm
              }
          }
 	}
-#ifdef __ANDROID__
-    __android_log_print(ANDROID_LOG_DEBUG, "TCPOBSERVATION", "CLOSE TCP OBSERVATION");
-#endif
-
-
-    
     fclose(fp);
     close(sock_fd_snd);
     free(nlh_snd);
     free(nlh_rcv);
     free(absolutePathFile);
-    printf("CLOSE TCP OBSERVATION\n");
+#ifdef __ANDROID__
+    __android_log_print(ANDROID_LOG_DEBUG, "TCPOBSERVATION", "CLOSE TCP OBSERVATION");
+#else
+    printf("CLOSE TCP OBSERVATION\n");    
+#endif
+
+
+    
+    
+
     return 0;
 }
 
