@@ -18,7 +18,7 @@
 LOCAL_PATH:=$(call my-dir)
 	
 MY_LOCAL_PATH_NL:=../../LIB_NETLINK/libnl-3-android-nogit
-$(warning $(MY_LOCAL_PATH_NL))
+#$(warning $(MY_LOCAL_PATH_NL))
 include $(CLEAR_VARS)
 LOCAL_MODULE := nl-3
 LOCAL_SRC_FILES := $(MY_LOCAL_PATH_NL)/android_toolchain/libs/$(TARGET_ARCH_ABI)/libnl-3.so
@@ -39,20 +39,27 @@ include $(PREBUILT_SHARED_LIBRARY)
 
 
 include $(CLEAR_VARS)
-LOCAL_C_INCLUDES:=../../LIB_NETLINK/libnl-3-android-nogit/include/ \
+
+
+$(warning $(LOCAL_PATH))
+LOCAL_PATH:=..
+LOCAL_CFLAGS := -DATH9K_HTC=1  
+LOCAL_CFLAGS += -DANDROID_EXE=1 
+
+
+LOCAL_SRC_FILES:=serverCOGNET.c 
+LOCAL_SRC_FILES+=libTHREADS_MAC/macObservation.c libTHREADS_MAC/printMACvalue.c libTHREADS_MAC/commonFunction.c \
+		libTHREADS_MAC/CognetThreadControlRead.c libTHREADS_MAC/macChangeParams.c\
+		 libTHREADS_MAC/tcpObservation.c libTHREADS_MAC/macThreadComm.c libTHREADS_MAC/get_station.c
+
+LOCAL_C_INCLUDES:=$(MY_LOCAL_PATH_NL)/include/ \
 		  $(MY_LOCAL_PATH_NL)/android_toolchain/jni/missing_include \
 		  $(MY_LOCAL_PATH_NL)/android_toolchain/jni/generated_include
 
 
-$(warning $(LOCAL_C_INCLUDES))
-LOCAL_CFLAGS := -DATH9K_HTC=1  
-LOCAL_SRC_FILES:=serverCOGNET.c 
-LOCAL_SRC_FILES+=libTHREADS_MAC/macObservation.c ./libTHREADS_MAC/printMACvalue.c ./libTHREADS_MAC/commonFunction.c \
-		./libTHREADS_MAC/CognetThreadControlRead.c ./libTHREADS_MAC/macChangeParams.c\
-		 ./libTHREADS_MAC/tcpObservation.c libTHREADS_MAC/macThreadComm.c libTHREADS_MAC/get_station.c
 
 LOCAL_SHARED_LIBRARIES:=nl-3 nl-genl-3
 
-LOCAL_MODULE:=DURIP_READ_SERVER
+LOCAL_MODULE:=COGNET_CLIENT
 LOCAL_LDLIBS := -llog 
 include $(BUILD_EXECUTABLE)

@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef SERVER_THREAD
 #define SERVER_THREAD 
 
-int mainReadMacServer(int argc, char *argv[]);
-void prova(char ** argv);
 
+int mainReadMacServer(int argc, char *argv[]);
+int closeAPP() ;
 #endif

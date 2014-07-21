@@ -55,6 +55,7 @@ public class ExperimentMasterActivity extends Activity {
 		System.loadLibrary("nl-3"); // "libmyjni.so" in Unixes
 		System.loadLibrary("nl-genl-3"); // "libmyjni.so" in Unixes
 		System.loadLibrary("ExperimentManager"); //
+//		System.loadLibrary("MACReadServer"); //
     }
 	public native int startExperiment(int n, String []s);
 	public native int stopExperiment(int n, String []s);

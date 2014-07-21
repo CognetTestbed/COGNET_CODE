@@ -175,8 +175,9 @@ int getTXfrequency(char *name){
 *****************************************************************************************/
 
 int setTXpower(char *name, int new_txpower){
-
-char errorString[128];
+#ifdef __ANDROID__
+    char errorString[128];
+#endif
 	int sockfd;
 	struct iw_statistics stats;
 	struct iwreq req = {

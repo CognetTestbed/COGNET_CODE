@@ -354,10 +354,14 @@ void * macObservation(void * param)
     argv = ((paramThread_MACREAD *)param)->argv;
 
 #ifdef __ANDROID__
+
+
     __android_log_print(ANDROID_LOG_DEBUG, "MACOBSERVATION", "PORT: %s", argv[0]);
     __android_log_print(ANDROID_LOG_DEBUG, "MACOBSERVATION", "BUFFER: %s", argv[3]);
     __android_log_print(ANDROID_LOG_DEBUG, "MACOBSERVATION", "PHY: %s", argv[4]);
     __android_log_print(ANDROID_LOG_DEBUG, "MACOBSERVATION", "WLAN: %s", argv[5]);
+
+    
 #else
     printf("MACOBSERVATION PORT: %s\n" ,  argv[0]  );
     printf("MACOBSERVATION PRINT: %s\n" ,  argv[1]  );

@@ -85,18 +85,27 @@ int sockfdCommDurip;
 
 int manageThreadsAPP(int sock, int argc, char *argv[]);
 
-void closeAPP(int ii) {
+int closeAPP() {
     // keepRunning = 0;
     close(sockfdMain);    
     printf("\n----------------------------\n");
     printf("CLOSE COGNET APP\n");
     printf("----------------------------\n");
+    return 0;
 }
+
+
+
 
 
 //RICORDASI DI DEFINIRE QUA UNA VARIABILE DAL COMPILATORE!!
 #ifdef __ANDROID__
-int mainReadMacServer(int argc, char *argv[])
+  #if ANDROID_EXE == 1
+    int main(int argc, char *argv[])
+  #else
+    int mainReadMacServer(int argc, char *argv[])
+  #endif
+
 #else
 int main(int argc, char *argv[])
 #endif
@@ -117,8 +126,56 @@ int main(int argc, char *argv[])
     __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "IP SUBNET: %s", argv[6]);
     __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "NETMASK: %s", argv[7]);    
 #endif 
+
+
+
 #ifdef __ANDROID__ 
-    portno = atoi(argv[0]);
+#if ANDROID_EXE == 0
+  portno = atoi(argv[0]);
+    #else
+
+    if (argc < 8) {
+        printf("<Socket port><[1-3]>:<time in Seconds><phy{X}><wlan{Y}>\n 1-print only on video 2- print only on file 3 print on video and file\n");
+        return -1;
+    }
+
+    signal(SIGINT, closeAPP);
+    printf("NAME FOLDER:%s\n", argv[6]);     
+
+    argv2 = (char **) calloc((argc-1),sizeof (char *));
+    //SOCKET PORT
+    argv2[0] = (char*) calloc(strlen(argv[1])+1,sizeof (char));
+    strcpy(argv2[0], argv[1]);
+    //PRINT OR SAVE LOG FILES
+    argv2[1] = (char*) calloc(strlen(argv[2])+1,sizeof (char));
+    strcpy(argv2[1], argv[2]);
+    //TIMESAMPLE [MS]
+    argv2[2] = (char*) calloc(strlen(argv[3])+1,sizeof (char));
+    strcpy(argv2[2], argv[3]);
+    //PHYX DEVICE
+    argv2[3] = (char*) calloc(strlen(argv[4])+1,sizeof (char));
+    strcpy(argv2[3], argv[4]);
+    //WLANY DEVICE
+    argv2[4] = (char*) calloc(strlen(argv[5])+1,sizeof (char));
+    strcpy(argv2[4], argv[5]);
+    //FOLDER NAME WHERE TO SAVE LOG FILES
+    argv2[5] = (char*) calloc(strlen(argv[6])+1,sizeof (char));
+    strcpy(argv2[5], argv[6] );
+    
+    argv2[6] = (char*) calloc(strlen(argv[7])+1,sizeof (char));
+    strcpy(argv2[6], argv[7] );
+
+    argv2[7] = (char*) calloc(strlen(argv[8])+1,sizeof (char));
+    strcpy(argv2[7], argv[8] );
+    
+    portno = atoi(argv2[0]);
+
+
+#endif
+
+
+
+
 #else
     if (argc < 8) {
         printf("<Socket port><[1-3]>:<time in Seconds><phy{X}><wlan{Y}>\n 1-print only on video 2- print only on file 3 print on video and file\n");
@@ -161,11 +218,14 @@ int main(int argc, char *argv[])
 
     
 #ifdef __ANDROID__
+#if ANDROID_EXE == 0
     checkParameterAppAndroid(argv);
     functionCreateFolder(argv[5]);
+    #else
+    functionCreateFolder(argv2[5]);
+    #endif
 #else
     functionCreateFolder(argv2[5]);
-    
 #endif
 
     sockfdMain = socket(AF_INET, SOCK_STREAM, 0);
@@ -191,25 +251,28 @@ int main(int argc, char *argv[])
     
     while (keepRunning) {
 
-        if(*folder){                   
+      if(*folder){                   
 
-#ifdef __ANDROID__
-        // checkParameterAppAndroid(argv);
-          // 
-
-          __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "FOLDER VALUE: %s" , folder);
-           realloc(argv[5],(strlen(folder)+1)*sizeof (char));
-          strcpy(argv[5], folder );
-          __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "FOLDER VALUE: %s" , argv[5]);
-          functionCreateFolder(argv[5]);
+#ifdef __ANDROID__ 
+#if ANDROID_EXE == 0
+  
+        argv[5]= (char *)realloc(argv[5],(strlen(folder)+1)*sizeof (char));
+        strcpy(argv[5], folder );          
+        functionCreateFolder(argv[5]);
 #else
-          realloc(arg2[5],(strlen(folder)+1)*sizeof (char));
-          strcpy(argv2[5], folder );
-          functionCreateFolder(argv2[5]);
-    
+      argv2[5] = (char *)realloc(argv2[5],(strlen(folder)+1)*sizeof (char));
+      strcpy(argv2[5], folder );
+      functionCreateFolder(argv2[5]);
+      
+#endif   
+#else
+      argv2[5] = (char *)realloc(argv2[5],(strlen(folder)+1)*sizeof (char));
+      strcpy(argv2[5], folder );
+      functionCreateFolder(argv2[5]);
+      
 #endif
-
-        }
+      }
+    
 
 
 
@@ -233,9 +296,16 @@ int main(int argc, char *argv[])
               // }
 
 #ifdef __ANDROID__
+          #if ANDROID_EXE == 0
               manageThreadsAPP(newsockfdMain, argc, argv);
+            #else
+manageThreadsAPP(newsockfdMain, argc, argv2);              
+          #endif
+
 #else
+
               manageThreadsAPP(newsockfdMain, argc, argv2);
+
 #endif        
               //RETURN VALUE  
           //     exit(0);
@@ -247,15 +317,15 @@ int main(int argc, char *argv[])
 
 
 
-// #ifdef __ANDROID__
-//     for(ii=0;ii<argc-1;ii++)
-//       free(argv[ii]);
-//     free(argv);
-// #else
-//     for(ii=0;ii<argc-1;ii++)
-//       free(argv2[ii]);
-//     free(argv2);
-// #endif
+#ifdef __ANDROID__
+    for(ii=0;ii<argc-1;ii++)
+      free(argv[ii]);
+    free(argv);
+#else
+    for(ii=0;ii<argc-1;ii++)
+      free(argv2[ii]);
+    free(argv2);
+#endif
 
 
     // close(sockfdMain);

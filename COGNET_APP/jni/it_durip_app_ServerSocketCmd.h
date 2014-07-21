@@ -16,15 +16,15 @@ JNIEXPORT jint JNICALL Java_it_durip_1app_ServerSocketCmd_mainJNI
   (JNIEnv *, jobject, jint, jobjectArray);
 
 
-JNIEXPORT jint JNICALL Java_it_durip_1app_ServerSocketCmd_startExperiment
-  (JNIEnv *, jobject, jint, jobjectArray);
-
-JNIEXPORT jint JNICALL Java_it_durip_1app_ServerSocketCmd_stopExperiment
-  (JNIEnv *, jobject, jint, jobjectArray);
-
-
-JNIEXPORT jint Java_it_durip_1app_ServerSocketCmd_killApp
-  (JNIEnv *, jobject, jint);
+//JNIEXPORT jint JNICALL Java_it_durip_1app_ServerSocketCmd_startExperiment
+//  (JNIEnv *, jobject, jint, jobjectArray);
+//
+//JNIEXPORT jint JNICALL Java_it_durip_1app_ServerSocketCmd_stopExperiment
+//  (JNIEnv *, jobject, jint, jobjectArray);
+//
+//
+//JNIEXPORT jint Java_it_durip_1app_ServerSocketCmd_killApp
+//  (JNIEnv *, jobject, jint);
 
 #ifdef __cplusplus
 }

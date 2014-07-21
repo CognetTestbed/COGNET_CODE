@@ -12,8 +12,8 @@ extern "C" {
  * Method:    mainJNI
  * Signature: (I[Ljava/lang/String;)I
  */
-JNIEXPORT jint JNICALL Java_it_durip_1app_ExperimentMasterActivity_mainJNI
-  (JNIEnv *, jobject, jint, jobjectArray);
+//JNIEXPORT jint JNICALL Java_it_durip_1app_ExperimentMasterActivity_mainJNI
+//  (JNIEnv *, jobject, jint, jobjectArray);
 
 
 JNIEXPORT jint JNICALL Java_it_durip_1app_ExperimentMasterActivity_startExperiment

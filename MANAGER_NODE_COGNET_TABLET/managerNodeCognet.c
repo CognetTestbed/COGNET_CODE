@@ -73,8 +73,13 @@ int startFunction( int portno , char *fileameTmp , char *sleepingTime)
        __android_log_print(ANDROID_LOG_DEBUG, "MANAGER", "FILENAME %s" , filename);    
         if ((fd = fopen(filename, "r")) == NULL) {
 //                printf("fatal error: cannot open %s\n" , filename);
-                error("ERROR opening file");
+                #ifdef __ANDROID__                
                 __android_log_print(ANDROID_LOG_DEBUG, "MANAGER", "FILENAME ERROR %s" , filename);    
+                #else                
+                error("ERROR opening file");
+                #endif
+                
+                
                 return -1;
         }
         
@@ -133,13 +138,20 @@ int startFunction( int portno , char *fileameTmp , char *sleepingTime)
                 n = write(sockfd[ii],sleepingTime,strlen(sleepingTime));
                 
                 if (n < 0) 
+                    #ifdef __ANDROID__
+                    __android_log_print(ANDROID_LOG_DEBUG, "MANAGER", "START FUNCTION" );    
+                    #else
                         error("ERROR writing to socket");
-
+                    #endif
                 bzero(buffer,256);
 
                 n = read(sockfd[ii],buffer,255);
                 if (n < 0) 
+                    #ifdef __ANDROID__
+                        __android_log_print(ANDROID_LOG_DEBUG, "MANAGER", "START FUNCTION" );    
+                    #else
                         error("ERROR reading from socket");
+                    #endif
                 printf("IP:%s TIME:%s \n", IP[ii],buffer);
                      
         }
