@@ -85,7 +85,9 @@ int sockfdCommDurip;
 
 int manageThreadsAPP(int sock, int argc, char *argv[]);
 
-void closeAPP(int pp) {
+void  closeAPP(int pp);
+
+void  closeAPP(int pp) {
     // keepRunning = 0;
     close(sockfdMain);    
     printf("\n----------------------------\n");
@@ -183,7 +185,7 @@ int main(int argc, char *argv[])
     }
 
     signal(SIGINT, closeAPP);
-  	printf("NAME FOLDER:%s\n", argv[6]);     
+    printf("NAME FOLDER:%s\n", argv[6]);     
 
     argv2 = (char **) calloc((argc-1),sizeof (char *));
     //SOCKET PORT
@@ -342,7 +344,7 @@ int manageThreadsAPP(int sock, int argc, char *argv[]) {
 
   
   pthread_t handleReadDURIP_v;
-  pthread_t threadOBSERVETCP;
+  //pthread_t threadOBSERVETCP;
   pthread_t threadOBSERVEMAC;
   pthread_t handleCommDURIP_v;
   
@@ -362,16 +364,16 @@ int manageThreadsAPP(int sock, int argc, char *argv[]) {
   paramThread_Comm param_comm;
   paramThread param;
   paramThread_MACREAD paramMacObser;
-  paramThread_tcp  paramThreadTCP;
+ // paramThread_tcp  paramThreadTCP;
 
   inet_pton(AF_INET, argv[6], &ip4addr.sin_addr);
   inet_pton(AF_INET, argv[7], &ip4addrMASK.sin_addr);
 
-  paramThreadTCP.ipNL.subnet = ip4addr.sin_addr.s_addr;
-  paramThreadTCP.ipNL.netmask = ip4addrMASK.sin_addr.s_addr;
-  paramThreadTCP.nameExperiment =  (char *)malloc(sizeof(char) *(strlen(argv[5])+1));
+//  paramThreadTCP.ipNL.subnet = ip4addr.sin_addr.s_addr;
+//  paramThreadTCP.ipNL.netmask = ip4addrMASK.sin_addr.s_addr;
+//  paramThreadTCP.nameExperiment =  (char *)malloc(sizeof(char) *(strlen(argv[5])+1));
 
-  strcpy(paramThreadTCP.nameExperiment , argv[5]);
+//  strcpy(paramThreadTCP.nameExperiment , argv[5]);
 
   n = read(sock, buffer, 255);
   if (n < 0) {
@@ -459,10 +461,10 @@ int manageThreadsAPP(int sock, int argc, char *argv[]) {
 THREAD OBSERVATION
 */
 
-  if (pthread_create(&threadOBSERVETCP, NULL, tcpObservation, &paramThreadTCP) != 0) {
-      printf("Error to create thread\n");
-      return -2;
-  }
+//  if (pthread_create(&threadOBSERVETCP, NULL, tcpObservation, &paramThreadTCP) != 0) {
+//      printf("Error to create thread\n");
+//      return -2;
+//  }
 
     
   if (pthread_create(&threadOBSERVEMAC, NULL, macObservation, &paramMacObser) != 0) {
@@ -501,17 +503,17 @@ CLOSE THREAD
     printf("HANDLE COMM DOWN\n");
   }  
 
-  printf("BEFORE TO DROP DOWN TCP THREAD\n");
+//  printf("BEFORE TO DROP DOWN TCP THREAD\n");
   
   
-  pthread_kill(threadOBSERVETCP, SIGTERM);
+//  pthread_kill(threadOBSERVETCP, SIGTERM);
   // shutdown(sock_fd_rcv,SHUT_RDWR);
-  if (pthread_join(threadOBSERVETCP , NULL)) {
-      fprintf(stderr, "Error joining thread TCP\n");
-      return -4;
-  }else{
-    printf("TCP DOWN\n");    
-  }
+//  if (pthread_join(threadOBSERVETCP , NULL)) {
+//      fprintf(stderr, "Error joining thread TCP\n");
+//      return -4;
+//  }else{
+//    printf("TCP DOWN\n");    
+//  }
   
   printf("END %s\n" , __FUNCTION__);
   pthread_mutex_destroy(&lock);
