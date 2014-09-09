@@ -230,7 +230,7 @@ void * tcpObservation(void * param){
 		return returnValue;
 	}
     
-	fprintf(fp,"%d/%d--%d:%d:%d\n" , day , month , hh , mm, ss);
+	//fprintf(fp,"%d/%d--%d:%d:%d\n" , day , month , hh , mm, ss);
 	    
    	
 
