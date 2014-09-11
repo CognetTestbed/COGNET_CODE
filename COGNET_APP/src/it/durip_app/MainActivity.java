@@ -94,7 +94,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 	private NumberPicker numberPickerSensor;
 	
 	
-	private int ts;
+//	private int ts;
 //	private int tsOLSR;
 	//PLOT SECTION
 	private static SensorManager managerSensor;
@@ -864,7 +864,7 @@ public class MainActivity extends Activity implements SensorEventListener{
         //String verbose = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);
         ExperimentMasterActivityLauncher.putExtra(PARAM_PORT, port);
-        Log.i("ExperimentMasterActivity", "boh");
+        
         try{
             startActivity(ExperimentMasterActivityLauncher); // make the request!
         }catch(Exception e){
@@ -875,10 +875,6 @@ public class MainActivity extends Activity implements SensorEventListener{
     
     
     
-    
-
-	
-
   //PARTE DEL SENSORE
     
 	protected void onPlot(int nr) {
@@ -1070,10 +1066,7 @@ public class MainActivity extends Activity implements SensorEventListener{
         		textVoltage.setText("X" + sensorEvent.values[0]);
 				textCPU0.setText("Y" + sensorEvent.values[1]);
 				textCPU1.setText("Z" + sensorEvent.values[2]);
-				 
-        		
-        		
-        		
+
         		aprHistoryPlot.redraw();
 //        	}
     	}else{
@@ -1137,10 +1130,6 @@ private static Long getValueFromFile() {
 		return value;
 	}
     
-
-
-
-
 
 private void plotBattery(int pos) {
 
@@ -1252,8 +1241,8 @@ private class runnableChart implements Runnable {
 			try {
 				//				System.out.println("Value " + getValueFromFile());
 
-				if (xBattery.size() > HISTORY_SIZE) {
-
+				if (xBattery.size() > HISTORY_SIZE) 
+				{
 					xBattery.removeFirst();
 				}
 				// add the latest history sample:
@@ -1266,16 +1255,16 @@ private class runnableChart implements Runnable {
 				aprHistoryPlot.redraw();
 
 
-								handler.post(new Runnable(){
-									 public void run() {
-										 textVoltage.setText(getValueVoltageFromFile() + "mV");
+				handler.post(new Runnable(){
+						public void run() {
+							textVoltage.setText(getValueVoltageFromFile() + "mV");
 										 textCPU0.setText(getValueMHzCPUFile(0) + "MHz");
 										 textCPU1.setText(getValueMHzCPUFile(1) + "MHz");
 										 textCPU2.setText(getValueMHzCPUFile(2) + "MHz");
 										 textCPU3.setText(getValueMHzCPUFile(3) + "MHz");
-									 }
-								});
-				Thread.sleep(ts*1000);
+							}
+						});
+				Thread.sleep(1*1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

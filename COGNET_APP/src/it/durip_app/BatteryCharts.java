@@ -130,12 +130,7 @@ public class BatteryCharts extends Activity {
 	        			xBattery.removeFirst();
 	        		}
 	        		// add the latest history sample:
-	        		xBattery.addLast(null, getValueFromFile());
-//	        		System.out.println(getValueMHzCPUFile(0));
-//	        		System.out.println(getValueMHzCPUFile(1));
-//	        		System.out.println(getValueMHzCPUFile(2));
-//	        		System.out.println(getValueMHzCPUFile(3));
-	        		
+	        		xBattery.addLast(null, getValueFromFile());	        		
 	        		aprHistoryPlot.redraw();
 	        		
 					

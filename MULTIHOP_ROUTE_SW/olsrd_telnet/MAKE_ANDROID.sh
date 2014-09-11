@@ -1,6 +1,6 @@
-#!/usr/sh
+#!/bin/sh
 make clean
-make OS=android NDK_BASE=/locale/ANDROID/android-ndk-r8e build_all
+make OS=android NDK_BASE=/Users/matteo/DevelopTool/android-ndk-r8d build_all
 
 #INSTALLATION PART
 adb root
