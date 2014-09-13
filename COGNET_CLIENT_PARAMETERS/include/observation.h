@@ -31,9 +31,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define NUM_QUEUE_PARAMS 8
 
 #if ATH9K_HTC == 1
-    #define PATH_MAC_ATH9K_HTC "/sys/kernel/debug/ieee80211/%s/ath9k_htc/"
+    #define ATH9K_HTC 1
+    #define PATH_MAC_HW "/sys/kernel/debug/ieee80211/%s/ath9k_htc/"
 #else
-    #define PATH_MAC_ATH9K "/sys/kernel/debug/ieee80211/%s/ath9k/"    
+    #if ATH5K == 1
+        #define PATH_MAC_ATH9K "/sys/kernel/debug/ieee80211/%s/ath5k/"
+    #else
+
+        #define PATH_MAC_HW "/sys/kernel/debug/ieee80211/%s/ath9k/"    
+    #endif
 #endif
 
 
@@ -44,9 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #endif
 
 #ifdef __ANDROID__
-
     #define STRING_PATH_DIR "/sdcard/local/log/"
-    #define ATH9K_HTC 1
 #else
     #define STRING_PATH_DIR "/mnt/local/log/"
 #endif

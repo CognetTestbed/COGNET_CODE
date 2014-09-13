@@ -182,6 +182,17 @@ int if_getstat(char *ifname, wl_info_t *wlinfo , char *path){
 
     fclose(fd);
 
+#if ATH5K == 1
+    wlinfo->arrayQueues[0]=0;
+    wlinfo->arrayQueues[1]=0;
+    wlinfo->arrayQueues[2]=0;
+    wlinfo->arrayQueues[3]=0;
+    wlinfo->arrayQueues[4]=0;
+    wlinfo->arrayQueues[5]=0;
+    wlinfo->arrayQueues[6]=0;
+    wlinfo->arrayQueues[7]=0;
+#else
+
     sprintf(filename, "%squeues" , path);
     if ((fd = fopen(filename, "r")) ==NULL) {
         printf("fatal error: cannot open %s\n" , path);
@@ -241,14 +252,10 @@ int if_getstat(char *ifname, wl_info_t *wlinfo , char *path){
         //     &wlinfo->arrayQueues[4],&wlinfo->arrayQueues[5],&wlinfo->arrayQueues[6],&wlinfo->arrayQueues[7]);
    }
    
-   
-
-
-   //HERE I AM GOING TO ADD QUEUE
-
-
-   fclose(fd);
-   return 0;
+    //HERE I AM GOING TO ADD QUEUE
+    fclose(fd);
+#endif
+    return 0;
 }
 
 #if ATH9K_HTC == 1
@@ -382,9 +389,9 @@ void * macObservation(void * param)
     memset(&wlinfo,0,sizeof(wl_info_t));        
    
     #if ATH9K_HTC == 1
-        sprintf(path_ATH9K_HTC , PATH_MAC_ATH9K_HTC , argv[3] );
+        sprintf(path_ATH9K_HTC , PATH_MAC_HW , argv[3] );
     #else
-        sprintf(path_ATH9K , PATH_MAC_ATH9K , argv[3] );
+        sprintf(path_ATH9K , PATH_MAC_HW , argv[3] );
     #endif
 //  signal(SIGINT, stopLoop);
 	
