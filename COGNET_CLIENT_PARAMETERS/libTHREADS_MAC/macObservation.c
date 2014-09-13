@@ -160,7 +160,9 @@ int if_getstat(char *ifname, wl_info_t *wlinfo , char *path){
     char    tmp[0x100];
     char    *lp;
     unsigned long d;
+#if ATH5K == 0
     char filename[128];
+#endif    
     if ((fd = fopen("/proc/net/dev", "r")) ==NULL) {
         printf("fatal error: cannot open /proc/net/dev\n");
                 return -1;

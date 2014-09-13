@@ -1,4 +1,6 @@
 *.out
+COGNET_APP/libs/*
+COGNET_APP/gent/*
 LIB_NETLINK/libnl-3/lib/.*
 LIB_NETLINK/libnl-3/*.pc
 LIB_NETLINK/libnl-3/python/*

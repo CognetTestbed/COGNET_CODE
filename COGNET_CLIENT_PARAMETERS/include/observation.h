@@ -35,9 +35,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define PATH_MAC_HW "/sys/kernel/debug/ieee80211/%s/ath9k_htc/"
 #else
     #if ATH5K == 1
-        #define PATH_MAC_ATH9K "/sys/kernel/debug/ieee80211/%s/ath5k/"
+        #define PATH_MAC_HW "/sys/kernel/debug/ieee80211/%s/ath5k/"
     #else
-
         #define PATH_MAC_HW "/sys/kernel/debug/ieee80211/%s/ath9k/"    
     #endif
 #endif
