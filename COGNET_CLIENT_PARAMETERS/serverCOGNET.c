@@ -299,7 +299,7 @@ int main(int argc, char *argv[])
           #if ANDROID_EXE == 0
               manageThreadsAPP(newsockfdMain, argc, argv);
             #else
-manageThreadsAPP(newsockfdMain, argc, argv2);              
+              manageThreadsAPP(newsockfdMain, argc, argv2);              
           #endif
 
 #else
@@ -318,9 +318,9 @@ manageThreadsAPP(newsockfdMain, argc, argv2);
 
 
 #ifdef __ANDROID__
-    for(ii=0;ii<argc-1;ii++)
-      free(argv[ii]);
-    free(argv);
+    // for(ii=0;ii<argc-1;ii++)
+    //   free(argv[ii]);
+    // free(argv);
 #else
     for(ii=0;ii<argc-1;ii++)
       free(argv2[ii]);
