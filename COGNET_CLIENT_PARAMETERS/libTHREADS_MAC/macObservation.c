@@ -185,14 +185,42 @@ int if_getstat(char *ifname, wl_info_t *wlinfo , char *path){
     fclose(fd);
 
 #if ATH5K == 1
-    wlinfo->arrayQueues[0]=0;
-    wlinfo->arrayQueues[1]=0;
-    wlinfo->arrayQueues[2]=0;
-    wlinfo->arrayQueues[3]=0;
-    wlinfo->arrayQueues[4]=0;
-    wlinfo->arrayQueues[5]=0;
-    wlinfo->arrayQueues[6]=0;
-    wlinfo->arrayQueues[7]=0;
+	if ((fd = fopen("/sys/kernel/debug/ieee80211/phy0/ath5k/queue", "r")) ==NULL) {
+        	printf("/sys/kernel/debug/ieee80211/phy0/ath5k/queuen");
+		wlinfo->arrayQueues[0]=0;
+    		wlinfo->arrayQueues[1]=0;
+    		wlinfo->arrayQueues[2]=0;
+    		wlinfo->arrayQueues[3]=0;
+		wlinfo->arrayQueues[4]=0;
+    		wlinfo->arrayQueues[5]=0;
+    		wlinfo->arrayQueues[6]=0;
+    		wlinfo->arrayQueues[7]=0;
+    	}else{
+		int countRow=0;
+		if(fgets(tmp, 0x100, fd)!=NULL){
+        
+			char *token, *string=strdup(tmp);
+			while( (token = strsep(&string, ":"))!=NULL){
+       				if(countRow==1)
+        				wlinfo->arrayQueues[4]=atoi(token);
+				else
+					countRow++;
+    				}
+		}
+		wlinfo->arrayQueues[0]=0;
+    		wlinfo->arrayQueues[1]=0;
+    		wlinfo->arrayQueues[2]=0;
+    		wlinfo->arrayQueues[3]=0;
+		if(countRow == 0)
+			wlinfo->arrayQueues[4]=0;
+
+    		wlinfo->arrayQueues[5]=0;
+    		wlinfo->arrayQueues[6]=0;
+    		wlinfo->arrayQueues[7]=0;
+		fclose(fd);
+	}
+	
+
 #else
 
     sprintf(filename, "%squeues" , path);
