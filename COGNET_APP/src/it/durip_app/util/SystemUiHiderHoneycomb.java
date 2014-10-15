@@ -1,5 +1,5 @@
 /*
-Cognitive Network APP 
+ * Cognitive Network APP 
 Copyright (C) 2014  Matteo Danieletto matteo.danieletto@dei.unipd.it
 University of Padova, Italy +34 049 827 7778
 This program is free software: you can redistribute it and/or modify

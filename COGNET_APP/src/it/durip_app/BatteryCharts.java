@@ -31,23 +31,10 @@ import android.widget.TextView;
 
 public class BatteryCharts extends Activity {
 
-	
-	
 
     private static final int HISTORY_SIZE = 50;            // number of points to plot in history
-//    private SensorManager sensorMgr = null;
-//    private Sensor orSensor3 = null;
-//    private Sensor orSensor2 = null;
-    
-
     private int ts ;
-//    private XYPlot aprLevelsPlot = null;
-//    private SimpleXYSeries aprLevelsSeries = null;
-    
-    
     private XYPlot aprHistoryPlot = null;
-//    private String[] labels;
-
     private TextView textCharge;
     private TextView textVoltage;
     private TextView textTemp;
@@ -90,8 +77,7 @@ public class BatteryCharts extends Activity {
 //
 //
 		aprHistoryPlot.setDomainStep(XYStepMode.INCREMENT_BY_VAL ,5);
-		aprHistoryPlot.setTicksPerRangeLabel(3);
-//		//	                
+		aprHistoryPlot.setTicksPerRangeLabel(3);        
 		aprHistoryPlot.getDomainLabelWidget().pack();
 		aprHistoryPlot.getRangeLabelWidget().pack();	               
 		
@@ -102,12 +88,7 @@ public class BatteryCharts extends Activity {
 		ts = myIntent.getIntExtra( "timesample" ,1 );
 		r = new runnableChart();
 		new Thread(r).start();
-	        
-	        
-	        
 
-		
-	
 	}
 	
 	private class runnableChart implements Runnable {

@@ -526,9 +526,9 @@ static void tcp_durip_cong_avoid(struct sock *sk, u32 ack, u32 in_flight)
 
 
 	        //ktime_get_ts — get the monotonic clock in timespec format
-
+            now = ktime_get();
             if(firstACK == 0){
-                now = ktime_get();
+                
                 tcp_probe2.log.delta = ktime_to_ns(ktime_sub(now , prevTimeAck));
             }else{
                 firstACK = 0;
