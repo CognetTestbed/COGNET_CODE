@@ -523,14 +523,13 @@ static void tcp_durip_cong_avoid(struct sock *sk, u32 ack, u32 in_flight)
     spin_lock(&tcp_probe2.lock);
     subnetComputed = (inet->inet_daddr & netmask);
     if( subnetComputed== subnet){
-
-
 	        //ktime_get_ts — get the monotonic clock in timespec format
             now = ktime_get();
             if(firstACK == 0){
                 
                 tcp_probe2.log.delta = ktime_to_ns(ktime_sub(now , prevTimeAck));
             }else{
+                tcp_probe2.log.delta = ktime_to_ns(now);
                 firstACK = 0;
             }
             
