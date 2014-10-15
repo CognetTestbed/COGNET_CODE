@@ -1,4 +1,6 @@
 *.out
+*.ss
+*.ld
 COGNET_APP/libs/*
 COGNET_APP/gent/*
 LIB_NETLINK/libnl-3/lib/.*
