@@ -512,7 +512,7 @@ void tcp_slow_start_durip(struct tcp_sock *tp)
 static void tcp_durip_cong_avoid(struct sock *sk, u32 ack, u32 in_flight)
 {
     ktime_t now;
-    ktime_t prevTimeAck;
+    // ktime_t prevTimeAck;
 	struct tcp_sock *tp = tcp_sk(sk);        
 	const struct inet_sock *inet = inet_sk(sk);
 
