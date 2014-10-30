@@ -1,17 +1,14 @@
-cmd_/locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/cognetTCP.mod.o := /locale/ANDROID/NEXUS7_NEWWIFI/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.6/bin/arm-linux-androideabi-gcc -Wp,-MD,/locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/.cognetTCP.mod.o.d  -nostdinc -isystem /locale/ANDROID/NEXUS7_NEWWIFI/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.6/bin/../lib/gcc/arm-linux-androideabi/4.6.x-google/include -I/locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include -Iarch/arm/include/generated -Iinclude  -I/locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include -include /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/kconfig.h   -I/locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE -D__KERNEL__ -mlittle-endian   -I/locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/mach-tegra/include -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -fno-delete-null-pointer-checks -O2 -marm -fno-dwarf2-cfi-asm -mabi=aapcs-linux -mno-thumb-interwork -funwind-tables -D__LINUX_ARM_ARCH__=7 -march=armv7-a -msoft-float -Uarm -Wframe-larger-than=1024 -fno-stack-protector -Wno-unused-but-set-variable -fomit-frame-pointer -g -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -DCC_HAVE_ASM_GOTO  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(cognetTCP.mod)"  -D"KBUILD_MODNAME=KBUILD_STR(cognetTCP)" -DMODULE -fno-pic -c -o /locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/cognetTCP.mod.o /locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/cognetTCP.mod.c
+cmd_/locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/cognetTCP.mod.o := gcc -Wp,-MD,/locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/.cognetTCP.mod.o.d  -nostdinc -isystem /usr/lib/gcc/x86_64-linux-gnu/4.6/include -I/locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include -Iarch/x86/include/generated  -Iinclude -I/locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi -Iarch/x86/include/generated/uapi -I/locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/include/uapi -Iinclude/generated/uapi -include /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/include/linux/kconfig.h -D__KERNEL__ -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -fno-delete-null-pointer-checks -Os -fno-caller-saves -m32 -msoft-float -mregparm=3 -freg-struct-return -fno-pic -mpreferred-stack-boundary=2 -march=i486 -mtune=generic -Wa,-mtune=generic32 -ffreestanding -DCONFIG_AS_CFI=1 -DCONFIG_AS_CFI_SIGNAL_FRAME=1 -DCONFIG_AS_CFI_SECTIONS=1 -DCONFIG_AS_AVX=1 -DCONFIG_AS_AVX2=1 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -Wframe-larger-than=1024 -fno-stack-protector -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -DCC_HAVE_ASM_GOTO  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(cognetTCP.mod)"  -D"KBUILD_MODNAME=KBUILD_STR(cognetTCP)" -DMODULE  -c -o /locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/cognetTCP.mod.o /locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/cognetTCP.mod.c
 
 source_/locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/cognetTCP.mod.o := /locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/cognetTCP.mod.c
 
 deps_/locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/cognetTCP.mod.o := \
     $(wildcard include/config/module/unload.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/kconfig.h \
-    $(wildcard include/config/h.h) \
-    $(wildcard include/config/.h) \
-    $(wildcard include/config/foo.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/module.h \
+  include/linux/module.h \
     $(wildcard include/config/sysfs.h) \
     $(wildcard include/config/modules.h) \
     $(wildcard include/config/unused/symbols.h) \
+    $(wildcard include/config/module/sig.h) \
     $(wildcard include/config/generic/bug.h) \
     $(wildcard include/config/kallsyms.h) \
     $(wildcard include/config/smp.h) \
@@ -21,158 +18,267 @@ deps_/locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/cognetTCP.mod.o := \
     $(wildcard include/config/ftrace/mcount/record.h) \
     $(wildcard include/config/constructors.h) \
     $(wildcard include/config/debug/set/module/ronx.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/list.h \
+  include/linux/list.h \
     $(wildcard include/config/debug/list.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/types.h \
+  include/linux/types.h \
     $(wildcard include/config/uid16.h) \
     $(wildcard include/config/lbdaf.h) \
     $(wildcard include/config/arch/dma/addr/t/64bit.h) \
     $(wildcard include/config/phys/addr/t/64bit.h) \
     $(wildcard include/config/64bit.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/types.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/int-ll64.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/bitsperlong.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/bitsperlong.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/posix_types.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/stddef.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/compiler.h \
+  include/uapi/linux/types.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/types.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/include/uapi/asm-generic/types.h \
+  include/asm-generic/int-ll64.h \
+  include/uapi/asm-generic/int-ll64.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/bitsperlong.h \
+  include/asm-generic/bitsperlong.h \
+  include/uapi/asm-generic/bitsperlong.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/include/uapi/linux/posix_types.h \
+  include/linux/stddef.h \
+  include/uapi/linux/stddef.h \
+  include/linux/compiler.h \
     $(wildcard include/config/sparse/rcu/pointer.h) \
     $(wildcard include/config/trace/branch/profiling.h) \
     $(wildcard include/config/profile/all/branches.h) \
     $(wildcard include/config/enable/must/check.h) \
     $(wildcard include/config/enable/warn/deprecated.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/compiler-gcc.h \
+  include/linux/compiler-gcc.h \
     $(wildcard include/config/arch/supports/optimized/inlining.h) \
     $(wildcard include/config/optimize/inlining.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/compiler-gcc4.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/posix_types.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/poison.h \
+  include/linux/compiler-gcc4.h \
+    $(wildcard include/config/arch/use/builtin/bswap.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/posix_types.h \
+    $(wildcard include/config/x86/32.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/posix_types_32.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/include/uapi/asm-generic/posix_types.h \
+  include/linux/poison.h \
     $(wildcard include/config/illegal/pointer/value.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/const.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/stat.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/stat.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/time.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/include/uapi/linux/const.h \
+  include/linux/stat.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/stat.h \
+  include/uapi/linux/stat.h \
+  include/linux/time.h \
     $(wildcard include/config/arch/uses/gettimeoffset.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/cache.h \
+  include/linux/cache.h \
     $(wildcard include/config/arch/has/cache/line/size.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/kernel.h \
+  include/linux/kernel.h \
     $(wildcard include/config/preempt/voluntary.h) \
     $(wildcard include/config/debug/atomic/sleep.h) \
     $(wildcard include/config/prove/locking.h) \
     $(wildcard include/config/ring/buffer.h) \
-    $(wildcard include/config/numa.h) \
-    $(wildcard include/config/compaction.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.6/bin/../lib/gcc/arm-linux-androideabi/4.6.x-google/include/stdarg.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/linkage.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/linkage.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/bitops.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/bitops.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/system.h \
-    $(wildcard include/config/function/graph/tracer.h) \
-    $(wildcard include/config/cpu/32v6k.h) \
-    $(wildcard include/config/cpu/xsc3.h) \
-    $(wildcard include/config/cpu/fa526.h) \
-    $(wildcard include/config/arch/has/barriers.h) \
-    $(wildcard include/config/arm/dma/mem/bufferable.h) \
-    $(wildcard include/config/cpu/sa1100.h) \
-    $(wildcard include/config/cpu/sa110.h) \
-    $(wildcard include/config/cpu/v6.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/irqflags.h \
-    $(wildcard include/config/trace/irqflags.h) \
-    $(wildcard include/config/irqsoff/tracer.h) \
-    $(wildcard include/config/preempt/tracer.h) \
-    $(wildcard include/config/trace/irqflags/support.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/typecheck.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/irqflags.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/ptrace.h \
-    $(wildcard include/config/cpu/endian/be8.h) \
-    $(wildcard include/config/arm/thumb.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/hwcap.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/outercache.h \
-    $(wildcard include/config/outer/cache/sync.h) \
-    $(wildcard include/config/outer/cache.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/cmpxchg-local.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/bitops/non-atomic.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/bitops/fls64.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/bitops/sched.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/bitops/hweight.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/bitops/arch_hweight.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/bitops/const_hweight.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/bitops/lock.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/bitops/le.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/byteorder.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/byteorder/little_endian.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/swab.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/swab.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/byteorder/generic.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/bitops/ext2-atomic-setbit.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/log2.h \
+    $(wildcard include/config/symbol/prefix.h) \
+  /usr/lib/gcc/x86_64-linux-gnu/4.6/include/stdarg.h \
+  include/linux/linkage.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/linkage.h \
+    $(wildcard include/config/x86/64.h) \
+    $(wildcard include/config/x86/alignment/16.h) \
+  include/linux/stringify.h \
+  include/linux/bitops.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/bitops.h \
+    $(wildcard include/config/x86/cmov.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/alternative.h \
+    $(wildcard include/config/paravirt.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/asm.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/cpufeature.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/required-features.h \
+    $(wildcard include/config/x86/minimum/cpu/family.h) \
+    $(wildcard include/config/math/emulation.h) \
+    $(wildcard include/config/x86/pae.h) \
+    $(wildcard include/config/x86/cmpxchg64.h) \
+    $(wildcard include/config/x86/use/3dnow.h) \
+    $(wildcard include/config/x86/p6/nop.h) \
+  include/asm-generic/bitops/fls64.h \
+  include/asm-generic/bitops/find.h \
+    $(wildcard include/config/generic/find/first/bit.h) \
+  include/asm-generic/bitops/sched.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/arch_hweight.h \
+  include/asm-generic/bitops/const_hweight.h \
+  include/asm-generic/bitops/le.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/byteorder.h \
+  include/linux/byteorder/little_endian.h \
+  include/uapi/linux/byteorder/little_endian.h \
+  include/linux/swab.h \
+  include/uapi/linux/swab.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/swab.h \
+  include/linux/byteorder/generic.h \
+  include/asm-generic/bitops/ext2-atomic-setbit.h \
+  include/linux/log2.h \
     $(wildcard include/config/arch/has/ilog2/u32.h) \
     $(wildcard include/config/arch/has/ilog2/u64.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/printk.h \
+  include/linux/typecheck.h \
+  include/linux/printk.h \
     $(wildcard include/config/printk.h) \
     $(wildcard include/config/dynamic/debug.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/init.h \
-    $(wildcard include/config/hotplug.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/dynamic_debug.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/bug.h \
-    $(wildcard include/config/bug.h) \
-    $(wildcard include/config/debug/bugverbose.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/bug.h \
-    $(wildcard include/config/generic/bug/relative/pointers.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/div64.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/cache.h \
-    $(wildcard include/config/arm/l1/cache/shift.h) \
-    $(wildcard include/config/aeabi.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/seqlock.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/spinlock.h \
+  include/linux/init.h \
+    $(wildcard include/config/broken/rodata.h) \
+  include/linux/kern_levels.h \
+  include/linux/dynamic_debug.h \
+  include/linux/string.h \
+    $(wildcard include/config/binary/printf.h) \
+  include/uapi/linux/string.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/string.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/string_32.h \
+    $(wildcard include/config/kmemcheck.h) \
+  include/linux/errno.h \
+  include/uapi/linux/errno.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/errno.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/include/uapi/asm-generic/errno.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/include/uapi/asm-generic/errno-base.h \
+  include/uapi/linux/kernel.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/include/uapi/linux/sysinfo.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/div64.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/cache.h \
+    $(wildcard include/config/x86/l1/cache/shift.h) \
+    $(wildcard include/config/x86/internode/cache/shift.h) \
+    $(wildcard include/config/x86/vsmp.h) \
+  include/linux/seqlock.h \
+  include/linux/spinlock.h \
     $(wildcard include/config/debug/spinlock.h) \
     $(wildcard include/config/generic/lockbreak.h) \
     $(wildcard include/config/preempt.h) \
     $(wildcard include/config/debug/lock/alloc.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/preempt.h \
+  include/linux/preempt.h \
     $(wildcard include/config/debug/preempt.h) \
+    $(wildcard include/config/preempt/tracer.h) \
     $(wildcard include/config/preempt/count.h) \
     $(wildcard include/config/preempt/notifiers.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/thread_info.h \
+  include/linux/thread_info.h \
     $(wildcard include/config/compat.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/thread_info.h \
-    $(wildcard include/config/arm/thumbee.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/fpstate.h \
-    $(wildcard include/config/vfpv3.h) \
-    $(wildcard include/config/iwmmxt.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/domain.h \
-    $(wildcard include/config/io/36.h) \
-    $(wildcard include/config/cpu/use/domains.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/stringify.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/bottom_half.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/spinlock_types.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/spinlock_types.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/lockdep.h \
+    $(wildcard include/config/debug/stack/usage.h) \
+  include/linux/bug.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/bug.h \
+    $(wildcard include/config/bug.h) \
+    $(wildcard include/config/debug/bugverbose.h) \
+  include/asm-generic/bug.h \
+    $(wildcard include/config/generic/bug/relative/pointers.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/thread_info.h \
+    $(wildcard include/config/ia32/emulation.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/page.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/page_types.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/page_32_types.h \
+    $(wildcard include/config/highmem4g.h) \
+    $(wildcard include/config/highmem64g.h) \
+    $(wildcard include/config/page/offset.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/page_32.h \
+    $(wildcard include/config/hugetlb/page.h) \
+    $(wildcard include/config/debug/virtual.h) \
+    $(wildcard include/config/flatmem.h) \
+    $(wildcard include/config/x86/3dnow.h) \
+  include/asm-generic/memory_model.h \
+    $(wildcard include/config/discontigmem.h) \
+    $(wildcard include/config/sparsemem/vmemmap.h) \
+    $(wildcard include/config/sparsemem.h) \
+  include/asm-generic/getorder.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/processor.h \
+    $(wildcard include/config/cc/stackprotector.h) \
+    $(wildcard include/config/m486.h) \
+    $(wildcard include/config/x86/debugctlmsr.h) \
+    $(wildcard include/config/cpu/sup/amd.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/processor-flags.h \
+    $(wildcard include/config/vm86.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/processor-flags.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/vm86.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/ptrace.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/segment.h \
+    $(wildcard include/config/x86/32/lazy/gs.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/ptrace.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/ptrace-abi.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/paravirt_types.h \
+    $(wildcard include/config/x86/local/apic.h) \
+    $(wildcard include/config/paravirt/debug.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/desc_defs.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/kmap_types.h \
+    $(wildcard include/config/debug/highmem.h) \
+  include/asm-generic/kmap_types.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/pgtable_types.h \
+    $(wildcard include/config/compat/vdso.h) \
+    $(wildcard include/config/proc/fs.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/pgtable_32_types.h \
+    $(wildcard include/config/highmem.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/pgtable-2level_types.h \
+  include/asm-generic/pgtable-nopud.h \
+  include/asm-generic/pgtable-nopmd.h \
+  include/asm-generic/ptrace.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/vm86.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/math_emu.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/sigcontext.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/sigcontext.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/current.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/percpu.h \
+    $(wildcard include/config/x86/64/smp.h) \
+  include/asm-generic/percpu.h \
+    $(wildcard include/config/have/setup/per/cpu/area.h) \
+  include/linux/threads.h \
+    $(wildcard include/config/nr/cpus.h) \
+    $(wildcard include/config/base/small.h) \
+  include/linux/percpu-defs.h \
+    $(wildcard include/config/debug/force/weak/per/cpu.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/msr.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/msr.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/msr-index.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/include/uapi/linux/ioctl.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/ioctl.h \
+  include/asm-generic/ioctl.h \
+  include/uapi/asm-generic/ioctl.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/cpumask.h \
+  include/linux/cpumask.h \
+    $(wildcard include/config/cpumask/offstack.h) \
+    $(wildcard include/config/hotplug/cpu.h) \
+    $(wildcard include/config/debug/per/cpu/maps.h) \
+    $(wildcard include/config/disable/obsolete/cpumask/functions.h) \
+  include/linux/bitmap.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/paravirt.h \
+    $(wildcard include/config/paravirt/spinlocks.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/nops.h \
+    $(wildcard include/config/mk7.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/special_insns.h \
+  include/linux/personality.h \
+  include/uapi/linux/personality.h \
+  include/linux/math64.h \
+  include/linux/err.h \
+  include/linux/irqflags.h \
+    $(wildcard include/config/trace/irqflags.h) \
+    $(wildcard include/config/irqsoff/tracer.h) \
+    $(wildcard include/config/trace/irqflags/support.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/irqflags.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/ftrace.h \
+    $(wildcard include/config/function/tracer.h) \
+    $(wildcard include/config/dynamic/ftrace.h) \
+  include/linux/atomic.h \
+    $(wildcard include/config/arch/has/atomic/or.h) \
+    $(wildcard include/config/generic/atomic64.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/atomic.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/cmpxchg.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/cmpxchg_32.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/atomic64_32.h \
+  include/asm-generic/atomic-long.h \
+  include/linux/bottom_half.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/barrier.h \
+    $(wildcard include/config/x86/ppro/fence.h) \
+    $(wildcard include/config/x86/oostore.h) \
+  include/linux/spinlock_types.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/spinlock_types.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/rwlock.h \
+  include/linux/lockdep.h \
     $(wildcard include/config/lockdep.h) \
     $(wildcard include/config/lock/stat.h) \
     $(wildcard include/config/prove/rcu.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/rwlock_types.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/spinlock.h \
-    $(wildcard include/config/thumb2/kernel.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/processor.h \
-    $(wildcard include/config/have/hw/breakpoint.h) \
-    $(wildcard include/config/mmu.h) \
-    $(wildcard include/config/arm/errata/754327.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/hw_breakpoint.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/rwlock.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/spinlock_api_smp.h \
+  include/linux/rwlock_types.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/spinlock.h \
+  include/linux/rwlock.h \
+  include/linux/spinlock_api_smp.h \
     $(wildcard include/config/inline/spin/lock.h) \
     $(wildcard include/config/inline/spin/lock/bh.h) \
     $(wildcard include/config/inline/spin/lock/irq.h) \
     $(wildcard include/config/inline/spin/lock/irqsave.h) \
     $(wildcard include/config/inline/spin/trylock.h) \
     $(wildcard include/config/inline/spin/trylock/bh.h) \
-    $(wildcard include/config/inline/spin/unlock.h) \
+    $(wildcard include/config/uninline/spin/unlock.h) \
     $(wildcard include/config/inline/spin/unlock/bh.h) \
     $(wildcard include/config/inline/spin/unlock/irq.h) \
     $(wildcard include/config/inline/spin/unlock/irqrestore.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/rwlock_api_smp.h \
+  include/linux/rwlock_api_smp.h \
     $(wildcard include/config/inline/read/lock.h) \
     $(wildcard include/config/inline/write/lock.h) \
     $(wildcard include/config/inline/read/lock/bh.h) \
@@ -191,174 +297,237 @@ deps_/locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/cognetTCP.mod.o := \
     $(wildcard include/config/inline/write/unlock/irq.h) \
     $(wildcard include/config/inline/read/unlock/irqrestore.h) \
     $(wildcard include/config/inline/write/unlock/irqrestore.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/atomic.h \
-    $(wildcard include/config/arch/has/atomic/or.h) \
-    $(wildcard include/config/generic/atomic64.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/atomic.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/atomic-long.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/math64.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/kmod.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/gfp.h \
-    $(wildcard include/config/kmemcheck.h) \
-    $(wildcard include/config/highmem.h) \
+  include/uapi/linux/time.h \
+  include/linux/uidgid.h \
+    $(wildcard include/config/uidgid/strict/type/checks.h) \
+    $(wildcard include/config/user/ns.h) \
+  include/linux/highuid.h \
+  include/linux/kmod.h \
+  include/linux/gfp.h \
+    $(wildcard include/config/numa.h) \
     $(wildcard include/config/zone/dma.h) \
     $(wildcard include/config/zone/dma32.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/mmzone.h \
+    $(wildcard include/config/pm/sleep.h) \
+    $(wildcard include/config/cma.h) \
+  include/linux/mmzone.h \
     $(wildcard include/config/force/max/zoneorder.h) \
+    $(wildcard include/config/memcg.h) \
+    $(wildcard include/config/compaction.h) \
     $(wildcard include/config/memory/hotplug.h) \
-    $(wildcard include/config/sparsemem.h) \
-    $(wildcard include/config/arch/populates/node/map.h) \
-    $(wildcard include/config/discontigmem.h) \
+    $(wildcard include/config/have/memblock/node/map.h) \
     $(wildcard include/config/flat/node/mem/map.h) \
-    $(wildcard include/config/cgroup/mem/res/ctlr.h) \
     $(wildcard include/config/no/bootmem.h) \
+    $(wildcard include/config/numa/balancing.h) \
     $(wildcard include/config/have/memory/present.h) \
     $(wildcard include/config/have/memoryless/nodes.h) \
     $(wildcard include/config/need/node/memmap/size.h) \
     $(wildcard include/config/need/multiple/nodes.h) \
     $(wildcard include/config/have/arch/early/pfn/to/nid.h) \
-    $(wildcard include/config/flatmem.h) \
     $(wildcard include/config/sparsemem/extreme.h) \
     $(wildcard include/config/have/arch/pfn/valid.h) \
     $(wildcard include/config/nodes/span/other/nodes.h) \
     $(wildcard include/config/holes/in/zone.h) \
     $(wildcard include/config/arch/has/holes/memorymodel.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/wait.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/current.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/threads.h \
-    $(wildcard include/config/nr/cpus.h) \
-    $(wildcard include/config/base/small.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/numa.h \
+  include/linux/wait.h \
+  include/uapi/linux/wait.h \
+  include/linux/numa.h \
     $(wildcard include/config/nodes/shift.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/nodemask.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/bitmap.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/string.h \
-    $(wildcard include/config/binary/printf.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/string.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/pageblock-flags.h \
-    $(wildcard include/config/hugetlb/page.h) \
+  include/linux/nodemask.h \
+    $(wildcard include/config/movable/node.h) \
+  include/linux/pageblock-flags.h \
     $(wildcard include/config/hugetlb/page/size/variable.h) \
   include/generated/bounds.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/page.h \
-    $(wildcard include/config/cpu/copy/v3.h) \
-    $(wildcard include/config/cpu/copy/v4wt.h) \
-    $(wildcard include/config/cpu/copy/v4wb.h) \
-    $(wildcard include/config/cpu/copy/feroceon.h) \
-    $(wildcard include/config/cpu/copy/fa.h) \
-    $(wildcard include/config/cpu/xscale.h) \
-    $(wildcard include/config/cpu/copy/v6.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/glue.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/memory.h \
-    $(wildcard include/config/page/offset.h) \
-    $(wildcard include/config/task/size.h) \
-    $(wildcard include/config/dram/size.h) \
-    $(wildcard include/config/dram/base.h) \
-    $(wildcard include/config/have/tcm.h) \
-    $(wildcard include/config/arm/patch/phys/virt.h) \
-    $(wildcard include/config/arm/patch/phys/virt/16bit.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/mach-tegra/include/mach/memory.h \
-    $(wildcard include/config/arch/tegra/2x/soc.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/sizes.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/sizes.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/memory_model.h \
-    $(wildcard include/config/sparsemem/vmemmap.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/getorder.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/memory_hotplug.h \
+  include/linux/memory_hotplug.h \
     $(wildcard include/config/memory/hotremove.h) \
     $(wildcard include/config/have/arch/nodedata/extension.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/notifier.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/errno.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/errno.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/errno.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/errno-base.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/mutex.h \
+  include/linux/notifier.h \
+  include/linux/mutex.h \
     $(wildcard include/config/debug/mutexes.h) \
     $(wildcard include/config/have/arch/mutex/cpu/relax.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/rwsem.h \
+  include/linux/rwsem.h \
     $(wildcard include/config/rwsem/generic/spinlock.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/rwsem-spinlock.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/srcu.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/topology.h \
-    $(wildcard include/config/sched/smt.h) \
-    $(wildcard include/config/sched/mc.h) \
-    $(wildcard include/config/sched/book.h) \
-    $(wildcard include/config/use/percpu/numa/node/id.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/cpumask.h \
-    $(wildcard include/config/cpumask/offstack.h) \
-    $(wildcard include/config/hotplug/cpu.h) \
-    $(wildcard include/config/debug/per/cpu/maps.h) \
-    $(wildcard include/config/disable/obsolete/cpumask/functions.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/smp.h \
-    $(wildcard include/config/use/generic/smp/helpers.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/smp.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/percpu.h \
-    $(wildcard include/config/need/per/cpu/embed/first/chunk.h) \
-    $(wildcard include/config/need/per/cpu/page/first/chunk.h) \
-    $(wildcard include/config/have/setup/per/cpu/area.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/pfn.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/percpu.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/percpu.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/percpu-defs.h \
-    $(wildcard include/config/debug/force/weak/per/cpu.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/topology.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/asm-generic/topology.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/mmdebug.h \
-    $(wildcard include/config/debug/vm.h) \
-    $(wildcard include/config/debug/virtual.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/workqueue.h \
-    $(wildcard include/config/debug/objects/work.h) \
-    $(wildcard include/config/freezer.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/timer.h \
-    $(wildcard include/config/timer/stats.h) \
-    $(wildcard include/config/debug/objects/timers.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/ktime.h \
-    $(wildcard include/config/ktime/scalar.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/jiffies.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/timex.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/param.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/param.h \
-    $(wildcard include/config/hz.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/timex.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/mach-tegra/include/mach/timex.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/debugobjects.h \
-    $(wildcard include/config/debug/objects.h) \
-    $(wildcard include/config/debug/objects/free.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/sysctl.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/rcupdate.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/rwsem.h \
+  include/linux/srcu.h \
+  include/linux/rcupdate.h \
     $(wildcard include/config/rcu/torture/test.h) \
     $(wildcard include/config/tree/rcu.h) \
     $(wildcard include/config/tree/preempt/rcu.h) \
+    $(wildcard include/config/rcu/trace.h) \
     $(wildcard include/config/preempt/rcu.h) \
-    $(wildcard include/config/no/hz.h) \
+    $(wildcard include/config/rcu/user/qs.h) \
     $(wildcard include/config/tiny/rcu.h) \
     $(wildcard include/config/tiny/preempt/rcu.h) \
     $(wildcard include/config/debug/objects/rcu/head.h) \
     $(wildcard include/config/preempt/rt.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/completion.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/rcutree.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/elf.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/elf-em.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/elf.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/user.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/kobject.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/sysfs.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/kobject_ns.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/kref.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/moduleparam.h \
+  include/linux/completion.h \
+  include/linux/debugobjects.h \
+    $(wildcard include/config/debug/objects.h) \
+    $(wildcard include/config/debug/objects/free.h) \
+  include/linux/rcutree.h \
+  include/linux/workqueue.h \
+    $(wildcard include/config/debug/objects/work.h) \
+    $(wildcard include/config/freezer.h) \
+  include/linux/timer.h \
+    $(wildcard include/config/timer/stats.h) \
+    $(wildcard include/config/debug/objects/timers.h) \
+  include/linux/ktime.h \
+    $(wildcard include/config/ktime/scalar.h) \
+  include/linux/jiffies.h \
+  include/linux/timex.h \
+  include/uapi/linux/timex.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/include/uapi/linux/param.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/param.h \
+  include/asm-generic/param.h \
+    $(wildcard include/config/hz.h) \
+  include/uapi/asm-generic/param.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/timex.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/tsc.h \
+    $(wildcard include/config/x86/tsc.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/sparsemem.h \
+  include/linux/topology.h \
+    $(wildcard include/config/sched/smt.h) \
+    $(wildcard include/config/sched/mc.h) \
+    $(wildcard include/config/sched/book.h) \
+    $(wildcard include/config/use/percpu/numa/node/id.h) \
+  include/linux/smp.h \
+    $(wildcard include/config/use/generic/smp/helpers.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/smp.h \
+    $(wildcard include/config/x86/io/apic.h) \
+    $(wildcard include/config/x86/32/smp.h) \
+    $(wildcard include/config/debug/nmi/selftest.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/mpspec.h \
+    $(wildcard include/config/x86/numaq.h) \
+    $(wildcard include/config/eisa.h) \
+    $(wildcard include/config/x86/mpparse.h) \
+    $(wildcard include/config/acpi.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/mpspec_def.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/x86_init.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/bootparam.h \
+  include/linux/screen_info.h \
+  include/uapi/linux/screen_info.h \
+  include/linux/apm_bios.h \
+  include/uapi/linux/apm_bios.h \
+  include/linux/edd.h \
+  include/uapi/linux/edd.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/e820.h \
+    $(wildcard include/config/efi.h) \
+    $(wildcard include/config/hibernation.h) \
+    $(wildcard include/config/memtest.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/e820.h \
+    $(wildcard include/config/intel/txt.h) \
+  include/linux/ioport.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/ist.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/ist.h \
+  include/video/edid.h \
+    $(wildcard include/config/x86.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/apicdef.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/apic.h \
+    $(wildcard include/config/x86/x2apic.h) \
+  include/linux/pm.h \
+    $(wildcard include/config/pm.h) \
+    $(wildcard include/config/pm/runtime.h) \
+    $(wildcard include/config/pm/clk.h) \
+    $(wildcard include/config/pm/generic/domains.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/fixmap.h \
+    $(wildcard include/config/paravirt/clock.h) \
+    $(wildcard include/config/provide/ohci1394/dma/init.h) \
+    $(wildcard include/config/x86/visws/apic.h) \
+    $(wildcard include/config/x86/f00f/bug.h) \
+    $(wildcard include/config/x86/cyclone/timer.h) \
+    $(wildcard include/config/pci/mmconfig.h) \
+    $(wildcard include/config/x86/intel/mid.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/acpi.h \
+    $(wildcard include/config/acpi/numa.h) \
+  include/acpi/pdc_intel.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/numa.h \
+    $(wildcard include/config/numa/emu.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/topology.h \
+    $(wildcard include/config/x86/ht.h) \
+  include/asm-generic/topology.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/numa_32.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/mmu.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/realmode.h \
+    $(wildcard include/config/acpi/sleep.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/io.h \
+    $(wildcard include/config/xen.h) \
+  include/asm-generic/iomap.h \
+    $(wildcard include/config/has/ioport.h) \
+    $(wildcard include/config/pci.h) \
+    $(wildcard include/config/generic/iomap.h) \
+  include/asm-generic/pci_iomap.h \
+    $(wildcard include/config/no/generic/pci/ioport/map.h) \
+    $(wildcard include/config/generic/pci/iomap.h) \
+  include/linux/vmalloc.h \
+    $(wildcard include/config/mmu.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/pvclock.h \
+  include/linux/clocksource.h \
+    $(wildcard include/config/arch/clocksource/data.h) \
+    $(wildcard include/config/clocksource/watchdog.h) \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/pvclock-abi.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/io_apic.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/irq_vectors.h \
+  include/linux/percpu.h \
+    $(wildcard include/config/need/per/cpu/embed/first/chunk.h) \
+    $(wildcard include/config/need/per/cpu/page/first/chunk.h) \
+  include/linux/pfn.h \
+  include/linux/mmdebug.h \
+    $(wildcard include/config/debug/vm.h) \
+  include/linux/sysctl.h \
+    $(wildcard include/config/sysctl.h) \
+  include/linux/rbtree.h \
+  include/uapi/linux/sysctl.h \
+  include/linux/elf.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/elf.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/user.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/user_32.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/auxvec.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/vdso.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/desc.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/uapi/asm/ldt.h \
+  include/uapi/linux/elf.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/include/uapi/linux/elf-em.h \
+  include/linux/kobject.h \
+  include/linux/sysfs.h \
+  include/linux/kobject_ns.h \
+  include/linux/kref.h \
+  include/linux/moduleparam.h \
     $(wildcard include/config/alpha.h) \
     $(wildcard include/config/ia64.h) \
     $(wildcard include/config/ppc64.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/tracepoint.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/jump_label.h \
+  include/linux/tracepoint.h \
+  include/linux/static_key.h \
+  include/linux/jump_label.h \
     $(wildcard include/config/jump/label.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/export.h \
-    $(wildcard include/config/symbol/prefix.h) \
+  include/linux/export.h \
     $(wildcard include/config/modversions.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/arch/arm/include/asm/module.h \
-    $(wildcard include/config/arm/unwind.h) \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/trace/events/module.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/trace/define_trace.h \
-  /locale/ANDROID/NEXUS7_NEWWIFI/kernel/asus/grouper/include/linux/vermagic.h \
+  /locale/ALL_KERNEL_COGNET/linux-source-3.8.11-voyage/arch/x86/include/asm/module.h \
+    $(wildcard include/config/m586.h) \
+    $(wildcard include/config/m586tsc.h) \
+    $(wildcard include/config/m586mmx.h) \
+    $(wildcard include/config/mcore2.h) \
+    $(wildcard include/config/matom.h) \
+    $(wildcard include/config/m686.h) \
+    $(wildcard include/config/mpentiumii.h) \
+    $(wildcard include/config/mpentiumiii.h) \
+    $(wildcard include/config/mpentiumm.h) \
+    $(wildcard include/config/mpentium4.h) \
+    $(wildcard include/config/mk6.h) \
+    $(wildcard include/config/mk8.h) \
+    $(wildcard include/config/melan.h) \
+    $(wildcard include/config/mcrusoe.h) \
+    $(wildcard include/config/mefficeon.h) \
+    $(wildcard include/config/mwinchipc6.h) \
+    $(wildcard include/config/mwinchip3d.h) \
+    $(wildcard include/config/mcyrixiii.h) \
+    $(wildcard include/config/mviac3/2.h) \
+    $(wildcard include/config/mviac7.h) \
+    $(wildcard include/config/mgeodegx1.h) \
+    $(wildcard include/config/mgeode/lx.h) \
+  include/asm-generic/module.h \
+    $(wildcard include/config/have/mod/arch/specific.h) \
+    $(wildcard include/config/modules/use/elf/rel.h) \
+    $(wildcard include/config/modules/use/elf/rela.h) \
+  include/linux/vermagic.h \
   include/generated/utsrelease.h \
 
 /locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/cognetTCP.mod.o: $(deps_/locale/REPO_GIT/COGNET_CODE/COGNET_TCP_MODULE/cognetTCP.mod.o)

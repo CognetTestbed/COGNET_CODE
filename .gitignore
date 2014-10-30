@@ -30,6 +30,10 @@ COGNET_APP/bin/
 *.o
 *.o.d
 *.out
+*.ko.cmd
 KERNEL_SOURCE_CODE/grouper/*
 LIB_NETLINK/libnl-3-android-nogit/android_toolchain/obj/*
 KERNEL_SOURCE_CODE/grouper/include/linux/netfilter/*
+*.ko
+*.ko.cmd
+*.mod.c

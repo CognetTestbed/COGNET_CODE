@@ -51,8 +51,8 @@ struct tcpEventCollection{
 
 
 typedef struct tcp_log {
-    // struct timespec tv;
-    __s64 delta;
+    struct timespec tv;
+    // __s64 delta;
     __be32 saddr, daddr;
     __be16 sport, dport;           
     __u32  snd_cwnd;
@@ -93,7 +93,7 @@ typedef struct tcp_log {
 
 
 
-
+struct timespec tv;
 struct msghdr msg_snd;
 struct msghdr msg_rcv;
 
@@ -173,7 +173,8 @@ void * tcpObservation(void * param){
 	//OPEN LOG FILE!
 	time_t timenow;
 
-    struct timeval  tv;
+
+    // struct timeval  tv;
     
     struct timezone tz;
 
@@ -344,23 +345,37 @@ void * tcpObservation(void * param){
 
                 
                     
-            sprintf(printString , "%lld:IP:%s:CWND:%010d:AW:%010d:SSHTHR:%u:\
+//             sprintf(printString , "%lld:IP:%s:CWND:%010d:AW:%010d:SSHTHR:%u:\
+// RTT:%u:RTTV:%u:SRTT:%u:SRTTJTU:%u:RTO:%u:\
+// FLIGHT:%u:PO:%u:PL:%u:RO:%u:PRRDEV:%u:PRROUT:%u:TR:%u:BA:%u:\
+// PKTACKED:%u:MSS:%u:BK:%u:FC:%u:SO:%u:ACKN:%u:SNDUNA:%u:SNDNXT:%u:\
+// LDS:%u:LAR:%u:LDR:%u:\
+// LE:%u:CWRSE:%u:AS:%u:ANS:%u:FRE:%u:REORD:%u:TCPSTATE:%u",
+//                         (long long)tp->delta,ipbuf,tp->snd_cwnd ,tp->rcv_wnd,tp->ssthresh, 
+//                         tp->rtt, tp->rttvar ,tp->srtt, tp->srtt_jtu, tp->rto,
+//                         tp->in_flight, tp->packets_out, tp->lost_out, tp->retrans_out, tp->prr_delivered,tp->prr_out ,tp->total_retrans,tp->bytes_acked,
+//                         tp->numpktacked, tp->cachemss, tp->backoff, tp->frto_counter, tp->sacked_out, tp->ack_seq, tp->snd_una, tp->snd_nxt,
+//                         tp->last_data_sent , tp->last_ack_recv, tp->last_data_recv,
+//                         tp->tcpEvent.countLOSS_EVENT,tp->tcpEvent.countCWND_RESTART,tp->tcpEvent.countACKSEQ,tp->tcpEvent.countACKNOSEQ,tp->tcpEvent.countFASTRECOVERYENDED, 
+//                         tp->reordering , tp->tcpCAState);
+
+                    sprintf(printString , "%lu.%09lu:IP:%s:CWND:%010d:AW:%010d:SSHTHR:%u:\
 RTT:%u:RTTV:%u:SRTT:%u:SRTTJTU:%u:RTO:%u:\
 FLIGHT:%u:PO:%u:PL:%u:RO:%u:PRRDEV:%u:PRROUT:%u:TR:%u:BA:%u:\
 PKTACKED:%u:MSS:%u:BK:%u:FC:%u:SO:%u:ACKN:%u:SNDUNA:%u:SNDNXT:%u:\
 LDS:%u:LAR:%u:LDR:%u:\
 LE:%u:CWRSE:%u:AS:%u:ANS:%u:FRE:%u:REORD:%u:TCPSTATE:%u",
-                        (long long)tp->delta,ipbuf,tp->snd_cwnd ,tp->rcv_wnd,tp->ssthresh, 
-                        tp->rtt, tp->rttvar ,tp->srtt, tp->srtt_jtu, tp->rto,
-                        tp->in_flight, tp->packets_out, tp->lost_out, tp->retrans_out, tp->prr_delivered,tp->prr_out ,tp->total_retrans,tp->bytes_acked,
-                        tp->numpktacked, tp->cachemss, tp->backoff, tp->frto_counter, tp->sacked_out, tp->ack_seq, tp->snd_una, tp->snd_nxt,
-                        tp->last_data_sent , tp->last_ack_recv, tp->last_data_recv,
-                        tp->tcpEvent.countLOSS_EVENT,tp->tcpEvent.countCWND_RESTART,tp->tcpEvent.countACKSEQ,tp->tcpEvent.countACKNOSEQ,tp->tcpEvent.countFASTRECOVERYENDED, 
-                        tp->reordering , tp->tcpCAState);
+                    (unsigned long) tp->tv.tv_sec , (unsigned long) tp->tv.tv_nsec ,ipbuf,tp->snd_cwnd ,tp->rcv_wnd,tp->ssthresh,
+tp->rtt, tp->rttvar ,tp->srtt, tp->srtt_jtu, tp->rto,
+tp->in_flight, tp->packets_out, tp->lost_out, tp->retrans_out, tp->prr_delivered,tp->prr_out ,tp->total_retrans,tp->bytes_acked,
+tp->numpktacked, tp->cachemss, tp->backoff, tp->frto_counter, tp->sacked_out, tp->ack_seq, tp->snd_una, tp->snd_nxt,
+tp->last_data_sent , tp->last_ack_recv, tp->last_data_recv,
+tp->tcpEvent.countLOSS_EVENT,tp->tcpEvent.countCWND_RESTART,tp->tcpEvent.countACKSEQ,tp->tcpEvent.countACKNOSEQ,tp->tcpEvent.countFASTRECOVERYENDED,
+tp->reordering , tp->tcpCAState);
 
 
 
-                    //                                    
+
                 switch(ctrlPrintLocal){
                     case 1:
                            printf("%s\n" , printString);
@@ -374,13 +389,21 @@ LE:%u:CWRSE:%u:AS:%u:ANS:%u:FRE:%u:REORD:%u:TCPSTATE:%u",
 
                         if(firstACK == 1){
                             firstACK = 0;                                    
-                            gettimeofday(&tv, &tz);
-                            tm = localtime(&tv.tv_sec);                    
-                            fprintf(fp , "%d.%02d.%02d.%06ld:IP:0:CWND:0:AW:0:SSHTHR:0:RTT:0:RTTV:0:SRTT:0:SRTTJTU:0:\
+                            // gettimeofday(&tv, &tz);
+
+                            clock_gettime(CLOCK_REALTIME, &tv);
+                            // tm = localtime(&tv.tv_sec);                    
+//                             fprintf(fp , "%d.%02d.%02d.%06ld:IP:0:CWND:0:AW:0:SSHTHR:0:RTT:0:RTTV:0:SRTT:0:SRTTJTU:0:\
+// RTO:0:FLIGHT:0:PO:0:PL:0:RO:0:PRRDEV:0:PRROUT:0:TR:0:BA:0:\
+// PKTACKED:0:MSS:0:BK:0:FC:0:SO:0:ACKN:0:SNDUNA:0:SNDNXT:0:\
+// LDS:0:LAR:0:LDR:0:\
+// LE:0:CWRSE:0:AS:0:ANS:0:FRE:0:REORD:0:TCPSTATE:0\n" ,tm->tm_hour, tm->tm_min, tm->tm_sec, tv.tv_usec );
+
+                            fprintf(fp , "%lu.%lu:IP:0:CWND:0:AW:0:SSHTHR:0:RTT:0:RTTV:0:SRTT:0:SRTTJTU:0:\
 RTO:0:FLIGHT:0:PO:0:PL:0:RO:0:PRRDEV:0:PRROUT:0:TR:0:BA:0:\
 PKTACKED:0:MSS:0:BK:0:FC:0:SO:0:ACKN:0:SNDUNA:0:SNDNXT:0:\
 LDS:0:LAR:0:LDR:0:\
-LE:0:CWRSE:0:AS:0:ANS:0:FRE:0:REORD:0:TCPSTATE:0\n" ,tm->tm_hour, tm->tm_min, tm->tm_sec, tv.tv_usec );
+LE:0:CWRSE:0:AS:0:ANS:0:FRE:0:REORD:0:TCPSTATE:0\n" , (unsigned long) tv.tv_sec,(unsigned long) tv.tv_nsec);                            
 
                         }
 

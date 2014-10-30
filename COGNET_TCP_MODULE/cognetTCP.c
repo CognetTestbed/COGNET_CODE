@@ -2,7 +2,7 @@
 Cognitive Network programm TCP CONGESTION WINDOW PROGRAM TO RETRIEVE AND MODIFIY 
 SOME TCP PARAMETERS
 Copyright (C) 2014  Matteo Danieletto matteo.danieletto@dei.unipd.it
-University of Padova, Italy +34 049 827 7778
+University of Padova, Italy +349 049 827 7778
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -65,6 +65,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <linux/skbuff.h>
 
 #include <linux/version.h>
+
+
+#include <linux/time.h>
 
 #define NETLINK_USER_SND 31
 #define NETLINK_USER_RCV 21
@@ -173,8 +176,8 @@ struct tcpEventCollection{
 };
 
 struct tcp_log {
-	// struct timespec tv;
-    s64 delta;
+	struct timespec tv;
+    // s64 delta;
 	__be32	saddr, daddr;
 	__be16	sport, dport;		
 	u32	snd_cwnd;
@@ -525,11 +528,16 @@ static void tcp_durip_cong_avoid(struct sock *sk, u32 ack, u32 in_flight)
     if( subnetComputed== subnet){
 	        //ktime_get_ts — get the monotonic clock in timespec format
             now = ktime_get();
-            if(firstACK == 0){
-                
-                tcp_probe2.log.delta = ktime_to_ns(ktime_sub(now , prevTimeAck));
+            if(firstACK == 0){                
+                // tcp_probe2.log.delta = ktime_to_ns(ktime_sub(now , prevTimeAck));
+                // tcp_probe2.log.delta = ktime_to_ns(now);
+                tcp_probe2.log.tv = ktime_to_timespec(ktime_sub(now , prevTimeAck));
             }else{
-                tcp_probe2.log.delta = ktime_to_ns(now);
+
+                // tcp_probe2.log.delta = ktime_to_ns(now);
+                // tcp_probe2.log.tv = ktime_to_timespec(now);
+                tcp_probe2.log.tv.tv_sec = 0;
+                tcp_probe2.log.tv.tv_nsec = 0;
                 firstACK = 0;
             }
             
@@ -619,7 +627,7 @@ static void tcp_durip_cong_avoid(struct sock *sk, u32 ack, u32 in_flight)
             }
 
             if(checkPrint == 1){
-                    printk(KERN_INFO "ADDRESS: %lld \n", (long long) tcp_probe2.log.delta);
+                    // printk(KERN_INFO "ADDRESS: %lld \n", (long long) tcp_probe2.log.delta);
                     // printk(KERN_INFO "ADDRESS: %x %pI4 \n",inet->inet_daddr , &inet->inet_daddr);
                     // printk(KERN_INFO "SUBNET: %x \n",(inet->inet_daddr & NETMASK)  );
 
