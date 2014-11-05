@@ -103,8 +103,7 @@ JNIEXPORT jint JNICALL Java_it_durip_1app_ServerSocketCmd_mainJNI(JNIEnv *env, j
 #else
 
 	__android_log_print(ANDROID_LOG_DEBUG, "OPEN", "RUN COGNET_CLIENT %s" , scriptToLaunch);
-	sprintf(CognetToLaunch, "su -c \":q
-            /system/bin/COGNET_CLIENT %s %s %s %s %s %s %s %s & \"" ,PORT , TYPEOUTPUT, TS ,PHY ,WLAN , FOLDER, IP_SUBNET , IP_NETMASK );
+	sprintf(CognetToLaunch, "su -c \"/system/bin/COGNET_CLIENT %s %s %s %s %s %s %s %s & \"" ,PORT , TYPEOUTPUT, TS ,PHY ,WLAN , FOLDER, IP_SUBNET , IP_NETMASK );
 	system(CognetToLaunch);
 #endif
 

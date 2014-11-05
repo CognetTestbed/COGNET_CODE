@@ -37,3 +37,4 @@ KERNEL_SOURCE_CODE/grouper/include/linux/netfilter/*
 *.ko
 *.ko.cmd
 *.mod.c
+COGNET_APP/libs/armeabi/*
