@@ -352,9 +352,9 @@ void * macObservation(void * param)
     char  ifname[8];
     char path[256];
     char nameFile[128];	
-//    FILE *fp = NULL;
-	FILE *fpTot= NULL;
-	// FILE *fpTCP_EVENT= NULL;
+
+	FILE *fpTot        = NULL;
+	FILE *fpRouting    = NULL;
     char *absolutePathFile ;
     
 //    int *returnValue=(int *)malloc(sizeof(int));
@@ -512,22 +512,22 @@ void * macObservation(void * param)
             //fprintf(fpTot, "%d/%d--%d:%d:%d\n", day, month, hh_time, mm , ss);
             
             /*FILE TCP EVENT*/
-//             sprintf(nameFile, NAME_TCP_EVENT, day, month, hh_time, mm, ss);
-//             absolutePathFile = (char *)realloc(absolutePathFile, sizeof(char) *(strlen(nameFile) + strlen(STRING_PATH_TCP_EVENT) + strlen(nameExperiment) + strlen(STRING_PATH_DIR)+2));
-//             sprintf(absolutePathFile , "%s%s/%s%s" ,STRING_PATH_DIR,nameExperiment , STRING_PATH_TCP_EVENT , nameFile );                                    
-//             if ((fpTCP_EVENT = fopen(absolutePathFile, "w")) == NULL)
-//             {
+            sprintf(nameFile, NAME_ROUTING, day, month, hh_time, mm, ss);
+            absolutePathFile = (char *)realloc(absolutePathFile, sizeof(char) *(strlen(nameFile) + strlen(STRING_PATH_ROUTING) + strlen(nameExperiment) + strlen(STRING_PATH_DIR)+2));
+            sprintf(absolutePathFile , "%s%s/%s%s" ,STRING_PATH_DIR, nameExperiment , STRING_PATH_ROUTING , nameFile );                                    
+            if ((fpRouting = fopen(absolutePathFile, "w")) == NULL)
+            {
 
-// #ifdef __ANDROID__
-//                 __android_log_print(ANDROID_LOG_DEBUG, "MACOBSERVATION", "ERROR TO OPEN LOG FILE:%s", nameFile);
-// #else
-//                 printf("ERROR TO OPEN LOG FILE TCPEVENT %s %d \n" , absolutePathFile , (int)strlen(absolutePathFile));
-// #endif          
+#ifdef __ANDROID__
+                __android_log_print(ANDROID_LOG_DEBUG, "MACOBSERVATION", "ERROR TO OPEN LOG FILE:%s", nameFile);
+#else
+                printf("ERROR TO OPEN LOG FILE TCPEVENT %s %d \n" , absolutePathFile , (int)strlen(absolutePathFile));
+#endif          
                 
-//                 error("TCP EVENT");
-//                 *returnValue=-1;
-//                 return returnValue;
-//             }
+                error("TCP EVENT");
+                *returnValue=-1;
+                return returnValue;
+            }
 //             fprintf(fpTCP_EVENT, "%d/%d--%d:%d:%d\n", day, month, hh_time, mm, ss);
 
         }
@@ -556,7 +556,8 @@ void * macObservation(void * param)
         
         get_station(ifname , infoGetStation);
         
-        if (count == 0) {
+        if (count == 0) 
+        {
 
             count=1;
             //0 TX 1 RX
@@ -594,7 +595,9 @@ void * macObservation(void * param)
            }
             pthread_mutex_unlock(&lock_comm);             
 #endif
-        }else{
+        }
+        else
+        {
             //ELSE after the first read
             unsigned long long current_TOT_TX_BYTE = wlinfo.Tot_tx_bytes - OFFSET_TOT_BYTE[0];
             unsigned long long current_TOT_RX_BYTE = wlinfo.Tot_rx_bytes - OFFSET_TOT_BYTE[1];
@@ -652,7 +655,7 @@ void * macObservation(void * param)
             value  = printGlobalValueMac(fpTot , ctrlPrintLocal , infoGetStation.gettime_now, TOT_PKT, TOT_BYTE, wlinfo.arrayQueues);
 #endif
             
-  
+          
             // //CHECK DI TCP EVENT            
             //  readDURIP_TCP_EVENT(&current_TCP_EVENT);
             //  diff_TCP_EVENT.ACKSEQ = current_TCP_EVENT.ACKSEQ        - previous_TCP_EVENT.ACKSEQ;
@@ -689,6 +692,9 @@ void * macObservation(void * param)
                 fflush(fpTot);
             }
         }
+        if (ctrlPrintLocal == 2 || ctrlPrintLocal == 3 )    
+            reportRoutinTable(fpRouting , infoGetStation.gettime_now);
+
         free(value);
         
 //        printf("\n=======================================\n");

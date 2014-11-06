@@ -380,9 +380,9 @@ tp->reordering , tp->tcpCAState);
                     case 1:
                            printf("%s\n" , printString);
 
-#ifdef __ANDROID__
-                __android_log_print(ANDROID_LOG_DEBUG, "TCPOBSERVATION", "PRINTF %d" , ctrlPrintLocal );
-#endif
+// #ifdef __ANDROID__
+//                 __android_log_print(ANDROID_LOG_DEBUG, "TCPOBSERVATION", "PRINTF %d" , ctrlPrintLocal );
+// #endif
                         break;
                     case 2:
 
@@ -410,18 +410,18 @@ LE:0:CWRSE:0:AS:0:ANS:0:FRE:0:REORD:0:TCPSTATE:0\n" , (unsigned long) tv.tv_sec,
 
 
                         fprintf(fp , "%s\n" ,printString);
-#ifdef __ANDROID__
-                        __android_log_print(ANDROID_LOG_DEBUG, "TCPOBSERVATION", "FPRINTF %d" , ctrlPrintLocal );
-#endif
+// #ifdef __ANDROID__
+//                         __android_log_print(ANDROID_LOG_DEBUG, "TCPOBSERVATION", "FPRINTF %d" , ctrlPrintLocal );
+// #endif
                         fflush(fp);
                         break;
                     case 3:
                         fprintf(fp , "%s\n" , printString);
                         printf("%s\n" , printString);
                         fflush(fp);
-#ifdef __ANDROID__
-                        __android_log_print(ANDROID_LOG_DEBUG, "TCPOBSERVATION", "FPRINTF %d" , ctrlPrintLocal );
-#endif
+// #ifdef __ANDROID__
+//                         __android_log_print(ANDROID_LOG_DEBUG, "TCPOBSERVATION", "FPRINTF %d" , ctrlPrintLocal );
+// #endif
                         break;
                 }//switch
              }else{

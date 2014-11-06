@@ -45,7 +45,7 @@ void functionCreateFolder(char * nameExperiment)
    char  nameDir_TCP[128];
    char  nameDir_MAC[128];
    char  nameDir_MAC_TOT[128];
-   char  nameDir_TCP_EVENT[128];
+   char  nameDir_ROUTING[128];
    //nameDir= (char *)malloc(sizeof(char) * (strlen(nameExperiment) + strlen(STRING_PATH_DIR)+1));
    sprintf(nameDir , "%s%s/" ,STRING_PATH_DIR , nameExperiment );
    umask(0);
@@ -57,14 +57,14 @@ void functionCreateFolder(char * nameExperiment)
        #endif
        }else{
        #ifdef __ANDROID__
-       __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "ERROR TO CREAT FOLDER %s", nameDir);
+      __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "ERROR TO CREAT FOLDER %s", nameDir);
        #endif    
        }
        //    nameDir_TCP= (char *)malloc(sizeof(char) * (strlen(nameDir) + strlen(STRING_PATH_TCP)));
        sprintf(nameDir_TCP , "%s%s" ,nameDir , STRING_PATH_TCP );
        
        //nameDir_TCP_EVENT= (char *)malloc(sizeof(char) * (strlen(nameDir) + strlen(STRING_PATH_TCP_EVENT)));
-       sprintf(nameDir_TCP_EVENT , "%s%s" ,nameDir , STRING_PATH_TCP_EVENT );
+       sprintf(nameDir_ROUTING , "%s%s" ,nameDir , STRING_PATH_ROUTING );
        
        // nameDir_MAC= (char *)malloc(sizeof(char) * (strlen(nameDir) + strlen(STRING_PATH_MAC)));
        sprintf(nameDir_MAC , "%s%s" ,nameDir , STRING_PATH_MAC );
@@ -73,18 +73,18 @@ void functionCreateFolder(char * nameExperiment)
        sprintf(nameDir_MAC_TOT , "%s%s" ,nameDir , STRING_PATH_MAC_TOT );
        
        mkdir(nameDir_TCP , 0666);
-       mkdir(nameDir_TCP_EVENT, 0666);
+       mkdir(nameDir_ROUTING, 0666);
        mkdir(nameDir_MAC , 0666);
        mkdir(nameDir_MAC_TOT, 0666);
        
    }
    else
    {       
-       perror("ERROR to create folder");
+       perror("FOLDER ALREADY CREATED");
 //       sprintf(nameDir , "%s/%s_COPY" ,STRING_PATH_DIR , nameExperiment );
 //       mkdir(nameDir , 0700);
        #ifdef __ANDROID__
-       __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "ERROR TO CREAT FOLDER %s", nameDir);
+       __android_log_print(ANDROID_LOG_DEBUG, "MACREADDURIP", "FOLDER ALREADY CREATED: %s", nameDir);
        #endif
    }
    

@@ -50,7 +50,7 @@ LOCAL_CFLAGS += -DANDROID_EXE=1
 
 LOCAL_SRC_FILES:=serverCOGNET.c 
 LOCAL_SRC_FILES+=libTHREADS_MAC/macObservation.c libTHREADS_MAC/printMACvalue.c libTHREADS_MAC/commonFunction.c \
-		libTHREADS_MAC/CognetThreadControlRead.c libTHREADS_MAC/macChangeParams.c\
+		libTHREADS_MAC/CognetThreadControlRead.c libTHREADS_MAC/routingTable.c   libTHREADS_MAC/macChangeParams.c\
 		 libTHREADS_MAC/tcpObservation.c libTHREADS_MAC/macThreadComm.c libTHREADS_MAC/get_station.c
 
 LOCAL_C_INCLUDES:=$(MY_LOCAL_PATH_NL)/include/ \

@@ -57,12 +57,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define STRING_PATH_MAC_TOT "log_mac_TOT/"
 #define STRING_PATH_MAC "log_mac/"
 #define STRING_PATH_TCP "log_tcp/"
-#define STRING_PATH_TCP_EVENT "log_tcp_event/"
+#define STRING_PATH_ROUTING "log_routing/"
 
 #define NAME_MAC_TOT "MAC_PARAMS_TOT_%d_%d_%d_%d_%d.log"
 #define NAME_MAC "MAC_PARAMS_%d_%d_%d_%d_%d.log"
 #define NAME_TCP "TCP_PARAMS_%d_%d_%d_%d_%d.log"
-#define NAME_TCP_EVENT "TCP_EVENT_%d_%d_%d_%d_%d.log"
+#define NAME_ROUTING "IP_ROUTING_%d_%d_%d_%d_%d.log"
 
 #if ATH9K_HTC==1
 typedef struct wl_info{
@@ -153,7 +153,7 @@ typedef struct paramThread_tcp {
 }paramThread_tcp;
 
 int get_station(char *name ,infoPrintStation ctrlPrint);
-
+int reportRoutinTable(FILE * fpRouting , struct timespec tv);
 extern lookupTableStation * nodes;
 
 #endif 
