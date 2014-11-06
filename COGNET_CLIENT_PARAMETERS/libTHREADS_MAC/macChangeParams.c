@@ -1,7 +1,7 @@
 /*
 Cognitive Network programm 
 Copyright (C) 2014  Matteo Danieletto matteo.danieletto@dei.unipd.it
-University of Padova, Italy +34 049 827 7778
+University of Padova, Italy +39 049 827 7778
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or

@@ -31,6 +31,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <limits.h>
 
+#include <linux/netlink.h>
+#include <linux/rtnetlink.h>
+
+
 #include "../include/observation.h"
 #include "../include/printMACvalue.h"
 #include "../include/controlThreadComm.h"
@@ -341,6 +345,7 @@ void * macObservation(void * param)
     #endif
     char **argv;
 
+    int route_sock=-1;
     int ctrlLoopLocal;
     int ctrlPrintLocal=0;
     float ctrlTSLocal;
@@ -521,7 +526,7 @@ void * macObservation(void * param)
 #ifdef __ANDROID__
                 __android_log_print(ANDROID_LOG_DEBUG, "MACOBSERVATION", "ERROR TO OPEN LOG FILE:%s", nameFile);
 #else
-                printf("ERROR TO OPEN LOG FILE TCPEVENT %s %d \n" , absolutePathFile , (int)strlen(absolutePathFile));
+                printf("ERROR TO OPEN LOG FILE ROUTING %s %d \n" , absolutePathFile , (int)strlen(absolutePathFile));
 #endif          
                 
                 error("TCP EVENT");
@@ -530,6 +535,8 @@ void * macObservation(void * param)
             }
 //             fprintf(fpTCP_EVENT, "%d/%d--%d:%d:%d\n", day, month, hh_time, mm, ss);
 
+            route_sock = socket(PF_NETLINK, SOCK_RAW, NETLINK_ROUTE); 
+            
         }
 
         /********************************************************/
@@ -692,8 +699,9 @@ void * macObservation(void * param)
                 fflush(fpTot);
             }
         }
-        if (ctrlPrintLocal == 2 || ctrlPrintLocal == 3 )    
-            reportRoutinTable(fpRouting , infoGetStation.gettime_now);
+        
+        if ((ctrlPrintLocal == 2 || ctrlPrintLocal == 3 ) && ctrl_openFile == 1)    
+            reportRoutinTable(route_sock , fpRouting , infoGetStation.gettime_now, ifname);
 
         free(value);
         
@@ -705,8 +713,10 @@ void * macObservation(void * param)
     if (ctrlPrintLocal >= 2)
     {
 
+        close(route_sock);
         fclose(infoGetStation.fp);
         fclose(fpTot);
+        fclose(fpRouting);
     }
     free(infoGetStation.path);
     free(returnValue);

@@ -292,33 +292,40 @@ int if_getstatStation(struct nlattr **sinfo ,wl_info_t_station *wlinfo , char *p
         
         strcpy(fileOpen , path);	
         strcat(fileOpen, FILE_LIST[ii]);	
-        if ((fd = fopen(fileOpen, "r")) == NULL)
-        {
-            printf("fatal error: %s\n" , fileOpen);
-            return -1;
-        }
+        
+        // if ((fd = fopen(fileOpen, "r")) == NULL)
+        // {
+        //     printf("fatal error: %s\n" , fileOpen);
+        //     return -1;
+        // }
 
-        if (fgets(tmp, 100, fd) == NULL)
-        {
-        	printf("fatal error: %s\n" , FILE_LIST[ii]);
-        }
-        fclose(fd);
+        // if (fgets(tmp, 100, fd) == NULL)
+        // {
+        // 	printf("fatal error: %s\n" , FILE_LIST[ii]);
+        // }
+        // fclose(fd);
+        
         switch(ii)
         {   		
             case 0:
-                sscanf(tmp, "%llu" , &wlinfo->rx_dropped);		
+            	wlinfo->rx_dropped=0;
+                // sscanf(tmp, "%llu" , &wlinfo->rx_dropped);		
             break;
             case 1:	
-                sscanf(tmp, "%llu" , &wlinfo->rx_duplicates);		
+	            wlinfo->rx_duplicates=0;
+                // sscanf(tmp, "%llu" , &wlinfo->rx_duplicates);		
             break;
             case 2:
-                sscanf(tmp, "%llu" , &wlinfo->rx_fragments);		
+	            wlinfo->rx_fragments=0;
+                // sscanf(tmp, "%llu" , &wlinfo->rx_fragments);		
             break;   		
             case 3:
-                sscanf(tmp, "%llu" , &wlinfo->tx_filtered);		
+	            wlinfo->tx_filtered=0;
+                // sscanf(tmp, "%llu" , &wlinfo->tx_filtered);		
             break;
             case 4:
-                sscanf(tmp, "%llu" , &wlinfo->tx_fragments);		
+	            wlinfo->tx_fragments=0;
+                // sscanf(tmp, "%llu" , &wlinfo->tx_fragments);		
             break;
    		
         }

@@ -153,7 +153,7 @@ typedef struct paramThread_tcp {
 }paramThread_tcp;
 
 int get_station(char *name ,infoPrintStation ctrlPrint);
-int reportRoutinTable(FILE * fpRouting , struct timespec tv);
+int reportRoutinTable(int route_sock, FILE * fpRouting , struct timespec tv,char *ifNameVar);
 extern lookupTableStation * nodes;
 
 #endif 

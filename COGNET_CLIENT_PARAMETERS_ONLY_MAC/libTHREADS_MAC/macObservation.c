@@ -31,6 +31,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <limits.h>
 
+#include <linux/netlink.h>
+#include <linux/rtnetlink.h>
+
+
 #include "../include/observation.h"
 #include "../include/printMACvalue.h"
 #include "../include/controlThreadComm.h"
@@ -160,7 +164,9 @@ int if_getstat(char *ifname, wl_info_t *wlinfo , char *path){
     char    tmp[0x100];
     char    *lp;
     unsigned long d;
+#if ATH5K == 0
     char filename[128];
+#endif    
     if ((fd = fopen("/proc/net/dev", "r")) ==NULL) {
         printf("fatal error: cannot open /proc/net/dev\n");
                 return -1;
@@ -183,14 +189,42 @@ int if_getstat(char *ifname, wl_info_t *wlinfo , char *path){
     fclose(fd);
 
 #if ATH5K == 1
-    wlinfo->arrayQueues[0]=0;
-    wlinfo->arrayQueues[1]=0;
-    wlinfo->arrayQueues[2]=0;
-    wlinfo->arrayQueues[3]=0;
-    wlinfo->arrayQueues[4]=0;
-    wlinfo->arrayQueues[5]=0;
-    wlinfo->arrayQueues[6]=0;
-    wlinfo->arrayQueues[7]=0;
+	if ((fd = fopen("/sys/kernel/debug/ieee80211/phy0/ath5k/queue", "r")) ==NULL) {
+        	printf("/sys/kernel/debug/ieee80211/phy0/ath5k/queuen");
+		wlinfo->arrayQueues[0]=0;
+    		wlinfo->arrayQueues[1]=0;
+    		wlinfo->arrayQueues[2]=0;
+    		wlinfo->arrayQueues[3]=0;
+		wlinfo->arrayQueues[4]=0;
+    		wlinfo->arrayQueues[5]=0;
+    		wlinfo->arrayQueues[6]=0;
+    		wlinfo->arrayQueues[7]=0;
+    	}else{
+		int countRow=0;
+		if(fgets(tmp, 0x100, fd)!=NULL){
+        
+			char *token, *string=strdup(tmp);
+			while( (token = strsep(&string, ":"))!=NULL){
+       				if(countRow==1)
+        				wlinfo->arrayQueues[4]=atoi(token);
+				else
+					countRow++;
+    				}
+		}
+		wlinfo->arrayQueues[0]=0;
+    		wlinfo->arrayQueues[1]=0;
+    		wlinfo->arrayQueues[2]=0;
+    		wlinfo->arrayQueues[3]=0;
+		if(countRow == 0)
+			wlinfo->arrayQueues[4]=0;
+
+    		wlinfo->arrayQueues[5]=0;
+    		wlinfo->arrayQueues[6]=0;
+    		wlinfo->arrayQueues[7]=0;
+		fclose(fd);
+	}
+	
+
 #else
 
     sprintf(filename, "%squeues" , path);
@@ -251,11 +285,9 @@ int if_getstat(char *ifname, wl_info_t *wlinfo , char *path){
         // sscanf(lp, "%u %u %u %u %u %u %u %u", &wlinfo->arrayQueues[0] , &wlinfo->arrayQueues[1],&wlinfo->arrayQueues[2],&wlinfo->arrayQueues[3],
         //     &wlinfo->arrayQueues[4],&wlinfo->arrayQueues[5],&wlinfo->arrayQueues[6],&wlinfo->arrayQueues[7]);
    }
-   
-    //HERE I AM GOING TO ADD QUEUE
-    fclose(fd);
+   fclose(fd);
 #endif
-    return 0;
+   return 0;
 }
 
 #if ATH9K_HTC == 1
@@ -313,6 +345,7 @@ void * macObservation(void * param)
     #endif
     char **argv;
 
+    int route_sock=-1;
     int ctrlLoopLocal;
     int ctrlPrintLocal=0;
     float ctrlTSLocal;
@@ -324,9 +357,9 @@ void * macObservation(void * param)
     char  ifname[8];
     char path[256];
     char nameFile[128];	
-//    FILE *fp = NULL;
-	FILE *fpTot= NULL;
-	// FILE *fpTCP_EVENT= NULL;
+
+	FILE *fpTot        = NULL;
+	FILE *fpRouting    = NULL;
     char *absolutePathFile ;
     
 //    int *returnValue=(int *)malloc(sizeof(int));
@@ -484,24 +517,26 @@ void * macObservation(void * param)
             //fprintf(fpTot, "%d/%d--%d:%d:%d\n", day, month, hh_time, mm , ss);
             
             /*FILE TCP EVENT*/
-//             sprintf(nameFile, NAME_TCP_EVENT, day, month, hh_time, mm, ss);
-//             absolutePathFile = (char *)realloc(absolutePathFile, sizeof(char) *(strlen(nameFile) + strlen(STRING_PATH_TCP_EVENT) + strlen(nameExperiment) + strlen(STRING_PATH_DIR)+2));
-//             sprintf(absolutePathFile , "%s%s/%s%s" ,STRING_PATH_DIR,nameExperiment , STRING_PATH_TCP_EVENT , nameFile );                                    
-//             if ((fpTCP_EVENT = fopen(absolutePathFile, "w")) == NULL)
-//             {
+            sprintf(nameFile, NAME_ROUTING, day, month, hh_time, mm, ss);
+            absolutePathFile = (char *)realloc(absolutePathFile, sizeof(char) *(strlen(nameFile) + strlen(STRING_PATH_ROUTING) + strlen(nameExperiment) + strlen(STRING_PATH_DIR)+2));
+            sprintf(absolutePathFile , "%s%s/%s%s" ,STRING_PATH_DIR, nameExperiment , STRING_PATH_ROUTING , nameFile );                                    
+            if ((fpRouting = fopen(absolutePathFile, "w")) == NULL)
+            {
 
-// #ifdef __ANDROID__
-//                 __android_log_print(ANDROID_LOG_DEBUG, "MACOBSERVATION", "ERROR TO OPEN LOG FILE:%s", nameFile);
-// #else
-//                 printf("ERROR TO OPEN LOG FILE TCPEVENT %s %d \n" , absolutePathFile , (int)strlen(absolutePathFile));
-// #endif          
+#ifdef __ANDROID__
+                __android_log_print(ANDROID_LOG_DEBUG, "MACOBSERVATION", "ERROR TO OPEN LOG FILE:%s", nameFile);
+#else
+                printf("ERROR TO OPEN LOG FILE ROUTING %s %d \n" , absolutePathFile , (int)strlen(absolutePathFile));
+#endif          
                 
-//                 error("TCP EVENT");
-//                 *returnValue=-1;
-//                 return returnValue;
-//             }
+                error("TCP EVENT");
+                *returnValue=-1;
+                return returnValue;
+            }
 //             fprintf(fpTCP_EVENT, "%d/%d--%d:%d:%d\n", day, month, hh_time, mm, ss);
 
+            route_sock = socket(PF_NETLINK, SOCK_RAW, NETLINK_ROUTE); 
+            
         }
 
         /********************************************************/
@@ -528,7 +563,8 @@ void * macObservation(void * param)
         
         get_station(ifname , infoGetStation);
         
-        if (count == 0) {
+        if (count == 0) 
+        {
 
             count=1;
             //0 TX 1 RX
@@ -566,7 +602,9 @@ void * macObservation(void * param)
            }
             pthread_mutex_unlock(&lock_comm);             
 #endif
-        }else{
+        }
+        else
+        {
             //ELSE after the first read
             unsigned long long current_TOT_TX_BYTE = wlinfo.Tot_tx_bytes - OFFSET_TOT_BYTE[0];
             unsigned long long current_TOT_RX_BYTE = wlinfo.Tot_rx_bytes - OFFSET_TOT_BYTE[1];
@@ -624,7 +662,7 @@ void * macObservation(void * param)
             value  = printGlobalValueMac(fpTot , ctrlPrintLocal , infoGetStation.gettime_now, TOT_PKT, TOT_BYTE, wlinfo.arrayQueues);
 #endif
             
-  
+          
             // //CHECK DI TCP EVENT            
             //  readDURIP_TCP_EVENT(&current_TCP_EVENT);
             //  diff_TCP_EVENT.ACKSEQ = current_TCP_EVENT.ACKSEQ        - previous_TCP_EVENT.ACKSEQ;
@@ -661,6 +699,10 @@ void * macObservation(void * param)
                 fflush(fpTot);
             }
         }
+        
+        if ((ctrlPrintLocal == 2 || ctrlPrintLocal == 3 ) && ctrl_openFile == 1)    
+            reportRoutinTable(route_sock , fpRouting , infoGetStation.gettime_now, ifname);
+
         free(value);
         
 //        printf("\n=======================================\n");
@@ -671,8 +713,10 @@ void * macObservation(void * param)
     if (ctrlPrintLocal >= 2)
     {
 
+        close(route_sock);
         fclose(infoGetStation.fp);
         fclose(fpTot);
+        fclose(fpRouting);
     }
     free(infoGetStation.path);
     free(returnValue);
