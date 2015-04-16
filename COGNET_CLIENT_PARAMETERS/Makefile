@@ -34,7 +34,7 @@ alix5k:
 
 
 
-pcDoongle:
+pcDongle:
 	gcc -o COGNET_PC.out serverCOGNET.c ./libTHREADS_MAC/macObservation.c \
 	    ./libTHREADS_MAC/printMACvalue.c ./libTHREADS_MAC/commonFunction.c \
 	    ./libTHREADS_MAC/CognetThreadControlRead.c ./libTHREADS_MAC/macChangeParams.c\
@@ -43,7 +43,7 @@ pcDoongle:
 
 
 
-alixDoongle:
+alixDongle:
 	gcc -m32 -o COGNET_ALIX_doongle.out serverCOGNET.c ./libTHREADS_MAC/macObservation.c \
 	    ./libTHREADS_MAC/printMACvalue.c ./libTHREADS_MAC/commonFunction.c \
 	    ./libTHREADS_MAC/CognetThreadControlRead.c ./libTHREADS_MAC/macChangeParams.c\
